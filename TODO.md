@@ -37,7 +37,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 ### Wave C leftovers — Conversion
 
 - [x] V16 Contact thank-you + honeypot (bot field ignored; success state; no new backend services) — backlog C2
-- [ ] V17 Inquiry rate-limit hardening in Pages Function (lightweight; document behavior) — docs/PLAN.md Phase 3
+- [x] V17 Inquiry rate-limit hardening in Pages Function (lightweight; document behavior) — docs/PLAN.md Phase 3
 
 ### Wave D leftovers — Template & media polish
 
