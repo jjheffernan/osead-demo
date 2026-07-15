@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Outer Banks lighthouse on the horizon">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6d8ea6"/>
+      <stop offset="100%" stop-color="#dce8ee"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a7a86"/>
+      <stop offset="100%" stop-color="#1b4852"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="560" width="1600" height="440" fill="url(#sea)"/>
+  <path d="M0 600 Q400 540 800 600 T1600 580 L1600 660 L0 670 Z" fill="#d4bf9a"/>
+  <g fill="#f2f0ea">
+    <rect x="1080" y="260" width="48" height="280"/>
+    <polygon points="1070,260 1104,200 1138,260" fill="#c45c4a"/>
+    <rect x="1088" y="300" width="32" height="40" fill="#c45c4a"/>
+    <rect x="1088" y="380" width="32" height="40" fill="#c45c4a"/>
+    <rect x="1088" y="460" width="32" height="40" fill="#c45c4a"/>
+  </g>
+  <g fill="#152433" opacity="0.85">
+    <rect x="240" y="420" width="220" height="160"/>
+    <rect x="280" y="450" width="50" height="50" fill="#9fb6c3"/>
+    <rect x="360" y="450" width="50" height="50" fill="#9fb6c3"/>
+  </g>
+  <path d="M180 580 H500 V600 H180 Z" fill="#2f5d62" opacity="0.4"/>
+
+</svg>

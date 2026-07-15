@@ -30,12 +30,12 @@ highlights:
   - Walkable to Stone Harbor shops and beach
   - Sunset-facing dining terrace
 images:
-  - src: /images/properties/placeholder-bayfront.svg
+  - src: /images/properties/demo-bay-sunset.svg
     alt: Bayfront terrace and boat slip at Mariner Landing in Stone Harbor
-  - src: /images/properties/placeholder-lbi.svg
-    alt: Stone Harbor townhome exterior near the beach
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of mariner landing stone harbor
+  - src: /images/properties/demo-canal-dock.svg
+    alt: Private slip and dock access behind the townhome
+  - src: /images/properties/demo-rooftop-deck.svg
+    alt: Sunset deck overlooking Stone Harbor’s back bay
 geo:
   lat: 39.0526
   lng: -74.7633

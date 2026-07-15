@@ -29,12 +29,12 @@ highlights:
   - One block from the Atlantic
   - Condo living with resort amenities
 images:
-  - src: /images/properties/placeholder-bayfront.svg
-    alt: Bayfront balcony sunset view at Harbor Watch in Dewey Beach
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of harbor watch dewey
-  - src: /images/properties/placeholder-interior.svg
-    alt: Additional view of harbor watch dewey
+  - src: /images/properties/demo-bay-sunset.svg
+    alt: Bayfront balcony sunset at Harbor Watch in Dewey Beach
+  - src: /images/properties/demo-penthouse-horizon.svg
+    alt: Wide bay horizon from the Harbor Watch living level
+  - src: /images/properties/demo-great-room.svg
+    alt: Contemporary living space with open bay light
 geo:
   lat: 38.6926
   lng: -75.0749

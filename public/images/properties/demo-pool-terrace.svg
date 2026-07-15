@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Saltwater pool terrace">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7ea0b5"/>
+      <stop offset="100%" stop-color="#dce7ee"/>
+    </linearGradient>
+    <linearGradient id="pool" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3d8a9a"/>
+      <stop offset="100%" stop-color="#1a4f5c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="0" width="1600" height="280" fill="#152433"/>
+  <g fill="#9fb6c3">
+    <rect x="80" y="80" width="90" height="120"/>
+    <rect x="220" y="80" width="90" height="120"/>
+    <rect x="360" y="80" width="90" height="120"/>
+  </g>
+  <rect x="200" y="420" width="1200" height="420" rx="12" fill="#d9c7a8"/>
+  <rect x="280" y="480" width="1040" height="300" rx="8" fill="url(#pool)"/>
+  <ellipse cx="800" cy="600" rx="280" ry="40" fill="#fff" opacity="0.12"/>
+  <rect x="280" y="820" width="200" height="14" fill="#8b7355"/>
+  <circle cx="1280" cy="700" r="36" fill="#2f5d62" opacity="0.35"/>
+
+</svg>

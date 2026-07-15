@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Dusk Atlantic horizon">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d4a6a"/>
+      <stop offset="40%" stop-color="#c4816a"/>
+      <stop offset="70%" stop-color="#e8b48a"/>
+      <stop offset="100%" stop-color="#f0d2b0"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2c4f5c"/>
+      <stop offset="100%" stop-color="#122832"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="980" cy="420" r="70" fill="#f2c28a" opacity="0.9"/>
+  <rect y="520" width="1600" height="480" fill="url(#sea)"/>
+  <path d="M0 540 Q500 500 1000 545 T1600 530 L1600 580 L0 590 Z" fill="#c9a888" opacity="0.75"/>
+  <g opacity="0.85">
+    <rect x="220" y="360" width="46" height="180" fill="#1a2430"/>
+    <rect x="290" y="320" width="52" height="220" fill="#1a2430"/>
+    <rect x="360" y="380" width="40" height="160" fill="#1a2430"/>
+  </g>
+  <path d="M0 700 Q400 660 800 710 T1600 690" stroke="#ddefcf" stroke-width="3" fill="none" opacity="0.25"/>
+
+</svg>

@@ -30,12 +30,12 @@ highlights:
   - Screened porch for breezy dinners
   - Bethany boardwalk and beach nearby
 images:
-  - src: /images/properties/placeholder-bayfront.svg
-    alt: Canal dock at Sandbar Cove in Bethany Beach
-  - src: /images/properties/placeholder-cottage.svg
-    alt: Screened porch at a Bethany Beach canal home
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of sandbar cove bethany
+  - src: /images/properties/demo-canal-dock.svg
+    alt: Private canal dock and slip at Sandbar Cove in Bethany Beach
+  - src: /images/properties/demo-cottage-cedar.svg
+    alt: Canal-house exterior with screened porch along the backwater
+  - src: /images/properties/demo-bay-sunset.svg
+    alt: Golden-hour light over quiet canal water behind Sandbar Cove
 geo:
   lat: 38.5485
   lng: -75.0636

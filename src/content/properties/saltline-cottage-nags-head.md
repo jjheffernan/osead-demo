@@ -30,12 +30,12 @@ highlights:
   - Screened porch for late dinners
   - Strong weekly calendar for peak summer
 images:
-  - src: /images/properties/placeholder-cottage.svg
-    alt: Semi-oceanfront cottage decks and pool at Saltline in Nags Head
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of saltline cottage nags head
-  - src: /images/properties/placeholder-interior.svg
-    alt: Additional view of saltline cottage nags head
+  - src: /images/properties/demo-cottage-cedar.svg
+    alt: Semi-oceanfront cottage decks at Saltline in Nags Head
+  - src: /images/properties/demo-dune-boardwalk.svg
+    alt: Dune walk toward the Atlantic from Saltline Cottage
+  - src: /images/properties/demo-great-room.svg
+    alt: Open great room filled with coastal light at Saltline
 geo:
   lat: 35.9174
   lng: -75.6157

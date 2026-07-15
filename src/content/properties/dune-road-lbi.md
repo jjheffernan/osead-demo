@@ -29,12 +29,12 @@ highlights:
   - Proven weekly rental demand
   - Elevator and outdoor kitchen for large groups
 images:
-  - src: /images/properties/placeholder-lbi.svg
-    alt: Ocean-block residence with pool on Long Beach Island
-  - src: /images/properties/placeholder-oceanfront.svg
-    alt: Atlantic light across the ocean-block decks
-  - src: /images/properties/placeholder-bayfront.svg
-    alt: Evening cove light from the west-facing porch
+  - src: /images/properties/demo-ocean-morning.svg
+    alt: Ocean-block residence and dune line on Long Beach Island at morning light
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Private saltwater pool terrace beside the ocean-block decks
+  - src: /images/properties/demo-rooftop-deck.svg
+    alt: Upper decks open to Atlantic breeze on the ocean block
 geo:
   lat: 39.5801
   lng: -74.2295

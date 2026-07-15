@@ -30,12 +30,12 @@ highlights:
   - Restored classic with modern systems
   - Wide porch for long summer evenings
 images:
-  - src: /images/properties/placeholder-lbi.svg
-    alt: Northend Classic facade on Mantoloking’s ocean block
-  - src: /images/properties/placeholder-interior.svg
-    alt: Updated coastal kitchen at Northend Classic
-  - src: /images/properties/placeholder-deck.svg
-    alt: Covered porch facing the sea breeze
+  - src: /images/properties/demo-ocean-dusk.svg
+    alt: Northend Classic facing Mantoloking’s ocean-block evening light
+  - src: /images/properties/demo-great-room.svg
+    alt: Updated coastal kitchen and dining at Northend Classic
+  - src: /images/properties/demo-rooftop-deck.svg
+    alt: Covered porch catching the sea breeze in Mantoloking
 geo:
   lat: 40.047
   lng: -74.05

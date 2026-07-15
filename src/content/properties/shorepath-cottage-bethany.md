@@ -29,12 +29,12 @@ highlights:
   - Easy cottage scale for smaller groups
   - Screened porch for slow mornings
 images:
-  - src: /images/properties/placeholder-cottage.svg
+  - src: /images/properties/demo-cottage-cedar.svg
     alt: Shorepath Cottage front porch in Bethany Beach
-  - src: /images/properties/placeholder-interior.svg
-    alt: Bright living room at Shorepath Cottage
-  - src: /images/properties/placeholder-deck.svg
-    alt: Screened porch with ceiling fans
+  - src: /images/properties/demo-great-room.svg
+    alt: Bright coastal great room with soft afternoon light
+  - src: /images/properties/demo-rooftop-deck.svg
+    alt: Screened porch and elevated sitting area for morning coffee
 geo:
   lat: 38.539
   lng: -75.055

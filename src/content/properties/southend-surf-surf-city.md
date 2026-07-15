@@ -31,12 +31,12 @@ highlights:
   - Oceanfront pool terrace and outdoor kitchen
   - Dedicated media lounge for late-night movies
 images:
-  - src: /images/properties/placeholder-oceanfront.svg
-    alt: Oceanfront pool deck at Southend Surf in Surf City
-  - src: /images/properties/placeholder-lbi.svg
-    alt: Atlantic-facing living room at a Surf City rental
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of southend surf surf city
+  - src: /images/properties/demo-ocean-morning.svg
+    alt: Oceanfront elevation at Southend Surf in Surf City
+  - src: /images/properties/demo-ocean-dusk.svg
+    alt: Atlantic dusk light across the Surf City shoreline
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Pool deck facing the ocean at Southend Surf
 geo:
   lat: 39.6579
   lng: -74.1737

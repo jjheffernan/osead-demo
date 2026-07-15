@@ -30,12 +30,12 @@ highlights:
   - Plunge pool and fire pit in a private garden
   - Restored cottage details with current comforts
 images:
-  - src: /images/properties/placeholder-cottage.svg
-    alt: Restored Rehoboth Beach cottage with private plunge pool
-  - src: /images/properties/placeholder-lbi.svg
-    alt: Coastal cottage garden near Rehoboth Beach
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of tide and timber rehoboth
+  - src: /images/properties/demo-cottage-cedar.svg
+    alt: Restored cedar cottage facade near Rehoboth Beach
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Private plunge pool in a sheltered Rehoboth courtyard
+  - src: /images/properties/demo-dune-boardwalk.svg
+    alt: Sandy path toward the boardwalk a short walk from Tide & Timber
 geo:
   lat: 38.7198
   lng: -75.0857

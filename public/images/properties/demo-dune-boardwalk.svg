@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Dune path toward the ocean">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8aadc0"/>
+      <stop offset="100%" stop-color="#e8f0f4"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a7884"/>
+      <stop offset="100%" stop-color="#1d4650"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="420" width="1600" height="200" fill="url(#sea)"/>
+  <path d="M0 560 Q300 480 600 560 T1200 540 T1600 580 L1600 1000 L0 1000 Z" fill="#cbb892"/>
+  <path d="M0 700 Q400 620 800 710 T1600 680 L1600 1000 L0 1000 Z" fill="#b89a72"/>
+  <g stroke="#8b7355" stroke-width="10" fill="none">
+    <path d="M720 1000 L780 720 L860 560"/>
+    <path d="M840 1000 L860 740 L920 560"/>
+  </g>
+  <g fill="#6b8f5a" opacity="0.75">
+    <ellipse cx="420" cy="680" rx="40" ry="80"/>
+    <ellipse cx="520" cy="720" rx="30" ry="70"/>
+    <ellipse cx="1180" cy="700" rx="35" ry="75"/>
+    <ellipse cx="1280" cy="740" rx="28" ry="60"/>
+  </g>
+  <rect x="300" y="300" width="18" height="120" fill="#4a5a48" opacity="0.4"/>
+  <ellipse cx="309" cy="300" rx="40" ry="18" fill="#4a5a48" opacity="0.35"/>
+
+</svg>

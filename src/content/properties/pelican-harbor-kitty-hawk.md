@@ -30,12 +30,12 @@ highlights:
   - Pool terrace sheltered from ocean winds
   - Easy drive to Kitty Hawk beach access
 images:
-  - src: /images/properties/placeholder-bayfront.svg
-    alt: Soundfront pool and dock at Pelican Harbor in Kitty Hawk
-  - src: /images/properties/placeholder-cottage.svg
-    alt: Screened porch overlooking Currituck Sound
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of pelican harbor kitty hawk
+  - src: /images/properties/demo-sound-mist.svg
+    alt: Misty Currituck Sound morning at Pelican Harbor in Kitty Hawk
+  - src: /images/properties/demo-bay-sunset.svg
+    alt: Soundfront sunset from the screened porch
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Pool and spa terrace overlooking the sound
 geo:
   lat: 36.0642
   lng: -75.7054

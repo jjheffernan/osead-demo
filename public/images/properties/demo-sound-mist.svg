@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Misty soundfront morning">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#a8b8c4"/>
+      <stop offset="60%" stop-color="#d5dee4"/>
+      <stop offset="100%" stop-color="#eef2f4"/>
+    </linearGradient>
+    <linearGradient id="sound" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6a8a8e"/>
+      <stop offset="100%" stop-color="#3a585c"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <ellipse cx="400" cy="280" rx="220" ry="40" fill="#fff" opacity="0.35"/>
+  <ellipse cx="900" cy="220" rx="280" ry="50" fill="#fff" opacity="0.28"/>
+  <rect y="520" width="1600" height="480" fill="url(#sound)"/>
+  <path d="M0 540 Q450 500 900 540 T1600 520 L1600 600 L0 610 Z" fill="#b7c4a8" opacity="0.55"/>
+  <g fill="#243642">
+    <rect x="1080" y="300" width="280" height="240"/>
+    <polygon points="1060,300 1220,210 1380,300" fill="#2f5d62"/>
+  </g>
+  <g fill="#8aa0ad">
+    <rect x="1120" y="340" width="60" height="70"/>
+    <rect x="1220" y="340" width="60" height="70"/>
+  </g>
+  <path d="M200 620 L260 560 L320 620 Z" fill="#2a4a42" opacity="0.5"/>
+  <path d="M360 640 L400 590 L440 640 Z" fill="#2a4a42" opacity="0.4"/>
+
+</svg>

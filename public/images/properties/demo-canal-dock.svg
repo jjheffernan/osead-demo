@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Quiet canal with private dock">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7d9aab"/>
+      <stop offset="100%" stop-color="#d9e4ea"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="0" width="420" height="1000" fill="#2f4a3e" opacity="0.35"/>
+  <rect x="1180" y="0" width="420" height="1000" fill="#2f4a3e" opacity="0.28"/>
+  <rect y="480" width="1600" height="520" fill="#2f5d66"/>
+  <path d="M0 480 H1600 V560 H0 Z" fill="#1f454c" opacity="0.5"/>
+  <g fill="#152433">
+    <rect x="520" y="260" width="360" height="260"/>
+    <rect x="560" y="300" width="80" height="70" fill="#9fb6c3"/>
+    <rect x="680" y="300" width="80" height="70" fill="#9fb6c3"/>
+    <rect x="800" y="300" width="50" height="70" fill="#9fb6c3"/>
+  </g>
+  <rect x="900" y="460" width="280" height="16" fill="#8b7355"/>
+  <rect x="1140" y="476" width="10" height="90" fill="#6b5a45"/>
+  <rect x="1140" y="566" width="120" height="10" fill="#6b5a45"/>
+  <ellipse cx="1260" cy="540" rx="55" ry="14" fill="#1a3a42" opacity="0.55"/>
+  <path d="M1220 520 Q1260 500 1300 520 L1285 545 L1235 545 Z" fill="#243642"/>
+
+</svg>

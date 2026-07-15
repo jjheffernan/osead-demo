@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Rooftop deck facing water">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5f7f96"/>
+      <stop offset="55%" stop-color="#b8cdd9"/>
+      <stop offset="100%" stop-color="#e4eef3"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2f6874"/>
+      <stop offset="100%" stop-color="#163844"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect y="380" width="1600" height="320" fill="url(#sea)"/>
+  <path d="M0 660 H1600 V1000 H0 Z" fill="#1a2430"/>
+  <rect x="180" y="700" width="1240" height="24" fill="#8b7355"/>
+  <rect x="200" y="724" width="20" height="120" fill="#6b5a45"/>
+  <rect x="1380" y="724" width="20" height="120" fill="#6b5a45"/>
+  <g fill="#c8d4dc">
+    <rect x="320" y="620" width="140" height="80" rx="4"/>
+    <rect x="520" y="620" width="140" height="80" rx="4"/>
+    <rect x="940" y="620" width="140" height="80" rx="4"/>
+  </g>
+  <rect x="1120" y="560" width="8" height="140" fill="#9fb6c3"/>
+  <path d="M1124 560 Q1200 500 1280 560" stroke="#9fb6c3" stroke-width="6" fill="none"/>
+
+</svg>

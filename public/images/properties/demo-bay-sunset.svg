@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-label="Golden hour bayfront">
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6b5a7a"/>
+      <stop offset="35%" stop-color="#d9885a"/>
+      <stop offset="100%" stop-color="#f0c98a"/>
+    </linearGradient>
+    <linearGradient id="bay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3d6570"/>
+      <stop offset="100%" stop-color="#1f3d48"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <circle cx="1180" cy="360" r="85" fill="#f3b56a"/>
+  <rect y="560" width="1600" height="440" fill="url(#bay)"/>
+  <ellipse cx="1180" cy="620" rx="140" ry="18" fill="#f3b56a" opacity="0.35"/>
+  <path d="M0 780 Q300 720 600 790 T1200 760 T1600 800 L1600 1000 L0 1000 Z" fill="#2a4a42" opacity="0.45"/>
+  <g fill="#152433">
+    <rect x="720" y="280" width="420" height="300"/>
+    <rect x="760" y="320" width="100" height="80" fill="#f4d7a8"/>
+    <rect x="900" y="320" width="100" height="80" fill="#f4d7a8"/>
+    <rect x="1040" y="320" width="70" height="80" fill="#f4d7a8"/>
+  </g>
+  <rect x="700" y="560" width="460" height="18" fill="#8aa0ad"/>
+  <rect x="1100" y="578" width="8" height="70" fill="#6d8592"/>
+  <rect x="1100" y="648" width="90" height="8" fill="#6d8592"/>
+
+</svg>

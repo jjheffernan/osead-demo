@@ -30,12 +30,12 @@ highlights:
   - Rooftop pool shared by a boutique building
   - Walkable to Dewey Beach dining and Atlantic access
 images:
-  - src: /images/properties/placeholder-oceanfront.svg
-    alt: Ocean-view balcony at Bluewater Penthouse in Dewey Beach
-  - src: /images/properties/placeholder-bayfront.svg
-    alt: Bay sunset from a Dewey Beach penthouse
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of bluewater penthouse dewey
+  - src: /images/properties/demo-penthouse-horizon.svg
+    alt: Ocean-and-bay horizon from Bluewater Penthouse in Dewey Beach
+  - src: /images/properties/demo-ocean-dusk.svg
+    alt: Atlantic dusk from the ocean-facing balcony
+  - src: /images/properties/demo-bay-sunset.svg
+    alt: Bay sunset from the west-facing lounge
 geo:
   lat: 38.6905
   lng: -75.0731

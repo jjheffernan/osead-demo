@@ -30,12 +30,12 @@ highlights:
   - Elevator access through living levels
   - Low-maintenance townhouse living
 images:
-  - src: /images/properties/placeholder-bayfront.svg
-    alt: Bayview Row facade along the Avalon back bay
-  - src: /images/properties/placeholder-deck.svg
+  - src: /images/properties/demo-bay-sunset.svg
+    alt: Bayview Row along Avalon’s back bay at golden hour
+  - src: /images/properties/demo-rooftop-deck.svg
     alt: Sunset deck overlooking the bay
-  - src: /images/properties/placeholder-pool.svg
-    alt: Community pool shared by Bayview Row owners
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Shared community pool near Bayview Row
 geo:
   lat: 39.101
   lng: -74.718

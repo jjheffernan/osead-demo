@@ -30,12 +30,12 @@ highlights:
   - Multi-generational layout with elevator
   - Strong second-home rental history nearby
 images:
-  - src: /images/properties/placeholder-interior.svg
+  - src: /images/properties/demo-great-room.svg
     alt: Cedar Point living room with coastal finishes in Rehoboth Beach
-  - src: /images/properties/placeholder-pool.svg
-    alt: Heated pool courtyard at Cedar Point
-  - src: /images/properties/placeholder-deck.svg
-    alt: Upper deck overlooking the neighborhood canopy
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Heated pool courtyard sheltered from the avenue
+  - src: /images/properties/demo-cottage-cedar.svg
+    alt: Estate facade and cedar accents off Rehoboth Avenue
 geo:
   lat: 38.7209
   lng: -75.076

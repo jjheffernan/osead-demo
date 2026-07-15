@@ -31,12 +31,12 @@ highlights:
   - Saltwater pool with evening fire pit
   - Turnkey summer rental and ownership option
 images:
-  - src: /images/properties/placeholder-lbi.svg
-    alt: Avalon dune-view home with saltwater pool
-  - src: /images/properties/placeholder-oceanfront.svg
-    alt: Ocean horizon from Sea Glass House roof deck
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of sea glass house avalon
+  - src: /images/properties/demo-dune-boardwalk.svg
+    alt: Dune-view approach to Sea Glass House in Avalon
+  - src: /images/properties/demo-ocean-morning.svg
+    alt: Ocean horizon from the Sea Glass House roof deck
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Saltwater pool framed by Avalon dune grasses
 geo:
   lat: 39.1012
   lng: -74.7225

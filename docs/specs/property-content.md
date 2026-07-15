@@ -17,7 +17,7 @@ Schema: `src/content.config.ts` → `properties`
 
 ## Strongly recommended
 
-- `sleeps`, `sqft`, `images[]`, `amenities[]`, `highlights[]`
+- `sleeps`, `sqft`, `images[]` (specific alts; see `docs/demo-media.md`), `amenities[]`, `highlights[]`
 - `geo`, `address` for schema richness
 - `seoTitle`, `seoDescription`
 - `weeklyRate` and/or `salePrice` matching listingType

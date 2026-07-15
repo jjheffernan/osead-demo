@@ -29,12 +29,12 @@ highlights:
   - Turnkey furnishings for seasonal rental use
   - Quiet Hatteras village street
 images:
-  - src: /images/properties/placeholder-oceanfront.svg
+  - src: /images/properties/demo-ocean-morning.svg
     alt: Atlantic Lane ocean-view facade in Avon
-  - src: /images/properties/placeholder-deck.svg
-    alt: Rooftop deck facing the Atlantic at Atlantic Lane
-  - src: /images/properties/placeholder-interior.svg
-    alt: Open kitchen and great room at Atlantic Lane
+  - src: /images/properties/demo-rooftop-deck.svg
+    alt: Rooftop deck facing the Atlantic
+  - src: /images/properties/demo-great-room.svg
+    alt: Open kitchen and great room with ocean light
 geo:
   lat: 35.352
   lng: -75.508

@@ -32,19 +32,19 @@ highlights:
   - Elevator for multi-level living
   - Built for large-family summer weeks
 images:
-  - src: /images/properties/placeholder-bayfront.svg
+  - src: /images/properties/demo-sound-mist.svg
     alt: Driftwood Inn soundfront elevation in Duck
-  - src: /images/properties/placeholder-pool.svg
-    alt: Private pool and spa at Driftwood Inn
-  - src: /images/properties/placeholder-interior.svg
-    alt: Great room with long dining table at Driftwood Inn
-  - src: /images/properties/placeholder-deck.svg
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Private pool and spa terrace at Driftwood Inn
+  - src: /images/properties/demo-great-room.svg
+    alt: Great room with long dining table for weekly groups
+  - src: /images/properties/demo-rooftop-deck.svg
     alt: Upper deck overlooking the sound
 # Video support is wired in PropertyGallery; add a file or YouTube entry when assets are ready.
 # videos:
 #   - src: "https://www.youtube.com/watch?v=EXAMPLE"
 #     title: Property walkthrough
-#     poster: /images/properties/placeholder-bayfront.svg
+#     poster: /images/properties/demo-sound-mist.svg
 #     provider: youtube
 geo:
   lat: 36.183

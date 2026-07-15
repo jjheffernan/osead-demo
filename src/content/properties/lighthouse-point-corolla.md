@@ -31,12 +31,12 @@ highlights:
   - Elevator access from parking to top-floor great room
   - Theater and game room for rainy-day groups
 images:
-  - src: /images/properties/placeholder-oceanfront.svg
-    alt: Semi-oceanfront decks and pool at Lighthouse Point in Corolla
-  - src: /images/properties/placeholder-cottage.svg
-    alt: Great room with coastal gathering space in Corolla
-  - src: /images/properties/placeholder-pool.svg
-    alt: Additional view of lighthouse point corolla
+  - src: /images/properties/demo-lighthouse-vista.svg
+    alt: Semi-oceanfront compound with Corolla lighthouse on the horizon
+  - src: /images/properties/demo-pool-terrace.svg
+    alt: Family pool terrace at Lighthouse Point
+  - src: /images/properties/demo-great-room.svg
+    alt: Great room sized for multi-family gatherings in Corolla
 geo:
   lat: 36.3558
   lng: -75.8281

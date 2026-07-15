@@ -31,14 +31,14 @@ highlights:
   - Heated pool and spa overlooking the Atlantic
   - Elevator to all living levels
 images:
-  - src: /images/properties/placeholder-oceanfront.svg
+  - src: /images/properties/demo-ocean-morning.svg
     alt: Oceanfront decks facing the Atlantic at Dune Crest in Corolla
-  - src: /images/properties/placeholder-pool.svg
+  - src: /images/properties/demo-pool-terrace.svg
     alt: Heated pool overlooking the dune line at Dune Crest
-  - src: /images/properties/placeholder-interior.svg
-    alt: Main living level with ocean light at Dune Crest
-  - src: /images/properties/placeholder-deck.svg
-    alt: Upper deck walkway at Dune Crest
+  - src: /images/properties/demo-great-room.svg
+    alt: Main living level washed with ocean light
+  - src: /images/properties/demo-rooftop-deck.svg
+    alt: Upper deck walkway above the Corolla shoreline
 geo:
   lat: 36.3765
   lng: -75.8302
