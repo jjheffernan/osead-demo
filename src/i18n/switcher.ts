@@ -9,8 +9,9 @@ import { stripLocale, localePrefix } from "./routes";
 const EQUIVALENT_ROUTES: Record<string, boolean> = {
   "/": true,
   "/about": true,
-  "/services": true,
-  "/pricing": true,
+  "/rentals": true,
+  "/sales": true,
+  "/markets": true,
   "/blog": true,
   "/contact": true,
   "/privacy": true,

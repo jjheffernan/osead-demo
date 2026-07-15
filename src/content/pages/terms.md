@@ -2,11 +2,11 @@
 locale: en
 slug: terms
 title: Terms & Conditions
-description: Terms and conditions for using this boilerplate website.
+description: Terms for using the OSEAD demonstration site and sample coastal inventory.
 sections:
   - type: hero
     title: Terms & Conditions
-    content: The basic rules for using our website and services.
+    content: The basic rules for browsing OSEAD's sample coastal collection.
 isLegal: true
 order: 6
 translationKey: terms
@@ -14,18 +14,19 @@ translationKey: terms
 
 Last updated: June 24, 2026.
 
-These terms govern your use of this website. This is placeholder copy provided
-with the template — replace it with terms reviewed by your own legal counsel
-before launch.
+These terms govern your use of this demonstration website. OSEAD displays
+sample inventory for illustration and does not make live rental offers, confirm
+reservations, or represent an active brokerage transaction.
 
-## Use of Service
+## Using the Collection
 
 By using this website, you agree to:
 - Comply with all applicable laws and regulations
-- Not misuse the available services
-- Maintain the confidentiality of your account information
+- Use listing information as general, non-binding reference material
+- Contact the appropriate licensed professional before relying on property or
+  availability information
 
-## Intellectual Property
+## Content
 
 All content on this website is protected by copyright and other intellectual property rights.
 

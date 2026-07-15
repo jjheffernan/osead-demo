@@ -5,7 +5,7 @@
  * `hero/`, `landing/`, and `ui/marketing/`; new sections live alongside this file.
  * Import sections from here:
  *
- *   import { Hero, Pricing, FAQ } from "@/components/sections";
+ *   import { Hero, FAQ } from "@/components/sections";
  */
 
 // Existing blocks (re-exported in place; no file moves)
@@ -22,7 +22,6 @@ export { default as FAQ } from "../FAQ.astro";
 
 // New sections (this tier)
 export { default as Newsletter } from "./Newsletter.astro";
-export { default as Pricing } from "./Pricing.astro";
 export { default as Team } from "./Team.astro";
 export { default as Comparison } from "./Comparison.astro";
 export { default as LogoCloud } from "./LogoCloud.astro";

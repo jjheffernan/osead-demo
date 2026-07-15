@@ -3,37 +3,34 @@ translationKey: about
 locale: en
 slug: about
 title: About Us
-description: Meet the team and vision behind the modern marketing website boilerplate.
+description: Learn how OSEAD helps guests and second-home buyers explore the coast.
 sections:
   - type: hero
-    title: A foundation built for modern marketing sites
-    content: This starter gives you a fast, accessible, and SEO-ready base — English-first and wired for more languages from day one.
+    title: Coastal homes, thoughtfully matched
+    content: OSEAD brings weekly coastal stays and second-home opportunities into one considered collection.
   - type: features
-    title: What we care about
+    title: How we work
     items:
-      - title: Developer Experience
-        description: Modern tooling, end-to-end type safety, and a layout you can actually navigate.
-        icon: code
-      - title: Performance First
-        description: Static-first and edge-ready, with strong Core Web Vitals out of the box.
-        icon: rocket
-      - title: Multilanguage Ready
-        description: An i18n engine and localized content, structured for global reach.
-        icon: globe
-      - title: Git-Based Content
-        description: Markdown collections that are versioned, reviewable, and easy to own.
-        icon: git-branch
+      - title: Weekly Stays
+        description: Find an unhurried week by the water, with room for the people you bring along.
+        icon: calendar
+      - title: Coastal Ownership
+        description: Explore homes for sale with local context and a clear path to a private showing.
+        icon: home
+      - title: Direct Guidance
+        description: Start an inquiry with a real question, not a checkout flow or generic lead funnel.
+        icon: message-circle
   - type: cta
-    title: Ready to build?
-    content: Explore the services or browse the docs to get started.
-    ctaText: View services
-    ctaHref: /services
+    title: Start at the shoreline
+    content: Browse the current collection, then tell us what you have in mind.
+    ctaText: Explore weekly rentals
+    ctaHref: /rentals
 isLegal: false
 order: 1
 ---
 
-Marketing sites shouldn't be complicated. With Astro and Cloudflare, you get a foundation that is:
+OSEAD is a demonstration collection, built around the quieter details that make a coastal home memorable:
 
-- **Fast** — static generation paired with edge delivery
-- **Scalable** — an architecture ready for growing teams
-- **Modern** — TypeScript, i18n, and design tokens built in
+- **Room to gather** — homes chosen for long dinners, beach days, and easy weekends.
+- **A sense of place** — inventory across the Outer Banks, Jersey Shore, and Delaware Beaches.
+- **A considered next step** — an inquiry starts a conversation; it is never a paid reservation or brokerage offer.

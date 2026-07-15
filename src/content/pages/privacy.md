@@ -2,7 +2,7 @@
 locale: en
 slug: privacy
 title: Privacy Policy
-description: Privacy policy for this boilerplate website.
+description: How the OSEAD demonstration site handles inquiry information.
 sections:
   - type: hero
     title: Privacy Policy
@@ -14,20 +14,20 @@ translationKey: privacy
 
 Last updated: June 24, 2026.
 
-This policy explains how this site handles your data. This is placeholder copy
-provided with the template — replace it with a policy reviewed by your own legal
-counsel before launch.
+This policy explains how the OSEAD demonstration site handles your data. Replace
+this sample policy with one reviewed by your own legal counsel before launch.
 
 ## Information We Collect
 
-We collect information you voluntarily provide through contact forms and newsletter signups.
+We collect information you voluntarily provide through inquiries, such as your
+name, email address, and message.
 
 ## Use of Information
 
 The information we collect is used to:
 - Provide services you request
-- Send updates and related information
-- Improve user experience
+- Respond to questions about a sample stay or property
+- Improve this demonstration experience
 
 ## Data Protection
 

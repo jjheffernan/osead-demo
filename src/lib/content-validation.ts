@@ -88,10 +88,6 @@ function parseFrontmatter(source: string) {
 export async function runContentValidation() {
   const base = fileURLToPath(new URL("../content/", import.meta.url));
   const blogFiles = await collectFiles(join(base, "blog"), [".md", ".mdx"]);
-  const serviceFiles = await collectFiles(join(base, "services"), [
-    ".md",
-    ".mdx",
-  ]);
   const pageFiles = await collectFiles(join(base, "pages"), [".md"]);
   const faqFiles = await collectFiles(join(base, "faqs"), [".json"]);
   const stackFiles = await collectFiles(join(base, "stack"), [".md", ".mdx"]);
@@ -108,16 +104,14 @@ export async function runContentValidation() {
       }),
     );
 
-  const [blog, services, pages, faqs, stack] = await Promise.all([
+  const [blog, pages, faqs, stack] = await Promise.all([
     parseEntries(blogFiles),
-    parseEntries(serviceFiles),
     parseEntries(pageFiles),
     parseEntries(faqFiles),
     parseEntries(stackFiles),
   ]);
 
   validateNoDuplicateSlugs(blog);
-  validateNoDuplicateSlugs(services);
   validateNoDuplicateSlugs(pages);
   validateNoDuplicateSlugs(faqs);
   validateNoDuplicateSlugs(stack);
@@ -125,13 +119,11 @@ export async function runContentValidation() {
   validateNoDuplicateUids(blog);
 
   validateLocaleConsistency(blog, [...siteConfig.i18n.locales]);
-  validateLocaleConsistency(services, [...siteConfig.i18n.locales]);
   validateLocaleConsistency(pages, [...siteConfig.i18n.locales]);
   validateLocaleConsistency(faqs, [...siteConfig.i18n.locales]);
 
   return {
     blog: blog.length,
-    services: services.length,
     pages: pages.length,
     faqs: faqs.length,
     stack: stack.length,

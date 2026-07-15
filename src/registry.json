@@ -195,13 +195,6 @@
       "path": "src/components/blog/TableOfContents.astro",
       "props": ["headings", "layout", "maxDepth", "minHeadings", "title", "locale"],
       "i18nAware": true
-    },
-    {
-      "name": "ServiceCard",
-      "tier": "component",
-      "path": "src/components/services/ServiceCard.astro",
-      "props": ["service", "locale", "headingLevel"],
-      "i18nAware": true
     }
   ],
   "sections": [
@@ -284,13 +277,6 @@
       "i18nAware": true
     },
     {
-      "name": "Pricing",
-      "tier": "section",
-      "path": "src/components/sections/Pricing.astro",
-      "props": ["title", "description", "plans"],
-      "i18nAware": true
-    },
-    {
       "name": "Team",
       "tier": "section",
       "path": "src/components/sections/Team.astro",
@@ -315,12 +301,11 @@
   "pages": [
     { "name": "Home", "path": "src/pages/index.astro", "locales": ["en"] },
     { "name": "About", "path": "src/pages/about.astro", "locales": ["en"] },
-    { "name": "Services", "path": "src/pages/services.astro", "locales": ["en"] },
-    { "name": "Pricing", "path": "src/pages/pricing.astro", "locales": ["en"] },
     { "name": "Contact", "path": "src/pages/contact.astro", "locales": ["en"] },
-    { "name": "Blog", "path": "src/pages/blog.astro", "locales": ["en"] },
-    { "name": "Sections showcase", "path": "src/pages/sections.astro", "locales": ["en"] },
-    { "name": "Pages overview", "path": "src/pages/pages.astro", "locales": ["en"] }
+    { "name": "Journal", "path": "src/pages/blog.astro", "locales": ["en"] },
+    { "name": "Weekly Rentals", "path": "src/pages/rentals/index.astro", "locales": ["en"] },
+    { "name": "Homes for Sale", "path": "src/pages/sales/index.astro", "locales": ["en"] },
+    { "name": "Markets", "path": "src/pages/markets/index.astro", "locales": ["en"] }
   ]
 }
 

@@ -10,13 +10,12 @@ interface LlmLink {
 }
 
 const corePages: LlmLink[] = [
-  { label: "Home", path: "/", description: "Production-ready marketing homepage." },
-  { label: "About", path: "/about", description: "Project background and overview." },
-  { label: "Services", path: "/services", description: "Service offerings." },
-  { label: "Pricing", path: "/pricing", description: "Plans and pricing tiers." },
-  { label: "Contact", path: "/contact", description: "Contact details." },
-  { label: "Blog", path: "/blog", description: "Articles and updates." },
-  { label: "Documentation", path: "/docs", description: "Setup and usage guides." },
+  { label: "Home", path: "/", description: "Coastal rentals and homes for sale." },
+  { label: "Weekly Rentals", path: "/rentals", description: "Weekly coastal stays." },
+  { label: "Homes for Sale", path: "/sales", description: "Coastal homes available to buy." },
+  { label: "Markets", path: "/markets", description: "Local coastal context and inventory." },
+  { label: "Inquire", path: "/contact", description: "Ask about a stay or property." },
+  { label: "Journal", path: "/blog", description: "Coastal notes and updates." },
 ];
 
 const stack: LlmLink[] = [
@@ -36,7 +35,7 @@ export const GET: APIRoute = () => {
 
   const body = `# ${siteConfig.name}
 
-> ${siteConfig.description}. Ships with light/dark theming, a multilanguage-ready i18n engine (English by default), blog, documentation, and SEO defaults.
+> ${siteConfig.description}. Sample inventory only; inquiries do not create reservations or brokerage transactions.
 
 ## Core Pages
 

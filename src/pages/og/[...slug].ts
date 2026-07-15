@@ -6,9 +6,7 @@ type OgKind =
   | "home"
   | "page"
   | "blog"
-  | "service"
-  | "blog-list"
-  | "services-list";
+  | "blog-list";
 
 function escapeXml(value: string) {
   return value
@@ -70,18 +68,10 @@ function resolveMeta(kind: OgKind, locale: string, slug: string[]) {
 
   if (kind === "blog-list") {
     return {
-      title: "Blog",
+      title: "Journal",
       description:
-        "Articles about web development and the modern stack.",
+        "Notes from the coast and the OSEAD collection.",
       accent: siteConfig.branding.colors.primary,
-    };
-  }
-
-  if (kind === "services-list") {
-    return {
-      title: "Services",
-      description: "Modern website development services.",
-      accent: siteConfig.branding.colors.secondary,
     };
   }
 
@@ -91,15 +81,6 @@ function resolveMeta(kind: OgKind, locale: string, slug: string[]) {
       title: post?.title ?? siteConfig.name,
       description: post?.description ?? siteConfig.description,
       accent: siteConfig.branding.colors.primary,
-    };
-  }
-
-  if (kind === "service") {
-    const service = SERVICE_BY_SLUG[slug[1] ?? ""];
-    return {
-      title: service?.title ?? siteConfig.name,
-      description: service?.description ?? siteConfig.description,
-      accent: siteConfig.branding.colors.secondary,
     };
   }
 
@@ -119,13 +100,11 @@ function resolveMeta(kind: OgKind, locale: string, slug: string[]) {
   };
 }
 
-const [BLOG, SERVICES, PAGES] = (await Promise.all([
+const [BLOG, PAGES] = (await Promise.all([
   getCollection("blog"),
-  getCollection("services"),
   getCollection("pages"),
 ])) as [
   CollectionEntry<"blog">[],
-  CollectionEntry<"services">[],
   CollectionEntry<"pages">[],
 ];
 
@@ -137,14 +116,6 @@ const BLOG_BY_ID: Record<string, { title: string; description: string }> =
         { title: entry.data.title, description: entry.data.description },
       ],
     ),
-  );
-
-const SERVICE_BY_SLUG: Record<string, { title: string; description: string }> =
-  Object.fromEntries(
-    SERVICES.map((entry: CollectionEntry<"services">) => [
-      entry.data.slug,
-      { title: entry.data.title, description: entry.data.description },
-    ]),
   );
 
 const PAGE_BY_LOCALE_AND_SLUG: Record<
@@ -163,7 +134,7 @@ export async function getStaticPaths() {
     props: { kind: OgKind; locale: string; slug: string[] };
   }> = [];
 
-  const listKinds: OgKind[] = ["home", "blog-list", "services-list"];
+  const listKinds: OgKind[] = ["home", "blog-list"];
   for (const locale of siteConfig.i18n.locales) {
     for (const kind of listKinds) {
       paths.push({
@@ -182,17 +153,6 @@ export async function getStaticPaths() {
         kind: "blog",
         locale: entry.data.locale,
         slug: [entry.data.locale, entry.id],
-      },
-    });
-  }
-
-  for (const entry of SERVICES) {
-    paths.push({
-      params: { slug: `service/${entry.data.locale}/${entry.data.slug}` },
-      props: {
-        kind: "service",
-        locale: entry.data.locale,
-        slug: [entry.data.locale, entry.data.slug],
       },
     });
   }

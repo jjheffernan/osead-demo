@@ -22,7 +22,6 @@ export const mainNav: NavItem[] = [
   { href: "/", labelKey: "nav.home" },
   { href: "/rentals", labelKey: "nav.rentals" },
   { href: "/sales", labelKey: "nav.sales" },
-  { href: "/markets", labelKey: "nav.markets" },
   { href: "/blog", labelKey: "nav.journal" },
   { href: "/contact", labelKey: "nav.contact" },
 ] as const;
