@@ -1,11 +1,24 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
-import PropertyCard from "../../components/properties/PropertyCard.astro";
 import ListingNotice from "../../components/properties/ListingNotice.astro";
+import ListingFilters from "../../components/properties/ListingFilters.svelte";
 import { getPropertiesByListingType } from "../../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
 const properties = await getPropertiesByListingType("sale");
+const listings = properties.map(({ data }) => ({
+  slug: data.slug,
+  title: data.title,
+  regionLabel: data.regionLabel,
+  listingType: data.listingType,
+  beds: data.beds,
+  baths: data.baths,
+  sleeps: data.sleeps,
+  waterfront: data.waterfront,
+  amenities: data.amenities,
+  priceDisplay: data.priceDisplay,
+  image: data.images[0],
+}));
 ---
 
 <MarketingLayout
@@ -26,17 +39,6 @@ const properties = await getPropertiesByListingType("sale");
 
     <ListingNotice />
 
-    <div class="property-grid">
-      {properties.map((property) => <PropertyCard property={property} />)}
-    </div>
+    <ListingFilters client:load listings={listings} listingType="sale" />
   </section>
 </MarketingLayout>
-
-<style>
-  .property-grid {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    margin-top: 2.5rem;
-  }
-</style>
