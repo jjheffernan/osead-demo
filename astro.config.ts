@@ -162,10 +162,42 @@ export default defineConfig({
           en: "en-US",
         },
       },
+      // V15: crawl hints — PDPs highest; SEO landings high; legal/docs low.
+      serialize(item) {
+        const path = new URL(item.url).pathname.replace(/\/$/, "") || "/";
+        if (path === "/") {
+          item.priority = 1.0;
+          item.changefreq = "weekly";
+        } else if (/^\/properties\/[^/]+$/.test(path)) {
+          item.priority = 0.9;
+          item.changefreq = "weekly";
+        } else if (
+          path === "/markets" ||
+          path === "/collections" ||
+          path === "/rentals" ||
+          path === "/sales" ||
+          /^\/markets\/[^/]+$/.test(path) ||
+          /^\/markets\/[^/]+\/[^/]+$/.test(path) ||
+          /^\/collections\/[^/]+$/.test(path)
+        ) {
+          item.priority = 0.8;
+          item.changefreq = "weekly";
+        } else if (path === "/blog" || path === "/docs" || path.startsWith("/docs/")) {
+          item.priority = 0.3;
+          item.changefreq = "monthly";
+        } else if (path === "/privacy" || path === "/terms") {
+          item.priority = 0.2;
+          item.changefreq = "yearly";
+        } else {
+          item.priority = 0.5;
+          item.changefreq = "monthly";
+        }
+        return item;
+      },
     }),
-svelte(),
-  icon(),
-],
+    svelte(),
+    icon(),
+  ],
   env: {
     schema: {
       SITE_URL: envField.string({ context: "server", access: "public", default: "http://localhost:4321" }),
