@@ -39,6 +39,6 @@ const listings = properties.map(({ data }) => ({
 
     <ListingNotice />
 
-    <ListingFilters client:load listings={listings} />
+    <ListingFilters client:load listings={listings} listingType="sale" />
   </section>
 </MarketingLayout>
