@@ -16,15 +16,13 @@ test.describe("navigation chrome", () => {
     });
   });
 
-  test("language switcher is present and links to the other locale", async ({
+  test("language switcher is omitted for English-only locale config", async ({
     page,
   }) => {
     test.setTimeout(60_000);
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    const switcher = page.locator(".language-switcher").first();
-    await expect(switcher).toBeVisible({ timeout: 30_000 });
-    const href = await switcher.getAttribute("href");
-    expect(href).toBeTruthy();
+    // SITE_CONFIG.locales is ["en"]; LanguageSwitcher only renders when a peer locale exists.
+    await expect(page.locator(".language-switcher")).toHaveCount(0);
   });
 
   test("dark mode toggle flips the html dark class", async ({ page }) => {

@@ -39,7 +39,7 @@ Keep max concurrent agent work small; config `maxPrs` caps completed slices per 
 - V18 Real coastal photography (replace SVG placeholders)
 - V19 Market page full-bleed photography
 - V20 Starlight white-label section
-- V23 Playwright Chromium + e2e smoke
+- V23 Playwright Chromium + e2e smoke — DONE
 
 ## Deferred (Later)
 

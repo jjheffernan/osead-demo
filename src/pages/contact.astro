@@ -28,18 +28,8 @@ const lat = settings?.mapLatitude || "-6.2088";
 const lng = settings?.mapLongitude || "106.8456";
 const hasMap = Boolean(lat && lng);
 const contactEmail = settings?.orgEmail || siteConfig.email;
-const intents = ["rental", "sale", "booking-inquiry"] as const;
-type InquiryIntent = (typeof intents)[number];
-const requestedIntent = Astro.url.searchParams.get("intent");
-const intent: InquiryIntent = intents.includes(requestedIntent as InquiryIntent)
-  ? (requestedIntent as InquiryIntent)
-  : "rental";
-const property =
-  Astro.url.searchParams.get("property")?.trim().slice(0, 160) || "";
-const date = (value: string | null) =>
-  value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : "";
-const checkIn = date(Astro.url.searchParams.get("checkIn"));
-const checkOut = date(Astro.url.searchParams.get("checkOut"));
+// Query-param prefill (intent/property/dates) is applied client-side — this
+// page is static, so Astro.url.searchParams are empty at build time.
 
 // The interactive Google Maps embed is loaded on click (facade pattern) so its
 // third-party JS never weighs on initial load (no TBT).
@@ -99,17 +89,15 @@ const methods = (featuresSection?.items || []).map((item) => ({
           with availability or next steps; this is an inquiry, not a
           reservation.
         </p>
-        {
-          property && (
-            <div class="contact__summary" aria-label="Inquiry summary">
-              <p class="contact__summary-label">Your inquiry</p>
-              <p>
-                <strong>{property}</strong>
-                {checkIn && checkOut ? ` · ${checkIn} to ${checkOut}` : ""}
-              </p>
-            </div>
-          )
-        }
+        <div
+          id="inquiry-summary"
+          class="contact__summary"
+          aria-label="Inquiry summary"
+          hidden
+        >
+          <p class="contact__summary-label">Your inquiry</p>
+          <p id="inquiry-summary-text"></p>
+        </div>
         <Button href={`mailto:${contactEmail}`} variant="primary">
           Email {contactEmail}
         </Button>
@@ -120,9 +108,9 @@ const methods = (featuresSection?.items || []).map((item) => ({
           action="/api/contact"
           method="post"
         >
-          <input type="hidden" name="property" value={property} />
-          <input type="hidden" name="checkIn" value={checkIn} />
-          <input type="hidden" name="checkOut" value={checkOut} />
+          <input type="hidden" name="property" value="" />
+          <input type="hidden" name="checkIn" value="" />
+          <input type="hidden" name="checkOut" value="" />
           {/* Honeypot — leave empty. Bots that fill it are rejected by /api/contact. */}
           <div class="contact__honeypot" aria-hidden="true">
             <label>
@@ -151,7 +139,7 @@ const methods = (featuresSection?.items || []).map((item) => ({
           </label>
           <label>
             <span>I'm interested in</span>
-            <select name="intent" value={intent}>
+            <select name="intent">
               <option value="rental">A weekly rental</option>
               <option value="sale">A home for sale</option>
               <option value="booking-inquiry"
@@ -247,6 +235,44 @@ const methods = (featuresSection?.items || []).map((item) => ({
 
 <script is:inline>
   const contactForm = document.querySelector("#contact-form");
+  // Static build cannot bake query params; apply availability deep-links here.
+  (() => {
+    if (!(contactForm instanceof HTMLFormElement)) return;
+    const params = new URLSearchParams(location.search);
+    const intents = new Set(["rental", "sale", "booking-inquiry"]);
+    const intent = params.get("intent") || "";
+    const property = (params.get("property") || "").trim().slice(0, 160);
+    const dateOk = (v) => /^\d{4}-\d{2}-\d{2}$/.test(v || "");
+    const checkIn = dateOk(params.get("checkIn")) ? params.get("checkIn") : "";
+    const checkOut = dateOk(params.get("checkOut"))
+      ? params.get("checkOut")
+      : "";
+    const select = contactForm.querySelector('select[name="intent"]');
+    if (select instanceof HTMLSelectElement && intents.has(intent)) {
+      select.value = intent;
+    }
+    for (const [name, value] of [
+      ["property", property],
+      ["checkIn", checkIn],
+      ["checkOut", checkOut],
+    ]) {
+      const input = contactForm.querySelector(`input[name="${name}"]`);
+      if (input instanceof HTMLInputElement) input.value = value || "";
+    }
+    if (!property) return;
+    const summary = document.querySelector("#inquiry-summary");
+    const text = document.querySelector("#inquiry-summary-text");
+    if (!(summary instanceof HTMLElement) || !(text instanceof HTMLElement))
+      return;
+    const strong = document.createElement("strong");
+    strong.textContent = property;
+    text.replaceChildren(strong);
+    if (checkIn && checkOut) {
+      text.append(` · ${checkIn} to ${checkOut}`);
+    }
+    summary.hidden = false;
+  })();
+
   contactForm?.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (

@@ -20,9 +20,12 @@ test.describe("blog listing + detail", () => {
 
   test("blog detail page exposes share buttons", async ({ page }) => {
     test.setTimeout(60_000);
-    await page.goto("/blog/welcome", { waitUntil: "domcontentloaded" });
+    await page.goto("/blog/getting-started", { waitUntil: "domcontentloaded" });
     await expect(page.locator("h1").first()).toBeVisible({ timeout: 30_000 });
-    await expect(page.locator(".share-buttons button").first()).toBeVisible({
+    // Native share button is hidden until navigator.share exists; links are always shown.
+    await expect(
+      page.locator(".share-buttons a.share-buttons__btn").first(),
+    ).toBeVisible({
       timeout: 30_000,
     });
   });

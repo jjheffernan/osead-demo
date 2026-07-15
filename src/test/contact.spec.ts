@@ -10,7 +10,15 @@ test.describe("contact form", () => {
     await expect(page.locator("#name")).toBeVisible({ timeout: 30_000 });
     await expect(page.locator("#email")).toBeVisible({ timeout: 30_000 });
     await expect(page.locator("#message")).toBeVisible({ timeout: 30_000 });
-    await expect(page.locator(".contact__honeypot")).toBeHidden();
+    // Clip/sr-only honeypot stays in the a11y tree size; assert bot trap wiring.
+    await expect(page.locator(".contact__honeypot")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+    await expect(page.locator('.contact__honeypot input[name="website"]')).toHaveAttribute(
+      "tabindex",
+      "-1",
+    );
     await expect(page.locator("#form-success")).toBeHidden();
   });
 

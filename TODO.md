@@ -49,7 +49,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 ### Hygiene (before deploy)
 
 - [x] V22 Lint debt: clear `pnpm lint` blockers (stylelint / `astro check` / remaining Analytics noise) so DoD gate is green — docs/PLAN.md Definition of done
-- [ ] V23 Playwright: install Chromium + bring e2e smoke suite green (or document skip with reason) — V10 leftover
+- [x] V23 Playwright: install Chromium + bring e2e smoke suite green (or document skip with reason) — V10 leftover
 
 ## Next
 

@@ -20,9 +20,10 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: "pnpm exec astro preview --port 4399 --host 127.0.0.1",
+    // Preview needs dist/; build first so `pnpm test:e2e` is self-contained.
+    command: "pnpm build && pnpm exec astro preview --port 4399 --host 127.0.0.1",
     url: "http://127.0.0.1:4399",
     reuseExistingServer: false,
-    timeout: 120_000,
+    timeout: 180_000,
   },
 });
