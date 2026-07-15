@@ -32,6 +32,10 @@ highlights:
 images:
   - src: /images/properties/placeholder-lbi.svg
     alt: Ocean-block residence with pool on Long Beach Island
+  - src: /images/properties/placeholder-oceanfront.svg
+    alt: Atlantic light across the ocean-block decks
+  - src: /images/properties/placeholder-bayfront.svg
+    alt: Evening cove light from the west-facing porch
 geo:
   lat: 39.5801
   lng: -74.2295

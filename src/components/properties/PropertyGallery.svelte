@@ -24,28 +24,6 @@
 		selectedIndex = ((index % count) + count) % count;
 	}
 
-	function onGalleryKeydown(event: KeyboardEvent) {
-		if (count < 2) return;
-		switch (event.key) {
-			case "ArrowLeft":
-				event.preventDefault();
-				select(selectedIndex - 1);
-				break;
-			case "ArrowRight":
-				event.preventDefault();
-				select(selectedIndex + 1);
-				break;
-			case "Home":
-				event.preventDefault();
-				select(0);
-				break;
-			case "End":
-				event.preventDefault();
-				select(count - 1);
-				break;
-		}
-	}
-
 	function onThumbKeydown(event: KeyboardEvent, index: number) {
 		if (count < 2) return;
 		let next: number | null = null;
@@ -79,12 +57,7 @@
 </script>
 
 {#if selected}
-	<section
-		class="gallery"
-		aria-label={label}
-		tabindex="0"
-		onkeydown={onGalleryKeydown}
-	>
+	<section class="gallery" aria-label={label}>
 		<figure class="gallery__stage">
 			<img
 				class="gallery__image"
@@ -103,6 +76,15 @@
 		</figure>
 
 		{#if count > 1}
+			<div class="gallery__nav">
+				<button type="button" onclick={() => select(selectedIndex - 1)}>
+					Previous view
+				</button>
+				<button type="button" onclick={() => select(selectedIndex + 1)}>
+					Next view
+				</button>
+			</div>
+
 			<div
 				class="gallery__thumbs"
 				role="tablist"
@@ -131,16 +113,34 @@
 <style>
 	.gallery {
 		margin-bottom: var(--spacing-7);
-		outline: none;
-	}
-
-	.gallery:focus-visible {
-		outline: 2px solid var(--ring);
-		outline-offset: 4px;
 	}
 
 	.gallery__stage {
 		margin: 0;
+	}
+
+	.gallery__nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-4);
+		margin-top: var(--spacing-3);
+	}
+
+	.gallery__nav button {
+		border: 0;
+		padding: 0;
+		background: transparent;
+		color: var(--foreground);
+		font: inherit;
+		font-size: var(--text-sm);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		cursor: pointer;
+	}
+
+	.gallery__nav button:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
 	}
 
 	.gallery__image {
