@@ -2,11 +2,11 @@
 locale: en
 slug: terms
 title: Terms & Conditions
-description: Terms for using the OSEAD demonstration site and sample coastal inventory.
+description: Terms for using the O-sea-D demonstration site and sample coastal inventory.
 sections:
   - type: hero
     title: Terms & Conditions
-    content: The basic rules for browsing OSEAD's sample coastal collection.
+    content: The basic rules for browsing O-sea-D's sample coastal collection.
 isLegal: true
 order: 6
 translationKey: terms
@@ -14,7 +14,7 @@ translationKey: terms
 
 Last updated: June 24, 2026.
 
-These terms govern your use of this demonstration website. OSEAD displays
+These terms govern your use of this demonstration website. O-sea-D displays
 sample inventory for illustration and does not make live rental offers, confirm
 reservations, or represent an active brokerage transaction.
 

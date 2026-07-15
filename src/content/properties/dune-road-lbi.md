@@ -3,7 +3,7 @@ locale: en
 title: "Dune Road Residence — Ocean Block"
 description: "Nine-bedroom LBI ocean-block home for sale with rental history — Jersey Shore legacy weeks with modern finishes."
 slug: dune-road-lbi
-listingType: both
+listingType: sale
 status: available
 featured: true
 market: jersey-shore
@@ -16,8 +16,7 @@ sleeps: 20
 sqft: 5400
 yearBuilt: 2016
 salePrice: 4250000
-weeklyRate: 12500
-priceDisplay: "From $12,500 / week · $4.25M"
+priceDisplay: "$4,250,000"
 amenities:
   - Private Pool
   - Outdoor Kitchen
@@ -47,7 +46,7 @@ address:
 checkInTime: "15:00"
 checkOutTime: "10:00"
 petsAllowed: false
-seoTitle: "LBI Ocean-Block Home for Sale & Weekly Rental | OSEAD"
+seoTitle: "LBI Ocean-Block Home for Sale & Weekly Rental | O-sea-D"
 seoDescription: "Buy or book Dune Road Residence — a 9-bedroom Long Beach Island ocean-block home with private pool and strong summer rental history."
 uid: dune-road-lbi
 draft: false

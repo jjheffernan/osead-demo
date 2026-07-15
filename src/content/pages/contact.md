@@ -2,7 +2,7 @@
 locale: en
 slug: contact
 title: Inquire
-description: Ask about a weekly stay, a home for sale, or the OSEAD coastal collection.
+description: Ask about a weekly stay, a home for sale, or the O-sea-D coastal collection.
 sections:
   - type: hero
     title: Tell us where the coast is calling

@@ -3,7 +3,7 @@ locale: en
 title: "Mariner Landing — Bayfront Townhome"
 description: "Five-bedroom Stone Harbor bayfront townhome for weekly rentals or sale with a boat slip, pool, and sunset terrace."
 slug: mariner-landing-stone-harbor
-listingType: both
+listingType: rental
 status: available
 featured: false
 market: jersey-shore
@@ -15,9 +15,8 @@ baths: 4.5
 sleeps: 12
 sqft: 3900
 yearBuilt: 2017
-salePrice: 3685000
 weeklyRate: 9800
-priceDisplay: "From $9,800 / week · $3.685M"
+priceDisplay: "From $9,800 / week"
 amenities:
   - Boat Slip
   - Community Pool
@@ -35,6 +34,8 @@ images:
     alt: Bayfront terrace and boat slip at Mariner Landing in Stone Harbor
   - src: /images/properties/placeholder-lbi.svg
     alt: Stone Harbor townhome exterior near the beach
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of mariner landing stone harbor
 geo:
   lat: 39.0526
   lng: -74.7633
@@ -46,7 +47,7 @@ address:
 checkInTime: "15:00"
 checkOutTime: "10:00"
 petsAllowed: true
-seoTitle: "Stone Harbor Bayfront Townhome for Sale or Rent | OSEAD"
+seoTitle: "Stone Harbor Bayfront Townhome for Sale or Rent | O-sea-D"
 seoDescription: "Rent or buy Mariner Landing, a five-bedroom Stone Harbor bayfront townhome with boat slip, pool, and sunset terrace."
 uid: mariner-landing-stone-harbor
 draft: false

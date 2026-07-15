@@ -6,7 +6,7 @@ Product source of truth for AFK agents. Do not reopen overnight unless the opera
 
 1. **Primary:** portfolio demo.
 2. **Secondary:** white-label product template others can spin up quickly.
-3. **Brand:** keep **OSEAD** (O-sea-d). No rename required.
+3. **Brand:** keep **O-sea-D** (stylized as O-sea-D in product UI; OSEAD acceptable in repo shorthand).
 
 ## Experience priorities
 

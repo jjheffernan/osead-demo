@@ -3,7 +3,7 @@ locale: en
 title: "Dune Crest — Oceanfront Estate"
 description: "Twelve-bedroom Corolla oceanfront home with private dune walkover, heated pool, and elevator — weekly rental and for sale."
 slug: dune-crest-corolla
-listingType: both
+listingType: rental
 status: available
 featured: true
 market: outer-banks
@@ -15,9 +15,8 @@ baths: 11
 sleeps: 28
 sqft: 9800
 yearBuilt: 2019
-salePrice: 6750000
 weeklyRate: 18500
-priceDisplay: "From $18,500 / week · $6.75M"
+priceDisplay: "From $18,500 / week"
 amenities:
   - Private Pool
   - Hot Tub
@@ -34,6 +33,12 @@ highlights:
 images:
   - src: /images/properties/placeholder-oceanfront.svg
     alt: Oceanfront decks facing the Atlantic at Dune Crest in Corolla
+  - src: /images/properties/placeholder-pool.svg
+    alt: Heated pool overlooking the dune line at Dune Crest
+  - src: /images/properties/placeholder-interior.svg
+    alt: Main living level with ocean light at Dune Crest
+  - src: /images/properties/placeholder-deck.svg
+    alt: Upper deck walkway at Dune Crest
 geo:
   lat: 36.3765
   lng: -75.8302
@@ -45,7 +50,7 @@ address:
 checkInTime: "16:00"
 checkOutTime: "10:00"
 petsAllowed: false
-seoTitle: "Oceanfront Estate in Corolla NC | Weekly Rental & Sale | OSEAD"
+seoTitle: "Oceanfront Estate in Corolla NC | Weekly Rental & Sale | O-sea-D"
 seoDescription: "Book or buy Dune Crest — a 12-bedroom Corolla oceanfront estate with private beach access, heated pool, and elevator on the Outer Banks."
 uid: dune-crest-corolla
 draft: false

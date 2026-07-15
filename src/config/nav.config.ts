@@ -22,22 +22,26 @@ export const mainNav: NavItem[] = [
   { href: "/", labelKey: "nav.home" },
   { href: "/rentals", labelKey: "nav.rentals" },
   { href: "/sales", labelKey: "nav.sales" },
+  { href: "/about", labelKey: "nav.about" },
   { href: "/blog", labelKey: "nav.journal" },
   { href: "/contact", labelKey: "nav.contact" },
 ] as const;
 
-/** Footer navigation grouped by section */
+/** Footer navigation — no location-specific market buttons; collections OK as secondary */
 export const footerNav = {
-  /** Rentals, sales, and coastal destinations */
+  /** Inventory and editorial destinations */
   product: [
     { href: "/rentals", labelKey: "nav.rentals" },
     { href: "/sales", labelKey: "nav.sales" },
     { href: "/collections", labelKey: "nav.collections" },
-    { href: "/markets/outer-banks", labelKey: "nav.marketsObx" },
-    { href: "/markets/jersey-shore", labelKey: "nav.marketsJersey" },
-    { href: "/markets/delaware-beaches", labelKey: "nav.marketsDelaware" },
+    { href: "/blog", labelKey: "nav.journal" },
   ] as const,
-  /** Legal pages and terms */
+  /** Company (legal stays in the meta bar only) */
+  company: [
+    { href: "/about", labelKey: "nav.about" },
+    { href: "/contact", labelKey: "nav.contact" },
+  ] as const,
+  /** Legal pages — rendered once in the footer meta bar */
   legal: [
     { href: "/privacy", labelKey: "footer.privacy" },
     { href: "/terms", labelKey: "footer.terms" },

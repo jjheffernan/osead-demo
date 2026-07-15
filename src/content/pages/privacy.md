@@ -2,7 +2,7 @@
 locale: en
 slug: privacy
 title: Privacy Policy
-description: How the OSEAD demonstration site handles inquiry information.
+description: How the O-sea-D demonstration site handles inquiry information.
 sections:
   - type: hero
     title: Privacy Policy
@@ -14,7 +14,7 @@ translationKey: privacy
 
 Last updated: June 24, 2026.
 
-This policy explains how the OSEAD demonstration site handles your data. Replace
+This policy explains how the O-sea-D demonstration site handles your data. Replace
 this sample policy with one reviewed by your own legal counsel before launch.
 
 ## Information We Collect

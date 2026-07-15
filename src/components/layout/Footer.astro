@@ -2,6 +2,10 @@
 import { Icon } from "astro-icon/components";
 import { siteConfig } from "../../config/site.config";
 import { footerNav } from "../../config/nav.config";
+import {
+  buyMarketplaces,
+  rentMarketplaces,
+} from "../../config/marketplaces";
 import { t } from "../../i18n/ui";
 import { resolveRoute } from "../../i18n/routes";
 import type { Locale } from "../../lib/site-config";
@@ -34,7 +38,7 @@ const socialIcon = (url: string) => {
       </div>
 
       <div class="footer__column">
-        <h2>Explore OSEAD</h2>
+        <h2>Explore</h2>
         <ul>
           {
             footerNav.product.map((item) => (
@@ -49,10 +53,10 @@ const socialIcon = (url: string) => {
       </div>
 
       <div class="footer__column">
-        <h2>{t(currentLocale, "nav.contact")}</h2>
+        <h2>Company</h2>
         <ul>
           {
-            footerNav.legal.map((item) => (
+            footerNav.company.map((item) => (
               <li>
                 <a href={resolveRoute(currentLocale, item.href)}>
                   {t(currentLocale, item.labelKey)}
@@ -63,10 +67,40 @@ const socialIcon = (url: string) => {
         </ul>
       </div>
 
+      <div class="footer__column">
+        <h2>Buy online</h2>
+        <ul>
+          {
+            buyMarketplaces.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                  {link.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="footer__column">
+        <h2>Rent online</h2>
+        <ul>
+          {
+            rentMarketplaces.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                  {link.name}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
       {
         siteConfig.header.showSocialLinks && (
           <div class="footer__column">
-            <h2>Social</h2>
+            <h2>Connect</h2>
             <ul class="footer__social">
               {siteConfig.socialLinks.map((link) => (
                 <li>
@@ -111,24 +145,28 @@ const socialIcon = (url: string) => {
   }
 
   .footer__inner {
-    padding-block: var(--space-2xl) var(--space-lg);
+    padding-block: var(--space-xl) var(--space-md);
   }
 
   .footer__grid {
     display: grid;
-    gap: var(--space-xl);
-    grid-template-columns: 1.5fr repeat(3, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-md);
+    grid-template-columns: 1.4fr repeat(5, minmax(0, 1fr));
   }
 
   .footer__brand p {
-    margin: var(--space-md) 0 0;
+    margin: var(--space-sm) 0 0;
     color: var(--color-text-secondary);
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 
   .footer__column h2 {
-    margin: 0 0 var(--space-sm);
-    font-size: 0.9375rem;
+    margin: 0 0 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .footer__column ul {
@@ -136,11 +174,12 @@ const socialIcon = (url: string) => {
     margin: 0;
     padding: 0;
     display: grid;
-    gap: 0.5rem;
+    gap: 0.35rem;
   }
 
   .footer__column a {
     color: var(--color-text-secondary);
+    font-size: 0.9rem;
     text-decoration: none;
   }
 
@@ -149,14 +188,10 @@ const socialIcon = (url: string) => {
     color: var(--color-brand-primary);
   }
 
-  .footer__social li + li {
-    margin-top: 0.5rem;
-  }
-
   .footer__social a {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.4rem;
     color: var(--color-text-secondary);
     text-decoration: none;
   }
@@ -165,16 +200,18 @@ const socialIcon = (url: string) => {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--space-lg);
-    margin-top: var(--space-2xl);
-    padding-top: var(--space-lg);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    padding-top: var(--space-md);
     border-top: 1px solid var(--color-border);
     color: var(--color-text-secondary);
+    font-size: 0.85rem;
   }
 
   .footer__legal {
     display: flex;
-    gap: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-md);
   }
 
   .footer__legal a {
@@ -182,17 +219,25 @@ const socialIcon = (url: string) => {
     text-decoration: none;
   }
 
-  @media (max-width: 60rem) {
+  @media (max-width: 70rem) {
     .footer__grid {
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
     }
   }
 
   @media (max-width: 40rem) {
     .footer__grid,
     .footer__meta {
-      grid-template-columns: 1fr;
+      grid-template-columns: 1fr 1fr;
       display: grid;
+    }
+
+    .footer__brand {
+      grid-column: 1 / -1;
     }
   }
 </style>

@@ -40,57 +40,102 @@ const schemas = [saleLd, rentalLd].filter(Boolean) as Record<
   string,
   unknown
 >[];
+const listingLabel =
+  data.listingType === "both"
+    ? "Rental & sale"
+    : data.listingType === "rental"
+      ? "Weekly rental"
+      : "For sale";
 ---
 
 <MarketingLayout title={title} description={description} locale={locale} path={path}>
   {schemas.length > 0 && <JsonLd schema={schemas} />}
 
-  <article class="container py-16 property">
-    <PropertyGallery client:load images={data.images} label={`${data.title} gallery`} />
+  <article class="container property">
+    <PropertyGallery
+      client:load
+      images={data.images}
+      videos={data.videos}
+      label={`${data.title} gallery`}
+    />
 
-    <header class="property__header">
-      <p class="property__eyebrow">{data.regionLabel} · {data.waterfront}</p>
-      <h1>{data.title}</h1>
-      <p class="property__desc">{data.description}</p>
-      {
-        data.priceDisplay && (
-          <p class="property__price">{data.priceDisplay}</p>
-        )
-      }
-      <p class="property__stats">
-        {data.beds} beds · {data.baths} baths
-        {data.sleeps ? ` · Sleeps ${data.sleeps}` : ""}
-        {data.sqft ? ` · ${data.sqft.toLocaleString()} sq ft` : ""}
-      </p>
-      {
-        (data.listingType === "sale" || data.listingType === "both") && (
-          <div class="property__actions">
+    <div class="property__layout">
+      <header class="property__header">
+        <p class="property__eyebrow">
+          {listingLabel} · {data.regionLabel} · {data.waterfront}
+        </p>
+        <h1>{data.title}</h1>
+        <p class="property__desc">{data.description}</p>
+        {
+          data.priceDisplay && (
+            <p class="property__price">{data.priceDisplay}</p>
+          )
+        }
+        <dl class="property__facts">
+          <div>
+            <dt>Beds</dt>
+            <dd>{data.beds}</dd>
+          </div>
+          <div>
+            <dt>Baths</dt>
+            <dd>{data.baths}</dd>
+          </div>
+          {
+            data.sleeps && (
+              <div>
+                <dt>Sleeps</dt>
+                <dd>{data.sleeps}</dd>
+              </div>
+            )
+          }
+          {
+            data.sqft && (
+              <div>
+                <dt>Sq ft</dt>
+                <dd>{data.sqft.toLocaleString()}</dd>
+              </div>
+            )
+          }
+          {
+            data.yearBuilt && (
+              <div>
+                <dt>Built</dt>
+                <dd>{data.yearBuilt}</dd>
+              </div>
+            )
+          }
+        </dl>
+      </header>
+
+      <aside class="property__aside">
+        {
+          (data.listingType === "sale" || data.listingType === "both") && (
             <a
-              class="button button--ghost"
+              class="button"
               href={`/contact?intent=sale&property=${encodeURIComponent(data.slug)}`}
             >
               Schedule a showing
             </a>
-          </div>
-        )
-      }
-      {
-        (data.listingType === "rental" || data.listingType === "both") && (
-          <AvailabilityInquiry
-            client:load
-            propertySlug={data.slug}
-            propertyTitle={data.title}
-          />
-        )
-      }
-      <ListingNotice />
-    </header>
+          )
+        }
+        {
+          (data.listingType === "rental" || data.listingType === "both") && (
+            <AvailabilityInquiry
+              client:load
+              propertySlug={data.slug}
+              propertyTitle={data.title}
+            />
+          )
+        }
+        <ListingNotice />
+      </aside>
+    </div>
 
     {
       data.highlights.length > 0 && (
         <section class="property__section">
           <h2>Highlights</h2>
-          <ul>
+          <ul class="highlights">
             {data.highlights.map((item) => (
               <li>{item}</li>
             ))}
@@ -120,9 +165,20 @@ const schemas = [saleLd, rentalLd].filter(Boolean) as Record<
 </MarketingLayout>
 
 <style>
+  .property {
+    padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .property__layout {
+    display: grid;
+    gap: 1.5rem 2rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.75fr);
+    margin-top: 1.25rem;
+  }
+
   .property__header h1 {
     margin: 0.35rem 0 0.75rem;
-    font-size: clamp(2rem, 4vw, 3rem);
+    font-size: clamp(1.85rem, 3.5vw, 2.75rem);
     line-height: 1.1;
   }
 
@@ -130,51 +186,116 @@ const schemas = [saleLd, rentalLd].filter(Boolean) as Record<
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
+    font-weight: 700;
     color: var(--muted-foreground);
   }
 
-  .property__desc,
-  .property__stats {
+  .property__desc {
     max-width: 42rem;
+    margin: 0;
     color: var(--muted-foreground);
+    line-height: 1.55;
   }
 
   .property__price {
+    margin: 0.85rem 0 0;
     font-size: 1.35rem;
     font-weight: 600;
   }
 
-  .property__actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.25rem;
+  .property__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(5.5rem, 1fr));
+    gap: 0.65rem;
+    margin: 1.15rem 0 0;
+    padding: 0;
+  }
+
+  .property__facts div {
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  .property__facts dt {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .property__facts dd {
+    margin: 0.2rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+
+  .property__aside {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
   }
 
   .button {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 0.75rem 1.1rem;
     background: var(--primary);
     color: var(--primary-foreground);
+    font-weight: 600;
     text-decoration: none;
   }
 
-  .button--ghost {
-    background: transparent;
-    color: var(--foreground);
-    border: 1px solid var(--border);
+  .property__section {
+    margin-top: 2rem;
   }
 
-  .property__section {
-    margin-top: 2.5rem;
+  .property__section h2 {
+    margin: 0 0 0.85rem;
+    font-size: 1.25rem;
+  }
+
+  .highlights {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .highlights li {
+    padding-left: 1rem;
+    border-left: 2px solid var(--primary);
+    color: var(--foreground);
+    line-height: 1.45;
   }
 
   .amenities {
     display: grid;
-    gap: 0.4rem 1.5rem;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    padding-left: 1.1rem;
+    gap: 0.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .amenities li {
+    display: flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: 0.92rem;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 48rem) {
+    .property__layout {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

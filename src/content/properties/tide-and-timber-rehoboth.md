@@ -34,6 +34,8 @@ images:
     alt: Restored Rehoboth Beach cottage with private plunge pool
   - src: /images/properties/placeholder-lbi.svg
     alt: Coastal cottage garden near Rehoboth Beach
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of tide and timber rehoboth
 geo:
   lat: 38.7198
   lng: -75.0857
@@ -45,7 +47,7 @@ address:
 checkInTime: "16:00"
 checkOutTime: "10:00"
 petsAllowed: true
-seoTitle: "Pet-Friendly Rehoboth Beach Cottage Rental | OSEAD"
+seoTitle: "Pet-Friendly Rehoboth Beach Cottage Rental | O-sea-D"
 seoDescription: "Book Tide & Timber, a three-bedroom pet-friendly Rehoboth Beach cottage with plunge pool, bikes, and walkable town access."
 uid: tide-and-timber-rehoboth
 draft: false

@@ -86,7 +86,7 @@ export async function onRequestPost(context: {
   }
 
   // Demo-only: deployers can replace this with their CRM or mail provider.
-  console.log("OSEAD inquiry accepted", {
+  console.log("O-sea-D inquiry accepted", {
     intent: inquiry.intent,
     property: inquiry.property,
     checkIn: inquiry.checkIn,

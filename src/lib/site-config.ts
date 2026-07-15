@@ -18,7 +18,7 @@ export const SITE_CONFIG = {
     en: "en",
   } as const,
   /** Site name for metadata and JSON-LD. */
-  name: "OSEAD",
+  name: "O-sea-D",
   /** Short description for metadata. */
   description:
     "Coastal weekly rentals and homes for sale across the Outer Banks, Jersey Shore, and Delaware Beaches.",

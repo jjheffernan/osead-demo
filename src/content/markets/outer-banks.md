@@ -12,7 +12,7 @@ towns:
   - Kill Devil Hills
   - Nags Head
   - Hatteras Island
-seoTitle: "Outer Banks Oceanfront Homes for Rent & Sale | OSEAD"
+seoTitle: "Outer Banks Oceanfront Homes for Rent & Sale | O-sea-D"
 seoDescription: "Explore Outer Banks beachfront weekly rentals and oceanfront homes for sale in Corolla, Duck, Nags Head, and Hatteras."
 order: 1
 ---

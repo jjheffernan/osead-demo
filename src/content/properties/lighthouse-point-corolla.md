@@ -35,6 +35,8 @@ images:
     alt: Semi-oceanfront decks and pool at Lighthouse Point in Corolla
   - src: /images/properties/placeholder-cottage.svg
     alt: Great room with coastal gathering space in Corolla
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of lighthouse point corolla
 geo:
   lat: 36.3558
   lng: -75.8281
@@ -46,7 +48,7 @@ address:
 checkInTime: "16:00"
 checkOutTime: "10:00"
 petsAllowed: false
-seoTitle: "Corolla 8-Bedroom Weekly Rental with Elevator | OSEAD"
+seoTitle: "Corolla 8-Bedroom Weekly Rental with Elevator | O-sea-D"
 seoDescription: "Book Lighthouse Point, an eight-bedroom Corolla semi-oceanfront rental with heated pool, elevator, theater, and beach access."
 uid: lighthouse-point-corolla
 draft: false

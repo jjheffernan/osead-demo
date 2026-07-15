@@ -8,7 +8,7 @@ tags:
   - weekly rentals
   - planning
   - coast
-author: "OSEAD"
+author: "O-sea-D"
 translationKey: "begin-a-beach-week"
 ---
 
@@ -32,5 +32,5 @@ an empty stretch of sand, or a restaurant recommendation from a neighbor.
 ## Ask early
 
 If you are deciding between homes, send an inquiry with your dates, group size,
-and non-negotiables. OSEAD can help you understand the fit, but an inquiry
+and non-negotiables. O-sea-D can help you understand the fit, but an inquiry
 never confirms a reservation.

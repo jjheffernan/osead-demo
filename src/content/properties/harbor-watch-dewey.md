@@ -31,6 +31,10 @@ highlights:
 images:
   - src: /images/properties/placeholder-bayfront.svg
     alt: Bayfront balcony sunset view at Harbor Watch in Dewey Beach
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of harbor watch dewey
+  - src: /images/properties/placeholder-interior.svg
+    alt: Additional view of harbor watch dewey
 geo:
   lat: 38.6926
   lng: -75.0749
@@ -40,7 +44,7 @@ address:
   postalCode: "19971"
   country: US
 petsAllowed: false
-seoTitle: "Dewey Beach Bayfront Condo for Sale | Harbor Watch | OSEAD"
+seoTitle: "Dewey Beach Bayfront Condo for Sale | Harbor Watch | O-sea-D"
 seoDescription: "Buy Harbor Watch — a 3-bedroom bayfront Dewey Beach condo with sunset decks, one block from the ocean, listed at $1.895M."
 uid: harbor-watch-dewey
 draft: false

@@ -1,21 +1,34 @@
 ---
 import MarketingLayout from "../layouts/MarketingLayout.astro";
 import PropertyCard from "../components/properties/PropertyCard.astro";
+import MarketplaceLinks from "../components/sections/MarketplaceLinks.astro";
+import Team from "../components/sections/Team.astro";
+import {
+  buyMarketplaces,
+  rentMarketplaces,
+} from "../config/marketplaces";
+import { demoStaff } from "../config/staff";
 import {
   getPropertiesByListingType,
   getPublishedProperties,
 } from "../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
-const [featured, rentals, sales] = await Promise.all([
+const [all, rentals, sales] = await Promise.all([
   getPublishedProperties(),
   getPropertiesByListingType("rental"),
   getPropertiesByListingType("sale"),
 ]);
+const featuredRentals = rentals.filter((p) => p.data.featured).slice(0, 6);
+const featuredSales = sales.filter((p) => p.data.featured).slice(0, 6);
+const homeRentals =
+  featuredRentals.length >= 3 ? featuredRentals : rentals.slice(0, 6);
+const homeSales =
+  featuredSales.length >= 3 ? featuredSales : sales.slice(0, 6);
 ---
 
 <MarketingLayout
-  title="OSEAD — Coastal Rentals & Sales"
+  title="O-sea-D — Coastal Rentals & Sales"
   description="A considered collection of coastal homes to rent by the week or make your own."
   locale={locale}
   path="/"
@@ -24,14 +37,20 @@ const [featured, rentals, sales] = await Promise.all([
     <div class="home-hero__grain" aria-hidden="true"></div>
     <div class="home-hero__content container">
       <p class="home-hero__kicker">Atlantic homes, deliberately kept</p>
-      <h1 class="home-hero__wordmark">OSEAD</h1>
+      <h1 class="home-hero__wordmark">O-sea-D</h1>
       <p class="home-hero__line">
         Find the house that brings you back to the water.
       </p>
       <p class="home-hero__intro">
         A considered collection of coastal homes for a week away or a life
-        closer to the shore.
+        closer to the shore — {all.length} homes across rentals and sales.
       </p>
+      <div class="home-hero__actions">
+        <a class="home-hero__cta" href="/rentals">Browse rentals</a>
+        <a class="home-hero__cta home-hero__cta--ghost" href="/sales"
+          >Homes for sale</a
+        >
+      </div>
     </div>
   </section>
 
@@ -43,7 +62,7 @@ const [featured, rentals, sales] = await Promise.all([
     <div class="paths__grid">
       <a class="path-card path-card--rent" href="/rentals">
         <span class="path-card__number" aria-hidden="true">01</span>
-        <p class="path-card__eyebrow">Weekly rentals</p>
+        <p class="path-card__eyebrow">Weekly rentals · {rentals.length}</p>
         <h3>Make room for everyone.</h3>
         <p>
           Oceanfront weeks, long-table dinners, and homes with enough beds for
@@ -55,7 +74,7 @@ const [featured, rentals, sales] = await Promise.all([
       </a>
       <a class="path-card path-card--buy" href="/sales">
         <span class="path-card__number" aria-hidden="true">02</span>
-        <p class="path-card__eyebrow">Homes for sale</p>
+        <p class="path-card__eyebrow">Homes for sale · {sales.length}</p>
         <h3>Keep a key by the sea.</h3>
         <p>
           Second homes with a sense of place, and the rental potential to make
@@ -68,44 +87,87 @@ const [featured, rentals, sales] = await Promise.all([
     </div>
   </section>
 
-  <section class="inventory container" aria-labelledby="inventory-heading">
+  <section class="inventory container" aria-labelledby="rentals-heading">
     <header class="inventory__head">
       <div>
-        <p class="eyebrow">A few homes worth knowing</p>
-        <h2 id="inventory-heading">Featured inventory</h2>
+        <p class="eyebrow">Weekly stays</p>
+        <h2 id="rentals-heading">Featured rentals</h2>
       </div>
       <a class="text-link" href="/rentals"
-        >See all rentals <span aria-hidden="true">→</span></a
+        >See all {rentals.length} rentals <span aria-hidden="true">→</span></a
       >
     </header>
     <div class="property-grid">
-      {featured.map((property) => <PropertyCard property={property} />)}
+      {homeRentals.map((property) => <PropertyCard property={property} />)}
     </div>
   </section>
 
-  <section class="collection">
+  <section class="inventory inventory--tight container" aria-labelledby="sales-heading">
+    <header class="inventory__head">
+      <div>
+        <p class="eyebrow">Ownership</p>
+        <h2 id="sales-heading">Homes for sale</h2>
+      </div>
+      <a class="text-link" href="/sales"
+        >See all {sales.length} listings <span aria-hidden="true">→</span></a
+      >
+    </header>
+    <div class="property-grid">
+      {homeSales.map((property) => <PropertyCard property={property} />)}
+    </div>
+  </section>
+
+  <MarketplaceLinks
+    id="rent-platforms"
+    eyebrow="Short stays elsewhere"
+    title="Also explore vacation rental platforms"
+    lead="O-sea-D is a demo brokerage collection. For broader short-stay browsing, these platforms are common starting points."
+    links={rentMarketplaces}
+  />
+
+  <MarketplaceLinks
+    id="buy-platforms"
+    eyebrow="Buy on the open market"
+    title="Popular sites for homes for sale"
+    lead="When you want national MLS context beyond this collection, start with the tools buyers already know."
+    links={buyMarketplaces}
+  />
+
+  <section class="collection" aria-labelledby="collection-heading">
     <div class="collection__content container">
       <div>
         <p class="eyebrow">One collection, two ways in</p>
-        <h2>Homes that hold their value in more ways than one.</h2>
+        <h2 id="collection-heading">
+          Homes that hold their value in more ways than one.
+        </h2>
       </div>
       <p>
         Some homes are made for a single perfect week. Others become the place
-        your family returns to for years. OSEAD keeps both paths in view.
+        your family returns to for years. O-sea-D keeps both paths in view.
       </p>
       <div class="collection__links">
         <a href="/rentals">View {rentals.length} rental homes</a>
         <a href="/sales">View {sales.length} homes for sale</a>
+        <a href="/about">Meet the team</a>
       </div>
     </div>
   </section>
 
+  <Team
+    title="People behind the keys"
+    description="Real estate is personal. This demo staff shows how a boutique coastal team can stay human — even in a template."
+    members={demoStaff}
+  />
+
   <section class="home-closing container">
     <p class="eyebrow">Start with the shoreline</p>
     <h2>Come for the week. Stay for the view.</h2>
-    <a class="closing-link" href="/contact"
-      >Talk with OSEAD <span aria-hidden="true">→</span></a
-    >
+    <div class="home-closing__actions">
+      <a class="closing-link" href="/contact"
+        >Talk with O-sea-D <span aria-hidden="true">→</span></a
+      >
+      <a class="closing-link closing-link--muted" href="/about">About the team</a>
+    </div>
   </section>
 </MarketingLayout>
 
@@ -114,7 +176,7 @@ const [featured, rentals, sales] = await Promise.all([
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    padding-block: clamp(5rem, 13vw, 11rem);
+    padding-block: clamp(3.5rem, 9vw, 7rem);
     background: var(--surface-invert);
     color: var(--surface-invert-foreground);
   }
@@ -157,23 +219,23 @@ const [featured, rentals, sales] = await Promise.all([
   .home-hero__wordmark {
     margin: 0.3rem 0 0;
     color: inherit;
-    font-size: clamp(5rem, 19vw, 15rem);
+    font-size: clamp(3.5rem, 14vw, 10rem);
     font-weight: var(--font-weight-medium);
-    letter-spacing: -0.095em;
-    line-height: 0.8;
+    letter-spacing: -0.04em;
+    line-height: 0.85;
   }
 
   .home-hero__line {
     max-width: 17ch;
-    margin: clamp(2.5rem, 5vw, 5rem) 0 0;
+    margin: clamp(1.5rem, 3vw, 2.75rem) 0 0;
     font-family: var(--font-heading);
-    font-size: var(--text-3xl);
+    font-size: var(--text-2xl);
     line-height: var(--leading-tight);
   }
 
   .home-hero__intro {
     max-width: 46ch;
-    margin: var(--spacing-5) 0 0;
+    margin: var(--spacing-4) 0 0;
     color: color-mix(
       in srgb,
       var(--surface-invert-foreground) 76%,
@@ -183,22 +245,50 @@ const [featured, rentals, sales] = await Promise.all([
     line-height: var(--leading-relaxed);
   }
 
+  .home-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: var(--spacing-6);
+  }
+
+  .home-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.1rem;
+    background: var(--primary-foreground);
+    color: var(--surface-invert);
+    font-weight: var(--font-weight-bold);
+    text-decoration: none;
+  }
+
+  .home-hero__cta--ghost {
+    background: transparent;
+    color: var(--surface-invert-foreground);
+    border: 1px solid
+      color-mix(in srgb, var(--surface-invert-foreground) 45%, transparent);
+  }
+
   .paths,
   .inventory,
   .home-closing {
-    padding-block: clamp(4.5rem, 9vw, 8rem);
+    padding-block: clamp(2.5rem, 5vw, 4.25rem);
+  }
+
+  .inventory--tight {
+    padding-top: 0;
   }
 
   .paths__heading {
     max-width: 35rem;
-    margin-bottom: var(--spacing-7);
+    margin-bottom: var(--spacing-5);
   }
 
   .paths h2,
   .inventory h2,
   .collection h2,
   .home-closing h2 {
-    margin: var(--spacing-3) 0 0;
+    margin: var(--spacing-2) 0 0;
     font-size: var(--heading-h2);
     letter-spacing: var(--tracking-tight);
   }
@@ -213,14 +303,15 @@ const [featured, rentals, sales] = await Promise.all([
   .path-card {
     position: relative;
     display: flex;
-    min-height: 24rem;
+    min-height: 16rem;
     flex-direction: column;
-    padding: clamp(1.5rem, 4vw, 3.5rem);
-    color: inherit;
+    padding: clamp(1.25rem, 3vw, 2rem);
+    color: var(--foreground);
     text-decoration: none;
     transition:
       background-color 180ms ease,
-      color 180ms ease;
+      color 180ms ease,
+      border-color 180ms ease;
   }
 
   .path-card + .path-card {
@@ -235,9 +326,11 @@ const [featured, rentals, sales] = await Promise.all([
     background: var(--accent);
   }
 
+  /* Soften hover: keep readable contrast. Global h1–h6 set color:
+     forcing inherit here so headings follow the card, not --foreground. */
   .path-card:hover {
-    background: var(--surface-invert);
-    color: var(--surface-invert-foreground);
+    background: color-mix(in srgb, var(--primary) 12%, var(--card));
+    color: var(--foreground);
   }
 
   .path-card__number {
@@ -248,29 +341,26 @@ const [featured, rentals, sales] = await Promise.all([
 
   .path-card__eyebrow {
     margin-top: auto;
+    color: inherit;
   }
 
   .path-card h3 {
     max-width: 12ch;
-    margin: var(--spacing-3) 0 0;
+    margin: var(--spacing-2) 0 0;
+    color: inherit;
     font-size: var(--heading-h3);
     letter-spacing: var(--tracking-tight);
   }
 
   .path-card p:not(.path-card__eyebrow) {
     max-width: 36ch;
-    margin: var(--spacing-4) 0 0;
+    margin: var(--spacing-3) 0 0;
     color: var(--muted-foreground);
     line-height: var(--leading-relaxed);
   }
 
-  .path-card:hover p:not(.path-card__eyebrow),
   .path-card:hover .path-card__number {
-    color: color-mix(
-      in srgb,
-      var(--surface-invert-foreground) 72%,
-      transparent
-    );
+    color: var(--foreground);
   }
 
   .path-card__link,
@@ -278,7 +368,7 @@ const [featured, rentals, sales] = await Promise.all([
   .closing-link {
     display: inline-block;
     width: fit-content;
-    margin-top: var(--spacing-6);
+    margin-top: var(--spacing-4);
     border-bottom: 1px solid currentcolor;
     color: inherit;
     font-weight: var(--font-weight-bold);
@@ -289,44 +379,41 @@ const [featured, rentals, sales] = await Promise.all([
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: var(--spacing-5);
-    margin-bottom: var(--spacing-7);
+    gap: var(--spacing-4);
+    margin-bottom: var(--spacing-5);
   }
 
   .property-grid {
     display: grid;
-    gap: var(--grid-gap-lg);
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: var(--grid-gap-md, 1.25rem);
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   }
 
+  /* High-contrast band — explicit colors so the headline never washes out */
   .collection {
-    background: var(--surface-invert);
-    color: var(--surface-invert-foreground);
+    background: var(--primary);
+    color: var(--primary-foreground);
   }
 
   .collection__content {
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
-    gap: clamp(2rem, 7vw, 8rem);
-    padding-block: clamp(4.5rem, 9vw, 8rem);
+    gap: clamp(1.25rem, 4vw, 3rem);
+    padding-block: clamp(2.5rem, 5vw, 4rem);
   }
 
   .collection .eyebrow {
-    color: color-mix(
-      in srgb,
-      var(--surface-invert-foreground) 68%,
-      transparent
-    );
+    color: color-mix(in srgb, var(--primary-foreground) 72%, transparent);
+  }
+
+  .collection h2 {
+    color: var(--primary-foreground);
   }
 
   .collection__content > p {
     margin: 0;
     align-self: end;
-    color: color-mix(
-      in srgb,
-      var(--surface-invert-foreground) 78%,
-      transparent
-    );
+    color: color-mix(in srgb, var(--primary-foreground) 88%, transparent);
     font-size: var(--text-lg);
     line-height: var(--leading-relaxed);
   }
@@ -335,12 +422,12 @@ const [featured, rentals, sales] = await Promise.all([
     display: flex;
     grid-column: 1 / -1;
     flex-wrap: wrap;
-    gap: var(--spacing-6);
+    gap: var(--spacing-5);
   }
 
   .collection__links a {
     border-bottom: 1px solid currentcolor;
-    color: inherit;
+    color: var(--primary-foreground);
     font-weight: var(--font-weight-bold);
     text-decoration: none;
   }
@@ -354,8 +441,20 @@ const [featured, rentals, sales] = await Promise.all([
     margin-inline: auto;
   }
 
+  .home-closing__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-5);
+    margin-top: var(--spacing-5);
+  }
+
   .closing-link {
-    margin-top: var(--spacing-7);
+    margin-top: 0;
+  }
+
+  .closing-link--muted {
+    color: var(--muted-foreground);
   }
 
   @media (max-width: 48rem) {
@@ -365,7 +464,7 @@ const [featured, rentals, sales] = await Promise.all([
     }
 
     .path-card {
-      min-height: 20rem;
+      min-height: 14rem;
     }
 
     .path-card + .path-card {
@@ -381,7 +480,7 @@ const [featured, rentals, sales] = await Promise.all([
     .collection__links {
       grid-column: auto;
       flex-direction: column;
-      gap: var(--spacing-4);
+      gap: var(--spacing-3);
     }
   }
 </style>

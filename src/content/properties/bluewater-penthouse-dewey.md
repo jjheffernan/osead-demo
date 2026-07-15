@@ -3,7 +3,7 @@ locale: en
 title: "Bluewater Penthouse — Ocean & Bay"
 description: "Four-bedroom Dewey Beach penthouse for sale or weekly rental with wraparound views, elevator access, and a rooftop pool."
 slug: bluewater-penthouse-dewey
-listingType: both
+listingType: sale
 status: available
 featured: false
 market: delaware-beaches
@@ -16,8 +16,7 @@ sleeps: 10
 sqft: 2900
 yearBuilt: 2022
 salePrice: 2795000
-weeklyRate: 8700
-priceDisplay: "From $8,700 / week · $2.795M"
+priceDisplay: "$2,795,000"
 amenities:
   - Rooftop Pool
   - Elevator Building
@@ -35,6 +34,8 @@ images:
     alt: Ocean-view balcony at Bluewater Penthouse in Dewey Beach
   - src: /images/properties/placeholder-bayfront.svg
     alt: Bay sunset from a Dewey Beach penthouse
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of bluewater penthouse dewey
 geo:
   lat: 38.6905
   lng: -75.0731
@@ -46,7 +47,7 @@ address:
 checkInTime: "15:00"
 checkOutTime: "10:00"
 petsAllowed: false
-seoTitle: "Dewey Beach Penthouse for Sale or Weekly Rental | OSEAD"
+seoTitle: "Dewey Beach Penthouse for Sale or Weekly Rental | O-sea-D"
 seoDescription: "Buy or book Bluewater Penthouse, a four-bedroom Dewey Beach home with ocean and bay views, rooftop pool, and elevator access."
 uid: bluewater-penthouse-dewey
 draft: false

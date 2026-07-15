@@ -1,11 +1,10 @@
 ---
-import BaseLayout from "../layouts/BaseLayout.astro";
+import MarketingLayout from "../layouts/MarketingLayout.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
-import Hero from "../components/Hero.astro";
-import FeatureGrid from "../components/FeatureGrid.astro";
-import CTA from "../components/CTA.astro";
+import Team from "../components/sections/Team.astro";
+import { demoStaff } from "../config/staff";
 
 const locale = (Astro.currentLocale || "en") as "en";
 
@@ -13,64 +12,191 @@ const allPages: CollectionEntry<"pages">[] = await getCollection("pages");
 const page = allPages.find(
   (p) => p.data.slug === "about" && p.data.locale === locale,
 );
-
-interface PageSection {
-  type: string;
-  title?: string;
-  content?: string;
-  ctaText?: string;
-  ctaHref?: string;
-  items?: { title?: string; description?: string; icon?: string }[];
-}
-
-const sections: PageSection[] = page?.data.sections || [];
-const heroSection = sections.find((s) => s.type === "hero");
-const featuresSection = sections.find((s) => s.type === "features");
-const ctaSection = sections.find((s) => s.type === "cta");
-const featureItems = featuresSection?.items || [];
-const featureColumns = featureItems.length % 2 === 0 ? 2 : 3;
 ---
 
-<BaseLayout
+<MarketingLayout
   title={page?.data.title || t(locale, "nav.about")}
   description={page?.data.description}
   locale={locale}
-  path={"/about"}
+  path="/about"
 >
-  {
-    heroSection && (
-      <Hero
-        variant="centered"
-        size="md"
-        eyebrow="About"
-        title={heroSection.title || page?.data.title || ""}
-        content={heroSection.content}
-        locale={locale}
-      />
-    )
+  <section class="about-hero container">
+    <p class="eyebrow">About O-sea-D</p>
+    <h1>Coastal homes, matched by people who care.</h1>
+    <p class="about-hero__lead">
+      Real estate is a personal business. O-sea-D is a demo collection that
+      keeps weekly stays and second-home sales in one brand — with a human team
+      on the other side of every inquiry.
+    </p>
+  </section>
+
+  <section class="about-story container">
+    <div class="about-story__grid">
+      <div>
+        <h2>How we work</h2>
+        <ul class="about-story__list">
+          <li>
+            <strong>Weekly stays</strong>
+            Find an unhurried week by the water, with room for everyone you
+            bring along.
+          </li>
+          <li>
+            <strong>Coastal ownership</strong>
+            Explore homes for sale with local context and a clear path to a
+            private showing.
+          </li>
+          <li>
+            <strong>Direct guidance</strong>
+            Start an inquiry with a real question — not a checkout flow or
+            generic lead funnel.
+          </li>
+        </ul>
+      </div>
+      <div class="about-story__aside">
+        <p>
+          This site is a template demonstration. Listings are sample inventory;
+          inquiries are accepted for walkthrough purposes only and never collect
+          payment.
+        </p>
+        <a class="about-story__cta" href="/contact">Start an inquiry →</a>
+      </div>
+    </div>
+  </section>
+
+  <Team
+    title="Meet the demo team"
+    description="A boutique coastal group — principal, rentals, sales, and guest experience — so the template shows how personal a brokerage can feel."
+    members={demoStaff}
+  />
+
+  <section class="about-close container">
+    <h2>Ready when you are</h2>
+    <p>Browse the collection, then tell us what you have in mind.</p>
+    <div class="about-close__links">
+      <a href="/rentals">Weekly rentals</a>
+      <a href="/sales">Homes for sale</a>
+      <a href="/contact">Inquire</a>
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .eyebrow {
+    margin: 0;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--muted-foreground);
   }
-  {
-    featuresSection && (
-      <FeatureGrid
-        title={featuresSection.title}
-        columns={featureColumns}
-        features={featureItems.map((i) => ({
-          title: i.title || "",
-          description: i.description || "",
-          icon: i.icon,
-        }))}
-      />
-    )
+
+  .about-hero {
+    padding-block: clamp(2.5rem, 5vw, 4rem) 1.5rem;
   }
-  {
-    ctaSection && (
-      <CTA
-        title={ctaSection.title || ""}
-        content={ctaSection.content}
-        ctaText={ctaSection.ctaText}
-        ctaHref={ctaSection.ctaHref}
-        locale={locale}
-      />
-    )
+
+  .about-hero h1 {
+    max-width: 16ch;
+    margin: 0.5rem 0 0;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
   }
-</BaseLayout>
+
+  .about-hero__lead {
+    max-width: 48ch;
+    margin: 1rem 0 0;
+    color: var(--muted-foreground);
+    font-size: var(--text-lg);
+    line-height: 1.55;
+  }
+
+  .about-story {
+    padding-block: 1rem 2rem;
+  }
+
+  .about-story__grid {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    grid-template-columns: 1.3fr 0.7fr;
+  }
+
+  .about-story h2 {
+    margin: 0 0 1rem;
+    font-size: 1.35rem;
+  }
+
+  .about-story__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .about-story__list li {
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    line-height: 1.45;
+  }
+
+  .about-story__list strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .about-story__aside {
+    padding: 1.15rem 1.25rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+
+  .about-story__aside p {
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  .about-story__cta {
+    display: inline-block;
+    margin-top: 1rem;
+    border-bottom: 1px solid currentcolor;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .about-close {
+    padding-block: 1rem 3rem;
+    text-align: center;
+  }
+
+  .about-close h2 {
+    margin: 0;
+  }
+
+  .about-close p {
+    margin: 0.5rem 0 0;
+    color: var(--muted-foreground);
+  }
+
+  .about-close__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+    margin-top: 1.25rem;
+  }
+
+  .about-close__links a {
+    border-bottom: 1px solid currentcolor;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  @media (max-width: 48rem) {
+    .about-story__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

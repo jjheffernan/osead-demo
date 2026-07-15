@@ -1,4 +1,4 @@
-name: OSEAD
+name: O-sea-D
 description: "High-end coastal rentals and sales template — Outer Banks, Jersey Shore, Delaware Beaches."
 url: "https://osead-demo.pages.dev"
 defaultLocale: en
@@ -8,6 +8,6 @@ umamiUrl: ""
 umamiId: ""
 mapLatitude: "35.9174"
 mapLongitude: "-75.6157"
-orgName: "OSEAD"
+orgName: "O-sea-D"
 orgEmail: "hello@osead.example"
 socialLinks: []

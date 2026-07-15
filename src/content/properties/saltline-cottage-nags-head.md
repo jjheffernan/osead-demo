@@ -32,6 +32,10 @@ highlights:
 images:
   - src: /images/properties/placeholder-cottage.svg
     alt: Semi-oceanfront cottage decks and pool at Saltline in Nags Head
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of saltline cottage nags head
+  - src: /images/properties/placeholder-interior.svg
+    alt: Additional view of saltline cottage nags head
 geo:
   lat: 35.9174
   lng: -75.6157
@@ -43,7 +47,7 @@ address:
 checkInTime: "16:00"
 checkOutTime: "10:00"
 petsAllowed: true
-seoTitle: "Nags Head Semi-Oceanfront Weekly Rental | Saltline Cottage | OSEAD"
+seoTitle: "Nags Head Semi-Oceanfront Weekly Rental | Saltline Cottage | O-sea-D"
 seoDescription: "Rent Saltline Cottage — a 6-bedroom Nags Head semi-oceanfront home with pool, hot tub, and easy beach access on the Outer Banks."
 uid: saltline-cottage-nags-head
 draft: false

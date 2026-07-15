@@ -70,7 +70,7 @@ function resolveMeta(kind: OgKind, locale: string, slug: string[]) {
     return {
       title: "Journal",
       description:
-        "Notes from the coast and the OSEAD collection.",
+        "Notes from the coast and the O-sea-D collection.",
       accent: siteConfig.branding.colors.primary,
     };
   }

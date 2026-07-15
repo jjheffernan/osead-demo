@@ -34,6 +34,8 @@ images:
     alt: Soundfront pool and dock at Pelican Harbor in Kitty Hawk
   - src: /images/properties/placeholder-cottage.svg
     alt: Screened porch overlooking Currituck Sound
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of pelican harbor kitty hawk
 geo:
   lat: 36.0642
   lng: -75.7054
@@ -45,7 +47,7 @@ address:
 checkInTime: "16:00"
 checkOutTime: "10:00"
 petsAllowed: true
-seoTitle: "Kitty Hawk Soundfront Weekly Rental | Pelican Harbor | OSEAD"
+seoTitle: "Kitty Hawk Soundfront Weekly Rental | Pelican Harbor | O-sea-D"
 seoDescription: "Rent Pelican Harbor, a five-bedroom Kitty Hawk soundfront retreat with a private pool, dock, and kayak launch."
 uid: pelican-harbor-kitty-hawk
 draft: false

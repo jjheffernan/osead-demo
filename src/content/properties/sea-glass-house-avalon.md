@@ -3,7 +3,7 @@ locale: en
 title: "Sea Glass House — Dune View"
 description: "Seven-bedroom Avalon home available for weekly stays or purchase, with a saltwater pool, roof deck, and ocean views."
 slug: sea-glass-house-avalon
-listingType: both
+listingType: sale
 status: available
 featured: true
 market: jersey-shore
@@ -16,8 +16,7 @@ sleeps: 16
 sqft: 4700
 yearBuilt: 2020
 salePrice: 5395000
-weeklyRate: 14500
-priceDisplay: "From $14,500 / week · $5.395M"
+priceDisplay: "$5,395,000"
 amenities:
   - Saltwater Pool
   - Roof Deck
@@ -36,6 +35,8 @@ images:
     alt: Avalon dune-view home with saltwater pool
   - src: /images/properties/placeholder-oceanfront.svg
     alt: Ocean horizon from Sea Glass House roof deck
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of sea glass house avalon
 geo:
   lat: 39.1012
   lng: -74.7225
@@ -47,7 +48,7 @@ address:
 checkInTime: "15:00"
 checkOutTime: "10:00"
 petsAllowed: false
-seoTitle: "Avalon NJ Ocean-View Home for Sale or Rent | OSEAD"
+seoTitle: "Avalon NJ Ocean-View Home for Sale or Rent | O-sea-D"
 seoDescription: "Book or buy Sea Glass House, a seven-bedroom Avalon home with saltwater pool, elevator, roof deck, and ocean views."
 uid: sea-glass-house-avalon
 draft: false

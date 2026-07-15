@@ -3,11 +3,11 @@ translationKey: about
 locale: en
 slug: about
 title: About Us
-description: Learn how OSEAD helps guests and second-home buyers explore the coast.
+description: Learn how O-sea-D helps guests and second-home buyers explore the coast.
 sections:
   - type: hero
     title: Coastal homes, thoughtfully matched
-    content: OSEAD brings weekly coastal stays and second-home opportunities into one considered collection.
+    content: O-sea-D brings weekly coastal stays and second-home opportunities into one considered collection.
   - type: features
     title: How we work
     items:
@@ -29,7 +29,7 @@ isLegal: false
 order: 1
 ---
 
-OSEAD is a demonstration collection, built around the quieter details that make a coastal home memorable:
+O-sea-D is a demonstration collection, built around the quieter details that make a coastal home memorable:
 
 - **Room to gather** — homes chosen for long dinners, beach days, and easy weekends.
 - **A sense of place** — inventory across the Outer Banks, Jersey Shore, and Delaware Beaches.

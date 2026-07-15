@@ -86,10 +86,10 @@ export const siteConfig: SiteConfig = {
   /* Core configuration — single source of truth for canonical/OG/sitemap/llms.txt.
    * Replace with your production domain when forking this template. */
   url: "https://osead-demo.pages.dev",
-  name: "OSEAD",
+  name: "O-sea-D",
   description:
     "Template-ready coastal brokerage for high-end beachfront weekly rentals and sales — Outer Banks, Jersey Shore, Delaware Beaches.",
-  author: "OSEAD",
+  author: "O-sea-D",
   email: "hello@osead.example",
   authorImage: "/images/author.jpg",
 

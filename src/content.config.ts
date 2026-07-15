@@ -179,6 +179,17 @@ const properties = defineCollection({
         }),
       )
       .default([]),
+    /** Optional listing video media — unused in thin local demos is fine */
+    videos: z
+      .array(
+        z.object({
+          src: z.string(),
+          title: z.string().optional(),
+          poster: z.string().optional(),
+          provider: z.enum(["file", "youtube"]).default("file"),
+        }),
+      )
+      .default([]),
     geo: z
       .object({
         lat: z.number(),

@@ -35,6 +35,8 @@ images:
     alt: Oceanfront pool deck at Southend Surf in Surf City
   - src: /images/properties/placeholder-lbi.svg
     alt: Atlantic-facing living room at a Surf City rental
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of southend surf surf city
 geo:
   lat: 39.6579
   lng: -74.1737
@@ -46,7 +48,7 @@ address:
 checkInTime: "15:00"
 checkOutTime: "10:00"
 petsAllowed: false
-seoTitle: "Surf City Oceanfront Weekly Rental | Southend Surf | OSEAD"
+seoTitle: "Surf City Oceanfront Weekly Rental | Southend Surf | O-sea-D"
 seoDescription: "Rent Southend Surf, a six-bedroom Surf City oceanfront home with direct beach access, private pool, and media lounge."
 uid: southend-surf-surf-city
 draft: false

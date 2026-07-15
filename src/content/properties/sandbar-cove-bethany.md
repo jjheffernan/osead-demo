@@ -34,6 +34,8 @@ images:
     alt: Canal dock at Sandbar Cove in Bethany Beach
   - src: /images/properties/placeholder-cottage.svg
     alt: Screened porch at a Bethany Beach canal home
+  - src: /images/properties/placeholder-pool.svg
+    alt: Additional view of sandbar cove bethany
 geo:
   lat: 38.5485
   lng: -75.0636
@@ -45,7 +47,7 @@ address:
 checkInTime: "16:00"
 checkOutTime: "10:00"
 petsAllowed: true
-seoTitle: "Pet-Friendly Bethany Beach Canal Rental | Sandbar Cove | OSEAD"
+seoTitle: "Pet-Friendly Bethany Beach Canal Rental | Sandbar Cove | O-sea-D"
 seoDescription: "Rent Sandbar Cove, a pet-friendly four-bedroom Bethany Beach canal house with private dock, paddleboards, and screened porch."
 uid: sandbar-cove-bethany
 draft: false

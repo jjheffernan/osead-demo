@@ -10,7 +10,7 @@ towns:
   - Stone Harbor
   - Cape May
   - Ocean City
-seoTitle: "Jersey Shore Beach Homes for Rent & Sale | OSEAD"
+seoTitle: "Jersey Shore Beach Homes for Rent & Sale | O-sea-D"
 seoDescription: "Browse Jersey Shore ocean-block weekly rentals and homes for sale across LBI, Avalon, Stone Harbor, and Cape May."
 order: 2
 ---

@@ -23,7 +23,7 @@ describe("contact Pages Function", () => {
     expect(response.status).toBe(202);
     await expect(response.json()).resolves.toEqual({ accepted: true });
     expect(log).toHaveBeenCalledWith(
-      "OSEAD inquiry accepted",
+      "O-sea-D inquiry accepted",
       expect.objectContaining({ intent: "booking-inquiry" }),
     );
     log.mockRestore();
