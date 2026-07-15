@@ -12,6 +12,7 @@ const EQUIVALENT_ROUTES: Record<string, boolean> = {
   "/rentals": true,
   "/sales": true,
   "/markets": true,
+  "/collections": true,
   "/blog": true,
   "/contact": true,
   "/privacy": true,

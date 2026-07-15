@@ -1,0 +1,70 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import PropertyCard from "../../components/properties/PropertyCard.astro";
+import {
+  getIntentCollections,
+  getPropertiesForCollection,
+  type IntentCollectionEntry,
+} from "../../lib/properties";
+
+export async function getStaticPaths() {
+  const intentCollections = await getIntentCollections();
+  return intentCollections.map((collection) => ({
+    params: { slug: collection.data.slug },
+    props: { collection },
+  }));
+}
+
+interface Props {
+  collection: IntentCollectionEntry;
+}
+
+const { collection } = Astro.props;
+const locale = (Astro.currentLocale || "en") as "en";
+const properties = await getPropertiesForCollection(collection.data.match);
+const title = collection.data.seoTitle ?? collection.data.title;
+const description =
+  collection.data.seoDescription ?? collection.data.description;
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  locale={locale}
+  path={`/collections/${collection.data.slug}`}
+>
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Collection</p>
+      <h1 class="section-head__title">{collection.data.title}</h1>
+      <p class="section-head__lead">{collection.data.description}</p>
+      <p class="match-notes">{collection.data.matchNotes}</p>
+    </header>
+
+    <div class="property-grid">
+      {
+        properties.length > 0 ? (
+          properties.map((property) => <PropertyCard property={property} />)
+        ) : (
+          <p>No matching listings yet.</p>
+        )
+      }
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .match-notes {
+    margin-top: 1rem;
+    color: var(--muted-foreground);
+    font-size: 0.95rem;
+    max-width: 48rem;
+  }
+
+  .property-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 2.5rem;
+  }
+</style>

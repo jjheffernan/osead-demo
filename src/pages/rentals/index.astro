@@ -1,6 +1,7 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import ListingNotice from "../../components/properties/ListingNotice.astro";
+import CollectionLinks from "../../components/properties/CollectionLinks.astro";
 import ListingFilters from "../../components/properties/ListingFilters.svelte";
 import { getPropertiesByListingType } from "../../lib/properties";
 
@@ -38,6 +39,7 @@ const listings = properties.map(({ data }) => ({
     </header>
 
     <ListingNotice />
+    <CollectionLinks />
 
     <ListingFilters client:load listings={listings} listingType="rental" />
   </section>

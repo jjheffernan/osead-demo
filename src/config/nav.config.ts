@@ -32,6 +32,7 @@ export const footerNav = {
   product: [
     { href: "/rentals", labelKey: "nav.rentals" },
     { href: "/sales", labelKey: "nav.sales" },
+    { href: "/collections", labelKey: "nav.collections" },
     { href: "/markets/outer-banks", labelKey: "nav.marketsObx" },
     { href: "/markets/jersey-shore", labelKey: "nav.marketsJersey" },
     { href: "/markets/delaware-beaches", labelKey: "nav.marketsDelaware" },

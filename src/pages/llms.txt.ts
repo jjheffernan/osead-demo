@@ -14,6 +14,7 @@ const corePages: LlmLink[] = [
   { label: "Weekly Rentals", path: "/rentals", description: "Weekly coastal stays." },
   { label: "Homes for Sale", path: "/sales", description: "Coastal homes available to buy." },
   { label: "Markets", path: "/markets", description: "Local coastal context and inventory." },
+  { label: "Collections", path: "/collections", description: "Intent hubs: oceanfront, pets, large groups, elevators." },
   { label: "Inquire", path: "/contact", description: "Ask about a stay or property." },
   { label: "Journal", path: "/blog", description: "Coastal notes and updates." },
 ];
