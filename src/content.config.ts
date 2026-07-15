@@ -260,6 +260,40 @@ const markets = defineCollection({
   }),
 });
 
+/** Intent hubs (SEO collections) — filter properties via structured match rules. */
+const collectionMatchSchema = z.object({
+  /** Property waterfront value must be one of these */
+  waterfrontIn: z.array(waterFrontSchema).optional(),
+  /** Exact petsAllowed match when set */
+  petsAllowed: z.boolean().optional(),
+  /** beds >= minBeds */
+  minBeds: z.number().int().positive().optional(),
+  /** sleeps >= minSleeps (properties without sleeps fail this clause) */
+  minSleeps: z.number().int().positive().optional(),
+  /** Case-insensitive substring match against any amenity string */
+  amenityContains: z.string().min(1).optional(),
+});
+
+const intentCollections = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/collections",
+    generateId: ({ entry }) => entry.replace(/\.[^/.]+$/, ""),
+  }),
+  schema: z.object({
+    locale: localeSchema,
+    title: z.string(),
+    description: z.string(),
+    slug: z.string(),
+    /** Human-readable matching rules (also enforced via `match`) */
+    matchNotes: z.string(),
+    match: collectionMatchSchema,
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    order: z.number().default(0),
+  }),
+});
+
 export const collections = {
   blog,
   docs,
@@ -270,4 +304,5 @@ export const collections = {
   stack,
   properties,
   markets,
+  collections: intentCollections,
 };
