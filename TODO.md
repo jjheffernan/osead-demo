@@ -7,7 +7,7 @@ Vision SoT: `docs/VISION.md`
 ## Now
 
 - [x] V1 Delete starter SaaS pages/nav/copy; OSEAD IA only (rentals primary, sales secondary, filters-forward; markets not primary nav)
-- [ ] V2 Fair Housing + demo disclaimers on layout, indexes, and property PDPs
+- [x] V2 Fair Housing + demo disclaimers on layout, indexes, and property PDPs
 - [ ] V3 ListingFilters Svelte island (PMC-scale: beds, baths, waterfront, amenities, listingType) on /rentals and /sales
 - [ ] V4 PropertyGallery Svelte island on PDPs
 - [ ] V5 Faux booking + check availability → contact flow (mocked dates, no payments)

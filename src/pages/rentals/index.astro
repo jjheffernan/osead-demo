@@ -1,6 +1,7 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import PropertyCard from "../../components/properties/PropertyCard.astro";
+import ListingNotice from "../../components/properties/ListingNotice.astro";
 import { getPropertiesByListingType } from "../../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
@@ -22,6 +23,8 @@ const properties = await getPropertiesByListingType("rental");
         weeks and shoulder-season escapes.
       </p>
     </header>
+
+    <ListingNotice />
 
     <div class="property-grid">
       {properties.map((property) => <PropertyCard property={property} />)}

@@ -2,6 +2,7 @@
 import { render } from "astro:content";
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import JsonLd from "../../components/seo/JsonLd.astro";
+import ListingNotice from "../../components/properties/ListingNotice.astro";
 import {
   getPublishedProperties,
   type PropertyEntry,
@@ -73,7 +74,7 @@ const hero = data.images[0];
       <div class="property__actions">
         {
           (data.listingType === "rental" || data.listingType === "both") && (
-            <a class="button" href="/contact">Request rental dates</a>
+            <a class="button" href="/contact">Inquire about rental dates</a>
           )
         }
         {
@@ -84,6 +85,7 @@ const hero = data.images[0];
           )
         }
       </div>
+      <ListingNotice />
     </header>
 
     {
