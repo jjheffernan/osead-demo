@@ -49,8 +49,9 @@ Product source of truth for AFK agents. Do not reopen overnight unless the opera
 | Control | Value |
 | --- | --- |
 | Tick interval | 10m |
-| Max completed slices | 10 |
+| Max completed slices | 15 (see `.cursor/after-hours-loop.config.json`) |
 | Hard stop | 10 hours from `startedAt` if operator does not stop earlier |
+| Deploy | Deferred until `TODO.md` **Now** is fully `[x]` |
 
 ## Open (non-blocking)
 

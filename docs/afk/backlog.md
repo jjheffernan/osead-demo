@@ -1,66 +1,49 @@
 # AFK backlog (seed)
 
-Use these as GitHub issues (`label: ready-for-agent`) or copy into `TODO.md` → **Now** one at a time. Keep max concurrent agent work small (`maxPrs: 3`).
+Use these as GitHub issues (`label: ready-for-agent`) or copy into `TODO.md` → **Now**.  
+**Live queue SoT:** repo-root `TODO.md`. Status below mirrors that queue after V1–V10b.
+
+Keep max concurrent agent work small; config `maxPrs` caps completed slices per arm.
+
+**Deploy gate:** Cloudflare Pages deploy stays in `TODO.md` **Later** until every open **Now** item is done.
 
 ## Wave A — Listing UX
 
-### A1 — Property gallery Svelte island
-- Goal: Interactive gallery on `/properties/[slug]` with thumbnails + keyboard support.
-- Scope in: Svelte 5 component, wire into PDP, a11y roles.
-- Scope out: Video tours, 3D.
-- Files: `src/components/properties/PropertyGallery.svelte`, `src/pages/properties/[slug].astro`
-- Acceptance: `pnpm build`; keyboard arrows work; no React imports.
-
-### A2 — Listing filters Svelte island
-- Goal: Filter rentals/sales by beds, baths, waterfront, market, amenities.
-- Scope in: Client filter over serialized listing props; URL query sync optional.
-- Scope out: Server-side search DB.
-- Files: `src/components/properties/ListingFilters.svelte`, rentals/sales indexes
-- Acceptance: Filtering 4 seed listings without full page reload; `pnpm test` if unit tests added.
-
-### A3 — Related properties
-- Goal: Show 3 related homes same market or waterfront on PDP.
-- Acceptance: Links resolve; no drafts shown.
-
-### A4 — Breadcrumbs component on market + property pages
-- Acceptance: Visible trail Home → Markets → …; JSON-LD BreadcrumbList optional bonus.
+### A1 — Property gallery Svelte island — DONE (V4 / V10b video)
+### A2 — Listing filters Svelte island — DONE (V3)
+### A3 — Related properties — OPEN → TODO V11
+### A4 — Breadcrumbs on market + property pages — OPEN → TODO V12
 
 ## Wave B — SEO destinations
 
-### B1 — Collections content type
-- Goal: `src/content/collections/*.md` + `/collections/[slug]` for oceanfront, pets, large-group, elevator.
-- Acceptance: Schema validates; pages in sitemap; each collection lists matching properties via amenity/waterfront rules documented in frontmatter.
-
-### B2 — Town pages under markets
-- Goal: `/markets/outer-banks/corolla` style nested landings (or flat `/towns/corolla` if simpler).
-- Acceptance: Unique title/description; lists town properties.
-
-### B3 — Three SEO journal posts
-- Goal: OBX oceanfront week guide, LBI buying guide, Delaware bayfront vs oceanfront.
-- Acceptance: Internal links to markets + ≥1 property each; blog build green.
-
-### B4 — Expand seed inventory to 12 properties
-- Goal: Balanced rentals/sales across 3 markets; real alt text; geo coords.
-- Acceptance: Content schema passes; indexes non-empty.
+### B1 — Collections content type — DONE (V9)
+### B2 — Town pages under markets — OPEN → TODO V13
+### B3 — Three SEO journal posts — OPEN → TODO V14
+### B4 — Expand seed inventory to 12 properties — DONE (V7 / V10b)
 
 ## Wave C — Conversion
 
-### C1 — Inquiry form island
-- Goal: Svelte form posting to Pages Function with `intent: rental | sale`.
-- Acceptance: Works in `wrangler pages dev` or documented mock; validation errors inline.
-
-### C2 — Contact thank-you + honeypot
-- Acceptance: Bot field ignored; success state without new backend services.
+### C1 — Inquiry form island — DONE (V5 / V8)
+### C2 — Contact thank-you + honeypot — OPEN → TODO V16
 
 ## Wave D — Template polish
 
-### D1 — Coastal tokens sync
-- Goal: Align `colors.css` OKLCH tokens with `site.config.ts` branding without Tailwind palette utilities.
-- Acceptance: `pnpm check:kpis` clean.
+### D1 — Coastal tokens sync — DONE (V6)
+### D2 — Brand-first homepage — DONE (V6 / V10b)
+### D3 — TEMPLATE.md walkthrough test — OPEN → TODO V21
 
-### D2 — Brand-first homepage
-- Goal: OSEAD wordmark dominates first viewport per design rules; one CTA group; featured homes below fold.
-- Acceptance: Manual screenshot review note in PR.
+## Also queued (from docs/PLAN.md / DoD)
 
-### D3 — TEMPLATE.md walkthrough test
-- Goal: Follow white-label steps on a throwaway config and document gaps.
+- V15 Sitemap priorities
+- V17 Inquiry rate-limit hardening
+- V18 Real coastal photography (replace SVG placeholders)
+- V19 Market page full-bleed photography
+- V20 Starlight white-label section
+- V22 Lint debt (`pnpm lint` green)
+- V23 Playwright Chromium + e2e smoke
+
+## Deferred (Later)
+
+- Cloudflare Pages deploy checklist (after Now clear)
+- Optional email via Resend/Mailchannels if secrets present
+- CollectionPage JSON-LD
