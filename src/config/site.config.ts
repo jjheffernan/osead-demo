@@ -156,7 +156,7 @@ export const siteConfig: SiteConfig = {
     favicon: "/favicon.svg",
   },
 
-  /* i18n configuration (matches i18n.config.ts) */
+  /* i18n configuration */
   i18n: {
     enabled: true,
     locales: ["en"],

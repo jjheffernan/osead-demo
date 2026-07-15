@@ -7,12 +7,10 @@ import { canonicalUrl, jsonLdFAQ } from "../lib/seo";
 import { resolveRoute } from "../i18n/routes";
 import { t } from "../i18n/ui";
 import { siteConfig } from "../config/site.config";
-import {
-  ArticleHero,
-  RelatedPosts,
-  ShareButtons,
-  TableOfContents,
-} from "../components/blog/index";
+import ArticleHero from "../components/blog/ArticleHero.astro";
+import RelatedPosts from "../components/blog/RelatedPosts.astro";
+import ShareButtons from "../components/blog/ShareButtons.astro";
+import TableOfContents from "../components/blog/TableOfContents.astro";
 
 interface Heading {
   depth: number;

@@ -5,7 +5,8 @@ import type { CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
 import { siteConfig } from "../config/site.config";
 import Hero from "../components/Hero.astro";
-import { Button, Icon } from "../components/ui/index";
+import Button from "../components/ui/form/Button/Button.astro";
+import Icon from "../components/ui/primitives/Icon/Icon.astro";
 
 const locale = (Astro.currentLocale || "en") as "en";
 

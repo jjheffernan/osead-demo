@@ -4,7 +4,7 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
 import { resolveRoute } from "../i18n/routes";
 import { siteConfig } from "../config/site.config";
-import { BlogCard } from "../components/blog/index";
+import BlogCard from "../components/blog/BlogCard.astro";
 import Pagination from "../components/ui/data-display/Pagination/Pagination.astro";
 
 const locale = (Astro.currentLocale || "en") as "en";
