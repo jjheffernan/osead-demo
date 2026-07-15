@@ -65,7 +65,10 @@ const schemas = [saleLd, rentalLd].filter(Boolean) as Record<
       {
         (data.listingType === "sale" || data.listingType === "both") && (
           <div class="property__actions">
-            <a class="button button--ghost" href="/contact">
+            <a
+              class="button button--ghost"
+              href={`/contact?intent=sale&property=${encodeURIComponent(data.slug)}`}
+            >
               Schedule a showing
             </a>
           </div>

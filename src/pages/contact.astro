@@ -28,6 +28,18 @@ const lat = settings?.mapLatitude || "-6.2088";
 const lng = settings?.mapLongitude || "106.8456";
 const hasMap = Boolean(lat && lng);
 const contactEmail = settings?.orgEmail || siteConfig.email;
+const intents = ["rental", "sale", "booking-inquiry"] as const;
+type InquiryIntent = (typeof intents)[number];
+const requestedIntent = Astro.url.searchParams.get("intent");
+const intent: InquiryIntent = intents.includes(requestedIntent as InquiryIntent)
+  ? (requestedIntent as InquiryIntent)
+  : "rental";
+const property =
+  Astro.url.searchParams.get("property")?.trim().slice(0, 160) || "";
+const date = (value: string | null) =>
+  value && /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : "";
+const checkIn = date(Astro.url.searchParams.get("checkIn"));
+const checkOut = date(Astro.url.searchParams.get("checkOut"));
 
 // The interactive Google Maps embed is loaded on click (facade pattern) so its
 // third-party JS never weighs on initial load (no TBT).
@@ -84,11 +96,81 @@ const methods = (featuresSection?.items || []).map((item) => ({
         <h2>Start a coastal conversation</h2>
         <p>
           Tell us about the week or home you are considering. We will follow up
-          with availability or next steps; this is an inquiry, not a reservation.
+          with availability or next steps; this is an inquiry, not a
+          reservation.
         </p>
+        {
+          property && (
+            <div class="contact__summary" aria-label="Inquiry summary">
+              <p class="contact__summary-label">Your inquiry</p>
+              <p>
+                <strong>{property}</strong>
+                {checkIn && checkOut ? ` · ${checkIn} to ${checkOut}` : ""}
+              </p>
+            </div>
+          )
+        }
         <Button href={`mailto:${contactEmail}`} variant="primary">
           Email {contactEmail}
         </Button>
+
+        <form
+          id="contact-form"
+          class="contact__form"
+          action="/api/contact"
+          method="post"
+        >
+          <input type="hidden" name="property" value={property} />
+          <input type="hidden" name="checkIn" value={checkIn} />
+          <input type="hidden" name="checkOut" value={checkOut} />
+          <label>
+            <span>Name</span>
+            <input id="name" name="name" autocomplete="name" required />
+          </label>
+          <label>
+            <span>Email</span>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              autocomplete="email"
+              required
+            />
+          </label>
+          <label>
+            <span>I'm interested in</span>
+            <select name="intent" value={intent}>
+              <option value="rental">A weekly rental</option>
+              <option value="sale">A home for sale</option>
+              <option value="booking-inquiry"
+                >Checking rental availability</option
+              >
+            </select>
+          </label>
+          <label class="contact__form-full">
+            <span>How can we help?</span>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              minlength="10"
+              required
+              placeholder="Tell us about your preferred week, questions, or showing."
+            ></textarea>
+          </label>
+          <p id="form-error" class="contact__form-error" role="alert" hidden>
+          </p>
+          <p
+            id="form-success"
+            class="contact__form-success"
+            role="status"
+            hidden
+          >
+            Thanks — your inquiry was received. We will follow up with
+            availability or next steps.
+          </p>
+          <button id="submit-btn" type="submit">Send inquiry</button>
+        </form>
 
         <ul class="contact__methods">
           {
@@ -137,7 +219,9 @@ const methods = (featuresSection?.items || []).map((item) => ({
           ) : (
             <div class="contact__placeholder">
               <Icon name="lucide:map-pin" />
-              <p>Add map coordinates in settings to show a location map here.</p>
+              <p>
+                Add map coordinates in settings to show a location map here.
+              </p>
             </div>
           )
         }
@@ -147,6 +231,43 @@ const methods = (featuresSection?.items || []).map((item) => ({
 </BaseLayout>
 
 <script is:inline>
+  const contactForm = document.querySelector("#contact-form");
+  contactForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (
+      !(contactForm instanceof HTMLFormElement) ||
+      !contactForm.reportValidity()
+    )
+      return;
+
+    const button = contactForm.querySelector("#submit-btn");
+    const success = contactForm.querySelector("#form-success");
+    const error = contactForm.querySelector("#form-error");
+    if (!(button instanceof HTMLButtonElement)) return;
+
+    button.disabled = true;
+    success?.setAttribute("hidden", "");
+    error?.setAttribute("hidden", "");
+    try {
+      const response = await fetch(contactForm.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(contactForm))),
+      });
+      if (!response.ok) throw new Error("Request failed");
+      contactForm.reset();
+      success?.removeAttribute("hidden");
+    } catch {
+      if (error) {
+        error.textContent =
+          "We could not send your inquiry. Please email us instead.";
+        error.removeAttribute("hidden");
+      }
+    } finally {
+      button.disabled = false;
+    }
+  });
+
   // Swap the static facade for the real Google Maps iframe only on first click,
   // keeping third-party JS off the critical path.
   document.querySelectorAll("[data-map-embed]").forEach((btn) => {
@@ -194,6 +315,90 @@ const methods = (featuresSection?.items || []).map((item) => ({
     max-width: 42ch;
     color: var(--color-text-secondary);
     line-height: 1.7;
+  }
+
+  .contact__summary {
+    margin: 0 0 var(--space-lg);
+    padding: var(--space-md);
+    border-left: 3px solid var(--color-brand-primary);
+    background: var(--color-bg-secondary);
+  }
+
+  .contact__summary p {
+    margin: 0;
+  }
+
+  .contact__summary-label {
+    margin-bottom: var(--space-xs) !important;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .contact__form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  .contact__form label {
+    display: grid;
+    gap: var(--space-xs);
+    color: var(--color-text-primary);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .contact__form input,
+  .contact__form select,
+  .contact__form textarea {
+    box-sizing: border-box;
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    padding: var(--space-sm);
+    font: inherit;
+  }
+
+  .contact__form textarea {
+    resize: vertical;
+  }
+
+  .contact__form-full,
+  .contact__form-error,
+  .contact__form-success {
+    grid-column: 1 / -1;
+  }
+
+  .contact__form button {
+    justify-self: start;
+    border: 1px solid var(--color-brand-primary);
+    border-radius: var(--radius-md);
+    background: var(--color-brand-primary);
+    color: var(--color-bg-primary);
+    padding: var(--space-sm) var(--space-lg);
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .contact__form button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  .contact__form-error {
+    margin: 0;
+    color: var(--destructive);
+  }
+
+  .contact__form-success {
+    margin: 0;
+    color: var(--color-text-primary);
   }
 
   .contact__methods {
@@ -342,6 +547,16 @@ const methods = (featuresSection?.items || []).map((item) => ({
   @media (max-width: 48rem) {
     .contact__grid {
       grid-template-columns: 1fr;
+    }
+
+    .contact__form {
+      grid-template-columns: 1fr;
+    }
+
+    .contact__form-full,
+    .contact__form-error,
+    .contact__form-success {
+      grid-column: auto;
     }
 
     .contact__aside {

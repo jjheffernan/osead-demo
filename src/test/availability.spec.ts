@@ -24,7 +24,7 @@ test.describe("availability inquiry", () => {
       .getByRole("button", { name: "Continue with availability inquiry" })
       .click();
     await expect(page).toHaveURL(
-      /contact\?inquiry=availability&property=saltline-cottage-nags-head&checkIn=2026-09-01&checkOut=2026-09-08/,
+      /contact\?intent=booking-inquiry&property=saltline-cottage-nags-head&checkIn=2026-09-01&checkOut=2026-09-08/,
     );
   });
 

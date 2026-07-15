@@ -33,4 +33,21 @@ test.describe("contact form", () => {
       .fill("This is a test message long enough to pass validation.");
     await expect(page.locator("#submit-btn")).toBeEnabled({ timeout: 30_000 });
   });
+
+  test("prefills a booking inquiry from availability", async ({ page }) => {
+    await page.goto(
+      "/contact?intent=booking-inquiry&property=saltline-cottage-nags-head&checkIn=2026-09-01&checkOut=2026-09-08",
+      { waitUntil: "domcontentloaded" },
+    );
+
+    await expect(page.getByLabel("I'm interested in")).toHaveValue(
+      "booking-inquiry",
+    );
+    await expect(page.getByLabel("Inquiry summary")).toContainText(
+      "saltline-cottage-nags-head",
+    );
+    await expect(page.getByLabel("Inquiry summary")).toContainText(
+      "2026-09-01 to 2026-09-08",
+    );
+  });
 });
