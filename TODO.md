@@ -25,7 +25,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ### Wave A leftovers — Listing UX
 
-- [ ] V11 Related properties on PDPs (3 same market or waterfront; no drafts) — backlog A3
+- [x] V11 Related properties on PDPs (3 same market or waterfront; no drafts) — backlog A3
 - [ ] V12 Wire Breadcrumbs on market + property pages (Home → … trail; optional BreadcrumbList JSON-LD) — backlog A4
 
 ### Wave B leftovers — SEO destinations

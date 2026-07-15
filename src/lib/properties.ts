@@ -90,6 +90,40 @@ export async function getPropertiesForCollection(
   return all.filter((entry) => propertyMatchesCollection(entry.data, match));
 }
 
+/** Score same market/waterfront first; featured breaks ties. Pads with other published if needed. */
+export function pickRelatedProperties(
+  current: PropertyEntry,
+  candidates: PropertyEntry[],
+  limit = 3,
+): PropertyEntry[] {
+  const affinity = (entry: PropertyEntry) =>
+    Number(entry.data.market === current.data.market) +
+    Number(entry.data.waterfront === current.data.waterfront);
+
+  return candidates
+    .filter(
+      (entry) =>
+        entry.data.slug !== current.data.slug && !entry.data.draft,
+    )
+    .sort(
+      (a, b) =>
+        affinity(b) - affinity(a) ||
+        Number(b.data.featured) - Number(a.data.featured),
+    )
+    .slice(0, limit);
+}
+
+export async function getRelatedProperties(
+  current: PropertyEntry,
+  limit = 3,
+): Promise<PropertyEntry[]> {
+  return pickRelatedProperties(
+    current,
+    await getPublishedProperties(),
+    limit,
+  );
+}
+
 export function propertyPath(property: PropertyEntry): string {
   return `/properties/${property.data.slug}`;
 }
