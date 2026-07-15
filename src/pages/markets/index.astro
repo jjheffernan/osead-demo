@@ -1,7 +1,7 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import Breadcrumbs from "../../components/seo/Breadcrumbs.astro";
-import MarketHero from "../../components/markets/MarketHero.astro";
+import MarketHero from "../../components/markets/MarketHero.svelte";
 import { getMarkets, marketPath } from "../../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";

@@ -3,7 +3,7 @@ import MarketingLayout from "../layouts/MarketingLayout.astro";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
-import Team from "../components/sections/Team.astro";
+import Team from "../components/sections/Team.svelte";
 import { demoStaff } from "../config/staff";
 
 const locale = (Astro.currentLocale || "en") as "en";

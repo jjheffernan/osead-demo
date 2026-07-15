@@ -1,14 +1,15 @@
 ---
 import MarketingLayout from "../../../layouts/MarketingLayout.astro";
 import Breadcrumbs from "../../../components/seo/Breadcrumbs.astro";
-import MarketHero from "../../../components/markets/MarketHero.astro";
-import PropertyCard from "../../../components/properties/PropertyCard.astro";
+import MarketHero from "../../../components/markets/MarketHero.svelte";
+import PropertyCard from "../../../components/properties/PropertyCard.svelte";
 import { slugify } from "../../../lib/utils";
 import {
   getMarkets,
   getPropertiesByTown,
   marketPath,
   townPath,
+  toPropertyCardProps,
   type MarketEntry,
 } from "../../../lib/properties";
 
@@ -64,7 +65,7 @@ const heroImage =
     <div class="property-grid">
       {
         properties.length > 0 ? (
-          properties.map((property) => <PropertyCard property={property} />)
+          properties.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)
         ) : (
           <p>Listings for {town} are coming soon.</p>
         )

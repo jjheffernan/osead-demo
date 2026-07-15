@@ -7,10 +7,11 @@ import { canonicalUrl, jsonLdFAQ } from "../lib/seo";
 import { resolveRoute } from "../i18n/routes";
 import { t } from "../i18n/ui";
 import { siteConfig } from "../config/site.config";
-import ArticleHero from "../components/blog/ArticleHero.astro";
-import RelatedPosts from "../components/blog/RelatedPosts.astro";
+import ArticleHero from "../components/blog/ArticleHero.svelte";
+import RelatedPosts from "../components/blog/RelatedPosts.svelte";
 import ShareButtons from "../components/blog/ShareButtons.astro";
 import TableOfContents from "../components/blog/TableOfContents.astro";
+import { toBlogPostSummary, pickRelatedPosts } from "../lib/blog";
 
 interface Heading {
   depth: number;
@@ -59,6 +60,9 @@ const jsonLd = [
 ];
 
 const allPosts = await getCollection("blog");
+const relatedPosts = pickRelatedPosts(post, allPosts).map((entry) =>
+  toBlogPostSummary(entry, locale),
+);
 ---
 
 <BaseLayout
@@ -85,7 +89,7 @@ const allPosts = await getCollection("blog");
   />
 
   <article class="blog-layout container py-12">
-    <ArticleHero post={post} locale={locale} />
+    <ArticleHero post={toBlogPostSummary(post, locale)} locale={locale} />
 
     {
       siteConfig.articleFeatures.toc.enabled &&
@@ -133,7 +137,11 @@ const allPosts = await getCollection("blog");
       locale={locale}
     />
 
-    <RelatedPosts currentPost={post} allPosts={allPosts} locale={locale} />
+    <RelatedPosts
+      posts={relatedPosts}
+      title={t(locale, "blog.relatedPosts")}
+      locale={locale}
+    />
 
     <nav class="blog-layout__back">
       <a href={resolveRoute(locale, "/blog")}>
