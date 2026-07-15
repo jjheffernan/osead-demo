@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import { slugify } from "./utils";
 
 export type PropertyEntry = CollectionEntry<"properties">;
 export type MarketEntry = CollectionEntry<"markets">;
@@ -28,6 +29,24 @@ export async function getPropertiesByMarket(
 ): Promise<PropertyEntry[]> {
   const all = await getPublishedProperties();
   return all.filter((entry) => entry.data.market === market);
+}
+
+/** Exact town + market match on published listings (drafts already excluded). */
+export function filterPropertiesByTown(
+  properties: PropertyEntry[],
+  market: PropertyEntry["data"]["market"],
+  town: string,
+): PropertyEntry[] {
+  return properties.filter(
+    (entry) => entry.data.market === market && entry.data.town === town,
+  );
+}
+
+export async function getPropertiesByTown(
+  market: PropertyEntry["data"]["market"],
+  town: string,
+): Promise<PropertyEntry[]> {
+  return filterPropertiesByTown(await getPublishedProperties(), market, town);
 }
 
 export async function getMarkets(): Promise<MarketEntry[]> {
@@ -130,6 +149,10 @@ export function propertyPath(property: PropertyEntry): string {
 
 export function marketPath(market: MarketEntry): string {
   return `/markets/${market.data.slug}`;
+}
+
+export function townPath(market: MarketEntry, town: string): string {
+  return `/markets/${market.data.slug}/${slugify(town)}`;
 }
 
 export function collectionPath(collection: IntentCollectionEntry): string {

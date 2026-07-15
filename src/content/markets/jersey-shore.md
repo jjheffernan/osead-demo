@@ -6,6 +6,8 @@ slug: jersey-shore
 market: jersey-shore
 towns:
   - Long Beach Island
+  - Surf City
+  - Mantoloking
   - Avalon
   - Stone Harbor
   - Cape May

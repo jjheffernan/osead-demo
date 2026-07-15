@@ -17,7 +17,7 @@ Keep max concurrent agent work small; config `maxPrs` caps completed slices per 
 ## Wave B — SEO destinations
 
 ### B1 — Collections content type — DONE (V9)
-### B2 — Town pages under markets — OPEN → TODO V13
+### B2 — Town pages under markets — DONE (V13)
 ### B3 — Three SEO journal posts — OPEN → TODO V14
 ### B4 — Expand seed inventory to 12 properties — DONE (V7 / V10b)
 

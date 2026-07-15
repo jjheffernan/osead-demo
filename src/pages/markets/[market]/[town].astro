@@ -1,0 +1,79 @@
+---
+import MarketingLayout from "../../../layouts/MarketingLayout.astro";
+import Breadcrumbs from "../../../components/seo/Breadcrumbs.astro";
+import PropertyCard from "../../../components/properties/PropertyCard.astro";
+import { slugify } from "../../../lib/utils";
+import {
+  getMarkets,
+  getPropertiesByTown,
+  marketPath,
+  townPath,
+  type MarketEntry,
+} from "../../../lib/properties";
+
+export async function getStaticPaths() {
+  const markets = await getMarkets();
+  return markets.flatMap((market) =>
+    market.data.towns.map((town) => ({
+      params: { market: market.data.slug, town: slugify(town) },
+      props: { market, town },
+    })),
+  );
+}
+
+interface Props {
+  market: MarketEntry;
+  town: string;
+}
+
+const { market, town } = Astro.props;
+const locale = (Astro.currentLocale || "en") as "en";
+const path = townPath(market, town);
+const properties = await getPropertiesByTown(market.data.market, town);
+const title = `${town} Beach Homes for Rent & Sale | O-sea-D`;
+const description = `Browse weekly rentals and homes for sale in ${town}, ${market.data.title}.`;
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  locale={locale}
+  path={path}
+>
+  <section class="container py-16">
+    <Breadcrumbs
+      crumbs={[
+        { label: "Markets", href: "/markets" },
+        { label: market.data.title, href: marketPath(market) },
+        { label: town, href: path },
+      ]}
+    />
+    <header class="section-head">
+      <p class="section-head__eyebrow">{market.data.title}</p>
+      <h1 class="section-head__title">{town}</h1>
+      <p class="section-head__lead">
+        Homes in {town} within the {market.data.title} market — weekly rentals
+        and sales.
+      </p>
+    </header>
+
+    <div class="property-grid">
+      {
+        properties.length > 0 ? (
+          properties.map((property) => <PropertyCard property={property} />)
+        ) : (
+          <p>Listings for {town} are coming soon.</p>
+        )
+      }
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .property-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 2.5rem;
+  }
+</style>

@@ -7,7 +7,7 @@ listingType: sale
 status: available
 featured: true
 market: jersey-shore
-town: Long Beach Township
+town: Long Beach Island
 regionLabel: Jersey Shore, NJ
 waterfront: oceanview
 beds: 9

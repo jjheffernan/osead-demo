@@ -30,7 +30,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ### Wave B leftovers — SEO destinations
 
-- [ ] V13 Town pages under markets (`/markets/{market}/{town}` or flat `/towns/{town}`; SEO only, not primary nav) — backlog B2
+- [x] V13 Town pages under markets (`/markets/{market}/{town}` or flat `/towns/{town}`; SEO only, not primary nav) — backlog B2
 - [ ] V14 Three SEO journal posts (OBX oceanfront week; LBI buying; Delaware bayfront vs oceanfront) with internal links to markets/collections + ≥1 property each — backlog B3
 - [ ] V15 Programmatic sitemap priorities for PDPs, markets, collections, and towns — docs/PLAN.md Phase 2
 
