@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Delaware beach bay mist and shoreline">
+  <defs>
+    <linearGradient id="deSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6a8494"/>
+      <stop offset="55%" stop-color="#c5d2da"/>
+      <stop offset="100%" stop-color="#e8eef2"/>
+    </linearGradient>
+    <linearGradient id="deBay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a7e82"/>
+      <stop offset="100%" stop-color="#2a454a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#deSky)"/>
+  <ellipse cx="480" cy="300" rx="260" ry="48" fill="#fff" opacity="0.32"/>
+  <ellipse cx="1100" cy="240" rx="320" ry="56" fill="#fff" opacity="0.26"/>
+  <rect y="520" width="1920" height="560" fill="url(#deBay)"/>
+  <path d="M0 540 Q520 490 1040 545 T1920 520 L1920 620 L0 640 Z" fill="#b7c4a8" opacity="0.55"/>
+  <g fill="#243642">
+    <rect x="1280" y="360" width="320" height="220"/>
+    <polygon points="1255,360 1440,270 1625,360" fill="#2f5d62"/>
+  </g>
+  <g fill="#8aa0ad">
+    <rect x="1330" y="410" width="70" height="80"/>
+    <rect x="1440" y="410" width="70" height="80"/>
+  </g>
+  <path d="M220 640 L290 560 L360 640 Z" fill="#2a4a42" opacity="0.45"/>
+  <path d="M400 670 L450 600 L500 670 Z" fill="#2a4a42" opacity="0.35"/>
+  <path d="M0 860 Q640 800 1280 870 T1920 840" stroke="#eef4f0" stroke-width="2" fill="none" opacity="0.18"/>
+</svg>

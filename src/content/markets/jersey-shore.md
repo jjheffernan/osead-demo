@@ -4,6 +4,7 @@ title: Jersey Shore
 description: "Summer homes from Long Beach Island to Cape May — weekly beach weeks and ocean-block residences for sale."
 slug: jersey-shore
 market: jersey-shore
+heroImage: /images/markets/hero-jersey-shore.svg
 towns:
   - Long Beach Island
   - Surf City

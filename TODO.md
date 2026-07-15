@@ -42,7 +42,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 ### Wave D leftovers — Template & media polish
 
 - [x] V18 Replace SVG listing placeholders with license-safe coastal photo set (or clearly marked demo media) + meaningful alts — docs/PLAN.md Phase 1
-- [ ] V19 Market page full-bleed photography pass — docs/PLAN.md Phase 4
+- [x] V19 Market page full-bleed photography pass — docs/PLAN.md Phase 4
 - [ ] V20 Starlight docs: “White-label this template” section aligned with `docs/TEMPLATE.md` — docs/PLAN.md Phase 4
 - [ ] V21 TEMPLATE.md walkthrough test on throwaway config; document gaps in `docs/TEMPLATE.md` or `docs/afk/` — backlog D3
 

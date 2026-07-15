@@ -1,10 +1,12 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import Breadcrumbs from "../../components/seo/Breadcrumbs.astro";
+import MarketHero from "../../components/markets/MarketHero.astro";
 import { getMarkets, marketPath } from "../../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
 const markets = await getMarkets();
+const indexHero = "/images/markets/hero-markets-index.svg";
 ---
 
 <MarketingLayout
@@ -13,56 +15,132 @@ const markets = await getMarkets();
   locale={locale}
   path="/markets"
 >
-  <section class="container py-16">
-    <Breadcrumbs crumbs={[{ label: "Markets", href: "/markets" }]} />
-    <header class="section-head">
-      <p class="section-head__eyebrow">Markets</p>
-      <h1 class="section-head__title">Where summer homes live</h1>
-      <p class="section-head__lead">
-        Destination landings that map to how travelers and second-home buyers
-        actually search.
-      </p>
-    </header>
+  <MarketHero
+    image={indexHero}
+    alt="Atlantic coastline at morning light"
+    eyebrow="Markets"
+    title="Where summer homes live"
+    lead="Destination landings that map to how travelers and second-home buyers actually search."
+  >
+    <Breadcrumbs slot="crumbs" crumbs={[{ label: "Markets", href: "/markets" }]} />
+  </MarketHero>
 
-    <ul class="market-list">
+  <section class="container market-index">
+    <ul class="market-bands">
       {
-        markets.map((market) => (
-          <li>
-            <a href={marketPath(market)}>
-              <h2>{market.data.title}</h2>
-              <p>{market.data.description}</p>
-            </a>
-          </li>
-        ))
+        markets.map((market) => {
+          const image =
+            market.data.heroImage ?? "/images/markets/hero-markets-index.svg";
+          return (
+            <li>
+              <a
+                class="market-band"
+                href={marketPath(market)}
+                style={`--band-image: url('${image}')`}
+              >
+                <span class="market-band__media" aria-hidden="true" />
+                <span class="market-band__veil" aria-hidden="true" />
+                <span class="market-band__copy">
+                  <h2>{market.data.title}</h2>
+                  <p>{market.data.description}</p>
+                  <span class="market-band__link">
+                    Explore {market.data.title}{" "}
+                    <span aria-hidden="true">→</span>
+                  </span>
+                </span>
+              </a>
+            </li>
+          );
+        })
       }
     </ul>
   </section>
 </MarketingLayout>
 
 <style>
-  .market-list {
-    list-style: none;
-    margin: 2.5rem 0 0;
-    padding: 0;
-    display: grid;
-    gap: 1.5rem;
+  .market-index {
+    padding-block: clamp(2.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
   }
 
-  .market-list a {
-    display: block;
-    padding: 1.5rem 0;
-    border-top: 1px solid var(--border);
-    color: inherit;
+  .market-bands {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .market-band {
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    align-items: end;
+    min-height: clamp(14rem, 32vw, 20rem);
+    overflow: hidden;
+    color: var(--surface-invert-foreground);
     text-decoration: none;
   }
 
-  .market-list h2 {
-    margin: 0 0 0.4rem;
+  .market-band__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      var(--band-image) center / cover no-repeat,
+      var(--surface-invert);
+    transition: transform 0.6s ease;
   }
 
-  .market-list p {
+  .market-band__veil {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--surface-invert) 86%, transparent) 0%,
+      color-mix(in srgb, var(--surface-invert) 35%, transparent) 55%,
+      color-mix(in srgb, var(--surface-invert) 18%, transparent) 100%
+    );
+  }
+
+  .market-band__copy {
+    display: grid;
+    gap: 0.6rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 42rem;
+  }
+
+  .market-band h2 {
     margin: 0;
-    color: var(--muted-foreground);
-    max-width: 48rem;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .market-band p {
+    margin: 0;
+    max-width: 40rem;
+    color: color-mix(
+      in srgb,
+      var(--surface-invert-foreground) 84%,
+      transparent
+    );
+    line-height: 1.55;
+  }
+
+  .market-band__link {
+    margin-top: 0.35rem;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: 0.01em;
+  }
+
+  .market-band:hover .market-band__media,
+  .market-band:focus-visible .market-band__media {
+    transform: scale(1.03);
+  }
+
+  .market-band:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
   }
 </style>

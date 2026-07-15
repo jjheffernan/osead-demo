@@ -1,10 +1,11 @@
 # Demo listing media
 
-Property gallery files under `public/images/properties/` are **sample / demo media**, not MLS photography of real homes.
+Property gallery files under `public/images/properties/` and market heroes under `public/images/markets/` are **sample / demo media**, not MLS or destination photography of real places.
 
 ## What’s in the set
 
 - Illustrative coastal SVGs named `demo-*.svg` (ocean, bay, sound, canal, dunes, cottage, pool, deck, interior, lighthouse, penthouse).
+- Market full-bleed heroes (`hero-*.svg`) wired via optional `heroImage` on `src/content/markets/*.md`.
 - Compositions vary by waterfront type so inventory does not share one identical placeholder.
 - Alts in `src/content/properties/*.md` describe the scene and market context — never “placeholder”.
 

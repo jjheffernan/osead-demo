@@ -4,6 +4,7 @@ title: Delaware Beaches
 description: "Rehoboth, Dewey, Bethany, and Lewes — bayfront and oceanfront second homes with rental upside."
 slug: delaware-beaches
 market: delaware-beaches
+heroImage: /images/markets/hero-delaware-beaches.svg
 towns:
   - Rehoboth Beach
   - Dewey Beach

@@ -1,6 +1,7 @@
 ---
 import MarketingLayout from "../../../layouts/MarketingLayout.astro";
 import Breadcrumbs from "../../../components/seo/Breadcrumbs.astro";
+import MarketHero from "../../../components/markets/MarketHero.astro";
 import PropertyCard from "../../../components/properties/PropertyCard.astro";
 import { slugify } from "../../../lib/utils";
 import {
@@ -32,6 +33,8 @@ const path = townPath(market, town);
 const properties = await getPropertiesByTown(market.data.market, town);
 const title = `${town} Beach Homes for Rent & Sale | O-sea-D`;
 const description = `Browse weekly rentals and homes for sale in ${town}, ${market.data.title}.`;
+const heroImage =
+  market.data.heroImage ?? "/images/markets/hero-markets-index.svg";
 ---
 
 <MarketingLayout
@@ -40,23 +43,24 @@ const description = `Browse weekly rentals and homes for sale in ${town}, ${mark
   locale={locale}
   path={path}
 >
-  <section class="container py-16">
+  <MarketHero
+    image={heroImage}
+    alt={`${town} in ${market.data.title}`}
+    eyebrow={market.data.title}
+    title={town}
+    lead={`Homes in ${town} within the ${market.data.title} market — weekly rentals and sales.`}
+  >
     <Breadcrumbs
+      slot="crumbs"
       crumbs={[
         { label: "Markets", href: "/markets" },
         { label: market.data.title, href: marketPath(market) },
         { label: town, href: path },
       ]}
     />
-    <header class="section-head">
-      <p class="section-head__eyebrow">{market.data.title}</p>
-      <h1 class="section-head__title">{town}</h1>
-      <p class="section-head__lead">
-        Homes in {town} within the {market.data.title} market — weekly rentals
-        and sales.
-      </p>
-    </header>
+  </MarketHero>
 
+  <section class="container market-detail">
     <div class="property-grid">
       {
         properties.length > 0 ? (
@@ -70,10 +74,13 @@ const description = `Browse weekly rentals and homes for sale in ${town}, ${mark
 </MarketingLayout>
 
 <style>
+  .market-detail {
+    padding-block: clamp(2.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+  }
+
   .property-grid {
     display: grid;
     gap: 2rem;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    margin-top: 2.5rem;
   }
 </style>

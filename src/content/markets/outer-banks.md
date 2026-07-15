@@ -4,6 +4,7 @@ title: Outer Banks
 description: "Oceanfront and soundfront homes across Corolla, Duck, Nags Head, Kill Devil Hills, and Hatteras — weekly rentals and sales."
 slug: outer-banks
 market: outer-banks
+heroImage: /images/markets/hero-outer-banks.svg
 towns:
   - Corolla
   - Duck

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080" role="img" aria-label="Atlantic coastline at morning light">
+  <defs>
+    <linearGradient id="idxSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4a6b80"/>
+      <stop offset="100%" stop-color="#dce8ee"/>
+    </linearGradient>
+    <linearGradient id="idxSea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3a7884"/>
+      <stop offset="100%" stop-color="#1d4650"/>
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#idxSky)"/>
+  <rect y="420" width="1920" height="220" fill="url(#idxSea)"/>
+  <path d="M0 580 Q360 500 720 580 T1440 560 T1920 600 L1920 1080 L0 1080 Z" fill="#cbb892"/>
+  <path d="M0 740 Q480 660 960 750 T1920 720 L1920 1080 L0 1080 Z" fill="#b89a72"/>
+  <g stroke="#8b7355" stroke-width="12" fill="none">
+    <path d="M860 1080 L920 760 L1000 560"/>
+    <path d="M1000 1080 L1020 780 L1080 560"/>
+  </g>
+  <g fill="#6b8f5a" opacity="0.7">
+    <ellipse cx="500" cy="720" rx="42" ry="86"/>
+    <ellipse cx="620" cy="760" rx="32" ry="74"/>
+    <ellipse cx="1400" cy="740" rx="38" ry="80"/>
+    <ellipse cx="1520" cy="780" rx="30" ry="64"/>
+  </g>
+</svg>
