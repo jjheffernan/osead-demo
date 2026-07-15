@@ -10,13 +10,14 @@ Canonical checklist lives in the repo at [`docs/TEMPLATE.md`](https://github.com
 ## Brand and config
 
 1. Fork or copy the repo.
-2. Update `src/config/site.config.ts` — `url`, `name`, `description`, `author`, `email`, socials, branding colors.
-3. Update `src/config/nav.config.ts` if information architecture changes.
-4. Replace logos in `public/logos/` and `public/favicon.svg`.
-5. Set `SITE_URL` in `.env` (copy from `.env.example`).
-6. Rename the Cloudflare project in `wrangler.jsonc` (`name`, and R2 bucket if used).
-7. Rewrite homepage copy in `src/pages/index.astro` and `src/i18n/en.json`.
-8. Update Starlight `editLink` / `social` in `astro.config.ts`.
+2. Update `src/config/site.config.ts` — `url`, `name`, `description`, `author`, `email`, `socialLinks`, `branding.colors` (plus `branding.logo` / `ogImage` / `authorImage` if used).
+3. Mirror org name / email / map / analytics in `src/content/settings.yml`.
+4. Update `src/config/nav.config.ts` if information architecture changes.
+5. Replace `public/favicon.svg`. Optional: add `public/logos/` SVGs matching `branding.logo` (JSON-LD); header brand is a text monogram today.
+6. Set `SITE_URL` in `.env` (copy from `.env.example`); keep aligned with `siteConfig.url`.
+7. Rename the Cloudflare project in `wrangler.jsonc` (`name`, and R2 `bucket_name` if used).
+8. Rewrite homepage copy in `src/pages/index.astro` and `src/i18n/en.json`.
+9. Update Starlight `editLink` / `social` in `astro.config.ts`.
 
 See also [Customization](/docs/guides/customization/) and [Environment Variables](/docs/deployment/environment-variables/).
 
@@ -26,10 +27,13 @@ Replace demo Markdown collections:
 
 - `src/content/properties/*.md` — listings (rentals + sales)
 - `src/content/markets/*.md` — town / market landings
+- Also as needed: `collections/`, `blog/`, `pages/`, `authors/`
 
 Field contracts: `docs/specs/property-content.md`. Content workflow notes: [Content Management](/docs/guides/content-management/).
 
-Legacy SaaS starter routes (`/services`, `/pricing`, `/sections`) already redirect home via `public/_redirects` — leave them or delete after your IA is settled.
+Legacy SaaS starter routes (`/services`, `/pricing`, `/sections`) and `/pages` → `/about` already redirect via `public/_redirects` — leave them or delete after your IA is settled.
+
+Walkthrough evidence: `docs/afk/template-walkthrough.md`.
 
 ## Build locally
 

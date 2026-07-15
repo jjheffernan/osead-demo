@@ -30,7 +30,7 @@ Keep max concurrent agent work small; config `maxPrs` caps completed slices per 
 
 ### D1 — Coastal tokens sync — DONE (V6)
 ### D2 — Brand-first homepage — DONE (V6 / V10b)
-### D3 — TEMPLATE.md walkthrough test — OPEN → TODO V21
+### D3 — TEMPLATE.md walkthrough test — DONE (V21)
 
 ## Also queued (from docs/PLAN.md / DoD)
 
