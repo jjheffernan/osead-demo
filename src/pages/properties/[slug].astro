@@ -4,6 +4,7 @@ import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import JsonLd from "../../components/seo/JsonLd.astro";
 import ListingNotice from "../../components/properties/ListingNotice.astro";
 import PropertyGallery from "../../components/properties/PropertyGallery.svelte";
+import AvailabilityInquiry from "../../components/properties/AvailabilityInquiry.svelte";
 import {
   getPublishedProperties,
   type PropertyEntry,
@@ -61,20 +62,24 @@ const schemas = [saleLd, rentalLd].filter(Boolean) as Record<
         {data.sleeps ? ` · Sleeps ${data.sleeps}` : ""}
         {data.sqft ? ` · ${data.sqft.toLocaleString()} sq ft` : ""}
       </p>
-      <div class="property__actions">
-        {
-          (data.listingType === "rental" || data.listingType === "both") && (
-            <a class="button" href="/contact">Inquire about rental dates</a>
-          )
-        }
-        {
-          (data.listingType === "sale" || data.listingType === "both") && (
+      {
+        (data.listingType === "sale" || data.listingType === "both") && (
+          <div class="property__actions">
             <a class="button button--ghost" href="/contact">
               Schedule a showing
             </a>
-          )
-        }
-      </div>
+          </div>
+        )
+      }
+      {
+        (data.listingType === "rental" || data.listingType === "both") && (
+          <AvailabilityInquiry
+            client:load
+            propertySlug={data.slug}
+            propertyTitle={data.title}
+          />
+        )
+      }
       <ListingNotice />
     </header>
 
