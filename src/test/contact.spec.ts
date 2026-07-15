@@ -10,6 +10,8 @@ test.describe("contact form", () => {
     await expect(page.locator("#name")).toBeVisible({ timeout: 30_000 });
     await expect(page.locator("#email")).toBeVisible({ timeout: 30_000 });
     await expect(page.locator("#message")).toBeVisible({ timeout: 30_000 });
+    await expect(page.locator(".contact__honeypot")).toBeHidden();
+    await expect(page.locator("#form-success")).toBeHidden();
   });
 
   test("submitting empty leaves the success message hidden", async ({

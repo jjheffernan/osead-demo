@@ -24,7 +24,7 @@ Keep max concurrent agent work small; config `maxPrs` caps completed slices per 
 ## Wave C — Conversion
 
 ### C1 — Inquiry form island — DONE (V5 / V8)
-### C2 — Contact thank-you + honeypot — OPEN → TODO V16
+### C2 — Contact thank-you + honeypot — DONE (V16)
 
 ## Wave D — Template polish
 

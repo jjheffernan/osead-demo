@@ -77,6 +77,21 @@ export async function onRequestPost(context: {
     return Response.json({ error: "Invalid JSON inquiry." }, { status: 400 });
   }
 
+  // Honeypot: bots that fill `website` are rejected (no thank-you UX).
+  const honeypot =
+    input &&
+    typeof input === "object" &&
+    "website" in input &&
+    typeof (input as { website: unknown }).website === "string"
+      ? (input as { website: string }).website.trim()
+      : "";
+  if (honeypot) {
+    return Response.json(
+      { error: "Please provide a valid inquiry." },
+      { status: 400 },
+    );
+  }
+
   const inquiry = parseInquiry(input);
   if (!inquiry || !inquiry.email.includes("@")) {
     return Response.json(

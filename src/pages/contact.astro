@@ -123,6 +123,18 @@ const methods = (featuresSection?.items || []).map((item) => ({
           <input type="hidden" name="property" value={property} />
           <input type="hidden" name="checkIn" value={checkIn} />
           <input type="hidden" name="checkOut" value={checkOut} />
+          {/* Honeypot — leave empty. Bots that fill it are rejected by /api/contact. */}
+          <div class="contact__honeypot" aria-hidden="true">
+            <label>
+              <span>Website</span>
+              <input
+                type="text"
+                name="website"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </label>
+          </div>
           <label>
             <span>Name</span>
             <input id="name" name="name" autocomplete="name" required />
@@ -160,15 +172,18 @@ const methods = (featuresSection?.items || []).map((item) => ({
           </label>
           <p id="form-error" class="contact__form-error" role="alert" hidden>
           </p>
-          <p
+          <div
             id="form-success"
             class="contact__form-success"
             role="status"
             hidden
           >
-            Thanks — your inquiry was received. We will follow up with
-            availability or next steps.
-          </p>
+            <h3>Thank you</h3>
+            <p>
+              Your O-sea-D inquiry was received. We will follow up with
+              availability or next steps. This is not a reservation or offer.
+            </p>
+          </div>
           <button id="submit-btn" type="submit">Send inquiry</button>
         </form>
 
@@ -256,6 +271,7 @@ const methods = (featuresSection?.items || []).map((item) => ({
       });
       if (!response.ok) throw new Error("Request failed");
       contactForm.reset();
+      contactForm.dataset.state = "thanks";
       success?.removeAttribute("hidden");
     } catch {
       if (error) {
@@ -343,6 +359,25 @@ const methods = (featuresSection?.items || []).map((item) => ({
     margin-top: var(--space-xl);
   }
 
+  /* Hidden from humans; bots that autofill `website` are rejected server-side. */
+  .contact__honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .contact__form[data-state="thanks"] label,
+  .contact__form[data-state="thanks"] button,
+  .contact__form[data-state="thanks"] .contact__honeypot {
+    display: none;
+  }
+
   .contact__form label {
     display: grid;
     gap: var(--space-xs);
@@ -398,7 +433,21 @@ const methods = (featuresSection?.items || []).map((item) => ({
 
   .contact__form-success {
     margin: 0;
+    padding: var(--space-lg);
+    border-left: 3px solid var(--color-brand-primary);
+    background: var(--color-bg-secondary);
     color: var(--color-text-primary);
+  }
+
+  .contact__form-success h3 {
+    margin: 0 0 var(--space-sm);
+    font-size: 1.25rem;
+  }
+
+  .contact__form-success p {
+    margin: 0;
+    max-width: none;
+    color: var(--color-text-secondary);
   }
 
   .contact__methods {
