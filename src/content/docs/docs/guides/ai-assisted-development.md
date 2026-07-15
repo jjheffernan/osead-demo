@@ -48,7 +48,7 @@ sections; build sections from components.
 - **Preserve cross-cutting features.** i18n (English default, locale routing ready
   under `src/pages/[locale]/`), Cloudflare Pages deployment, SEO/OG/RSS/sitemap,
   Pagefind search, and the Starlight docs.
-- **Content lives in collections.** Blog, services, pages, FAQs, and stack are
+- **Content lives in collections.** Blog, properties, markets, collections, and pages are
   file-based content collections under `src/content/` — see
   [Content Management](/docs/guides/content-management/). Don't hardcode copy that
   belongs in a collection.

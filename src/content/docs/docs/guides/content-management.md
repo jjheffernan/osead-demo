@@ -13,17 +13,19 @@ pull request — Cloudflare Pages rebuilds on merge.
 
 | Collection | Description | Files |
 | --- | --- | --- |
-| **Pages** | Marketing pages (about, contact, pricing…) | `src/content/pages/*.md` |
-| **Services** | Service offerings with pricing | `src/content/services/*.md` |
-| **Blog** | Articles and news posts | `src/content/blog/*.md` |
-| **Docs** | Documentation pages | `src/content/docs/**` (Starlight) |
+| **Pages** | Marketing pages (about, contact, privacy…) | `src/content/pages/*.md` |
+| **Properties** | Coastal rental and sale listings | `src/content/properties/*.md` |
+| **Markets** | Coastal market landings | `src/content/markets/*.md` |
+| **Collections** | SEO intent hubs (oceanfront, pets, …) | `src/content/collections/*.md` |
+| **Blog** | Journal posts | `src/content/blog/*.md` |
+| **Docs** | Template documentation | `src/content/docs/**` (Starlight) |
 
 Collection schemas are defined in `src/content.config.ts` (or `src/content/config.ts`),
 so frontmatter is type-checked at build time.
 
 ## Locale Convention
 
-The starter is English-only by default, so each entry uses a plain `<slug>.md`
+The site is English-only by default, so each entry uses a plain `<slug>.md`
 file (e.g. `about.md`) with `locale: "en"` in its frontmatter.
 
 The `locale` frontmatter field determines which language the content belongs to.

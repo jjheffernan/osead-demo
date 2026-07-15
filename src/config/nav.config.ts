@@ -28,7 +28,7 @@ export const mainNav: NavItem[] = [
 
 /** Footer navigation grouped by section */
 export const footerNav = {
-  /** Product and service links */
+  /** Rentals, sales, and coastal destinations */
   product: [
     { href: "/rentals", labelKey: "nav.rentals" },
     { href: "/sales", labelKey: "nav.sales" },

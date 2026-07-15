@@ -2,7 +2,6 @@ import { defineCollection, z } from "astro:content";
 import { docsLoader } from "@astrojs/starlight/loaders";
 import { docsSchema } from "@astrojs/starlight/schema";
 import { glob } from "astro/loaders";
-import { i18nConfig } from "./config/i18n.config";
 
 // Add locale codes here (e.g. ["en", "id"]) when introducing new languages.
 const localeSchema = z.enum(["en"]);
@@ -95,38 +94,6 @@ const authors = defineCollection({
         email: z.string().optional(),
       })
       .optional(),
-  }),
-});
-
-const faqs = defineCollection({
-  loader: glob({
-    pattern: "**/*.json",
-    base: "./src/content/faqs",
-    generateId: ({ entry }) => entry.replace(/\.json$/, ""),
-  }),
-  schema: z.object({
-    question: z.string(),
-    answer: z.string(),
-    category: z.string().optional(),
-    order: z.number().default(0),
-    locale: localeSchema,
-  }),
-});
-
-const stack = defineCollection({
-  loader: glob({
-    pattern: "**/*.{md,mdx}",
-    base: "./src/content/stack",
-    generateId: ({ entry }) => entry.replace(/\.[^/.]+$/, ""),
-  }),
-  schema: z.object({
-    name: z.string(),
-    description: z.string(),
-    version: z.string(),
-    url: z.string().url(),
-    icon: z.string(),
-    colorOklch: z.string(),
-    order: z.number().default(0),
   }),
 });
 
@@ -300,8 +267,6 @@ export const collections = {
   pages,
   settings,
   authors,
-  faqs,
-  stack,
   properties,
   markets,
   collections: intentCollections,

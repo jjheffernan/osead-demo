@@ -8,48 +8,35 @@ const umamiUrl = settings?.data.umamiUrl;
 const umamiId = settings?.data.umamiId;
 ---
 
-{
-  gaId && (
-    <>
-      <script
-        is:inline
-        async
-        src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-      />
-      <script
-        is:inline
-        set:html={`
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { window.dataLayer.push(arguments); }
-      gtag("js", new Date());
-      gtag("config", "${gaId}");
-    `}
-      />
-    </>
-  )
-}
+{gaId && (
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+  ></script>
+)}
+{gaId && (
+  <script define:vars={{ gaId }}>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(...args) {
+      window.dataLayer.push(args);
+    }
+    gtag("js", new Date());
+    gtag("config", gaId);
+  </script>
+)}
 
-{
-  gtmId && (
-    <>
-      <script
-        is:inline
-        async
-        src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
-      />
-      <script
-        is:inline
-        set:html={`
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-    `}
-      />
-    </>
-  )
-}
+{gtmId && (
+  <script async src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
+  ></script>
+)}
+{gtmId && (
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      "gtm.start": new Date().getTime(),
+      event: "gtm.js",
+    });
+  </script>
+)}
 
-{
-  umamiUrl && umamiId && (
-    <script is:inline async defer src={umamiUrl} data-website-id={umamiId} />
-  )
-}
+{umamiUrl && umamiId && (
+  <script async defer src={umamiUrl} data-website-id={umamiId}></script>
+)}

@@ -14,7 +14,7 @@ sidebar:
 │   └── api/cleanup.ts       # Optional R2 media cleanup worker (secret-guarded)
 ├── src/
 │   ├── components/          # Reusable Astro components (Hero, CTA, FAQ…)
-│   ├── content/             # Content collections (blog, docs, pages, services)
+│   ├── content/             # Content collections (blog, docs, pages, properties, markets, collections)
 │   ├── i18n/                # Internationalisation utilities (routes, switcher, UI)
 │   ├── layouts/             # Base layout with SEO, analytics, navigation
 │   ├── lib/                 # Shared libraries (analytics, images, SEO, site config)

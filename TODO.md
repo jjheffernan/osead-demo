@@ -15,7 +15,7 @@ Vision SoT: `docs/VISION.md`
 - [x] V7 Expand seed inventory to ~12–16 homes + richer amenity data for filters
 - [x] V8 Contact/inquiry Function polish wired to faux booking + sale/rent intents
 - [x] V9 SEO collections without market-first IA (oceanfront, pets, large groups, elevators)
-- [ ] V10 Remove leftover starter services/pricing/sections/showcase surfaces and fix tests
+- [x] V10 Remove leftover starter services/pricing/sections/showcase surfaces and fix tests
 
 ## Next
 

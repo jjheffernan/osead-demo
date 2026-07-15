@@ -14,14 +14,14 @@ Components (src/components/ui/**)  →  Sections  →  Pages (src/pages/**)
 - **Components** — tier-1 primitives. Generic, presentational, no business logic.
   Import from the barrel: `import { Button, Card, Badge } from "@/components/ui"`.
 - **Sections** — tier-2 page blocks composed from primitives + content. Import
-  from the barrel: `import { Hero, Pricing, FAQ } from "@/components/sections"`.
+  from the barrel: `import { Hero, FAQ } from "@/components/sections"`.
 - **Pages** — tier-3 routes that arrange sections and wire content collections.
-- **Feature components** — collection-specific blocks (`blog/`, `services/`) that
+- **Feature components** — collection-specific blocks (`blog/`, `properties/`) that
   sit between tiers; they compose primitives but are bound to one content type.
 
 **When adding:** put generic, reusable UI in `ui/**` and export it from the
 barrel. Put a page block in `sections/` (export from `sections/index.ts`). Keep
-collection-bound UI in its feature folder (`blog/`, `services/`). Never duplicate
+collection-bound UI in its feature folder (`blog/`, `properties/`). Never duplicate
 a primitive — extend or compose the existing one.
 
 ## Primitives (`src/components/ui/**`)
@@ -59,20 +59,9 @@ Page-level blocks. Most are `i18nAware` (accept/derive `locale`).
 | Section | Path | Props |
 | --- | --- | --- |
 | Hero | `hero/Hero.astro` | `variant`, `size`, `eyebrow`, `headline`/`title`, `subheadline`/`content`, `primaryCta`, `secondaryCta`, `locale`; `image` slot |
-| FeatureTabs (React) | `landing/FeatureTabs.tsx` | `tabs[]` (`id`, `icon`, `heading`, `description`, `points?`, `visual`) |
 | FeatureGrid | `FeatureGrid.astro` | `title`, `features[]`, `columns` (2\|3\|4) |
 | FAQ | `FAQ.astro` | `title`, `items` |
 | CTA | `ui/marketing/CTA/CTA.astro` | `eyebrow`, `title`, `content`, `primaryText`/`primaryHref`, `secondaryText`/`secondaryHref`, `centered` |
-| SocialProof | `ui/marketing/SocialProof/SocialProof.astro` | `title`, `items` |
-| Pricing | `sections/Pricing.astro` | `title`, `description`, `plans` |
-| Newsletter | `sections/Newsletter.astro` | `title`, `description`, `placeholder`, `buttonLabel`, `action` |
-| Team | `sections/Team.astro` | `title`, `description`, `members` |
-| Comparison | `sections/Comparison.astro` | `title`, `description`, `columns`, `rows` |
-| LogoCloud | `sections/LogoCloud.astro` | `title`, `logos` |
-| StackMarquee | `landing/StackMarquee.astro` | `items`, `pauseOnHover` |
-| TechStack | `landing/TechStack.astro` | `items` |
-| Credibility | `landing/Credibility.astro` | `stats`, `testimonials`, `logos` |
-| LighthouseScores | `landing/LighthouseScores.astro` | `scores` |
 
 ## Feature components
 
@@ -87,7 +76,7 @@ Collection-bound blocks. Compose primitives + the patterns in `patterns.md`.
 | BlogImageSVG | `blog/BlogImageSVG.astro` | `slug`, `title` | Deterministic monochrome cover (no inline color). |
 | TagList | `blog/TagList.astro` | `tags`, `basePath`, `locale` | Tag pills. |
 | TableOfContents | `blog/TableOfContents.astro` | `headings`, `layout` (inline\|sidebar), `maxDepth`, `minHeadings` | — |
-| ServiceCard | `services/ServiceCard.astro` | `service`, `locale`, `headingLevel` | Icon badge + price pill + checklist. |
+| PropertyCard | `properties/PropertyCard.astro` | listing fields | Coastal inventory card. |
 
 ## Rules
 
@@ -97,8 +86,8 @@ Collection-bound blocks. Compose primitives + the patterns in `patterns.md`.
   `Grid` rather than re-implementing them. New shared UI goes in `ui/**` and the
   barrel.
 - **Class merging via `cn`.** Every primitive accepts `class` and merges it.
-- **Keep islands minimal.** Only `FeatureTabs` is a React island; prefer `.astro`
-  unless interactivity requires a client framework.
+- **Keep islands minimal.** Prefer `.astro` unless interactivity requires a Svelte
+  island (filters, gallery, booking, inquiry form).
 - **Decorative layers** (textures, glows, grids) are `aria-hidden` and
   `pointer-events: none`.
 - **Keep `src/registry.json` in sync** when you add/rename a component or change

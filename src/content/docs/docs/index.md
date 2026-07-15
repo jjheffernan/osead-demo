@@ -1,11 +1,11 @@
 ---
 title: Documentation
-description: Learn how to use this starter template.
+description: Learn how to operate the OSEAD coastal real estate template.
 ---
 
 Welcome to the project documentation.
 
-This site is built with [Astro](https://astro.build) and [Starlight](https://starlight.astro.build). Use the sidebar to navigate the guides.
+This demo is built with [Astro](https://astro.build), Svelte islands, and [Starlight](https://starlight.astro.build). Use the sidebar for setup and content guides.
 
 ## Sections
 

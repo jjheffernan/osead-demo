@@ -58,3 +58,7 @@ lh-*.json
 .cursor/after-hours-morning-brief.md
 .cursor/after-hours-runs/
 .cursor/after-hours-sentinel.sh
+
+# Playwright
+test-results/
+playwright-report/

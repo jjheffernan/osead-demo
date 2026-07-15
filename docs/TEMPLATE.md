@@ -12,4 +12,4 @@
 10. `pnpm install && pnpm build`
 11. Deploy: Cloudflare Pages → build `pnpm build`, output `dist`.
 
-Optional: remove unused starter pages (`/services`, `/pricing`, showcase) once redirects or nav no longer reference them.
+Starter SaaS routes (`/services`, `/pricing`, `/sections`) redirect to the homepage via `public/_redirects`.

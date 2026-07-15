@@ -89,8 +89,6 @@ export async function runContentValidation() {
   const base = fileURLToPath(new URL("../content/", import.meta.url));
   const blogFiles = await collectFiles(join(base, "blog"), [".md", ".mdx"]);
   const pageFiles = await collectFiles(join(base, "pages"), [".md"]);
-  const faqFiles = await collectFiles(join(base, "faqs"), [".json"]);
-  const stackFiles = await collectFiles(join(base, "stack"), [".md", ".mdx"]);
 
   const parseEntries = async (files: string[]) =>
     Promise.all(
@@ -104,28 +102,21 @@ export async function runContentValidation() {
       }),
     );
 
-  const [blog, pages, faqs, stack] = await Promise.all([
+  const [blog, pages] = await Promise.all([
     parseEntries(blogFiles),
     parseEntries(pageFiles),
-    parseEntries(faqFiles),
-    parseEntries(stackFiles),
   ]);
 
   validateNoDuplicateSlugs(blog);
   validateNoDuplicateSlugs(pages);
-  validateNoDuplicateSlugs(faqs);
-  validateNoDuplicateSlugs(stack);
 
   validateNoDuplicateUids(blog);
 
   validateLocaleConsistency(blog, [...siteConfig.i18n.locales]);
   validateLocaleConsistency(pages, [...siteConfig.i18n.locales]);
-  validateLocaleConsistency(faqs, [...siteConfig.i18n.locales]);
 
   return {
     blog: blog.length,
     pages: pages.length,
-    faqs: faqs.length,
-    stack: stack.length,
   };
 }

@@ -7,8 +7,8 @@ what stops the UI from drifting. All snippets use tokens only (see `colors.md`,
 
 ## Icon badge
 
-A token-bordered square/circle wrapping a single `Icon`. Used by `FeatureGrid`,
-`ServiceCard`, and `ServiceLayout` for visual anchors.
+A token-bordered square/circle wrapping a single `Icon`. Used by `FeatureGrid`
+and property amenity callouts for visual anchors.
 
 ```astro
 <span class="icon-badge" aria-hidden="true">
@@ -35,8 +35,8 @@ chromatic background — tone comes from `--color-bg-secondary` + `--color-borde
 
 ## Checklist row
 
-A `lucide:check` icon plus a label, used for feature/benefit lists in
-`ServiceCard`, the pricing cards, and `FeatureTabs` points.
+A `lucide:check` icon plus a label, used for amenity and benefit lists on
+property and about sections.
 
 ```astro
 <ul class="checklist">
@@ -62,7 +62,7 @@ align the CTA with `margin-top: auto` inside a flex column.
 </Card>
 ```
 
-Used by `BlogCard` and `ServiceCard`. Radius/border/shadow come from the `Card`
+Used by `BlogCard` and `PropertyCard`. Radius/border/shadow come from the `Card`
 primitive — don't override them per-card.
 
 ## Inverted CTA band
@@ -73,11 +73,11 @@ a deliberate "band" in both light and dark mode. Constrained width, optional
 
 ```astro
 <CTA
-  eyebrow="Get started"
-  title="Ready to build your site?"
-  content="Explore the services or read the docs."
-  primaryText="Explore services" primaryHref="/services"
-  secondaryText="Read the docs" secondaryHref="/docs"
+  eyebrow="Ready to talk?"
+  title="Tell us what you’re looking for"
+  content="Browse weekly rentals or homes for sale, then send an inquiry."
+  primaryText="Browse rentals" primaryHref="/rentals"
+  secondaryText="Inquire" secondaryHref="/contact"
 />
 ```
 

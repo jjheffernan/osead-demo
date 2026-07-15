@@ -77,10 +77,9 @@ function contentValidationIntegration() {
       const collections = [
         { dir: join(contentBase, "blog"), extensions: [".md", ".mdx"] },
         { dir: join(contentBase, "pages"), extensions: [".md"] },
-        { dir: join(contentBase, "faqs"), extensions: [".json"] },
-        { dir: join(contentBase, "stack"), extensions: [".md", ".mdx"] },
         { dir: join(contentBase, "properties"), extensions: [".md", ".mdx"] },
         { dir: join(contentBase, "markets"), extensions: [".md", ".mdx"] },
+        { dir: join(contentBase, "collections"), extensions: [".md", ".mdx"] },
       ];
 
         const entries = await Promise.all(

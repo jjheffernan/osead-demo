@@ -9,22 +9,24 @@ import {
   calcReadingTime,
 } from "../../lib/utils";
 
+// Local calendar dates avoid UTC-midnight timezone flakes.
+const day = new Date(2025, 0, 15);
+
 describe("formatDate", () => {
   it("formats an English long date", () => {
-    expect(formatDate(new Date("2025-01-15"), "en")).toBe("January 15, 2025");
+    expect(formatDate(day, "en")).toBe("January 15, 2025");
   });
 
   it("formats an Indonesian long date", () => {
-    expect(formatDate(new Date("2025-01-15"), "id-ID")).toBe("15 Januari 2025");
+    expect(formatDate(day, "id-ID")).toBe("15 Januari 2025");
   });
 });
 
 describe("formatDateShort", () => {
   it("formats a short English date", () => {
-    expect(formatDateShort(new Date("2025-01-15"), "en")).toBe("Jan 15, 2025");
+    expect(formatDateShort(day, "en")).toBe("Jan 15, 2025");
   });
 });
-
 describe("slugify", () => {
   it("slugifies a plain string", () => {
     expect(slugify("Hello World!")).toBe("hello-world");
