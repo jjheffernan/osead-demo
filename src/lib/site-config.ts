@@ -4,7 +4,7 @@
 export type Locale = "en";
 
 export const SITE_CONFIG = {
-  url: "https://astro-cloudflare-starter.pages.dev",
+  url: "https://osead-demo.pages.dev",
   /** Default locale for fallback. */
   defaultLocale: "en" as const,
   /** Supported locales. */
@@ -18,7 +18,8 @@ export const SITE_CONFIG = {
     en: "en",
   } as const,
   /** Site name for metadata and JSON-LD. */
-  name: "Astro Cloudflare",
+  name: "OSEAD",
   /** Short description for metadata. */
-  description: "Marketing, blog, and docs starter — multilanguage-ready.",
+  description:
+    "Coastal weekly rentals and homes for sale across the Outer Banks, Jersey Shore, and Delaware Beaches.",
 } as const;
