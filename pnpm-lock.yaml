@@ -45,8 +45,8 @@ dependencies:
     specifier: ^2.1.1
     version: 2.1.1
   cva:
-    specifier: 1.0.0-beta.4
-    version: 1.0.0-beta.4(typescript@6.0.3)
+    specifier: 1.0.0-beta.7
+    version: 1.0.0-beta.7(typescript@6.0.3)
   schema-dts:
     specifier: ^2.0.0
     version: 2.0.0(typescript@6.0.3)
@@ -2879,8 +2879,8 @@ packages:
     dependencies:
       css-tree: 2.2.1
 
-  /cva@1.0.0-beta.4(typescript@6.0.3):
-    resolution: {integrity: sha512-F/JS9hScapq4DBVQXcK85l9U91M6ePeXoBMSp7vypzShoefUBxjQTo3g3935PUHgQd+IW77DjbPRIxugy4/GCQ==}
+  /cva@1.0.0-beta.7(typescript@6.0.3):
+    resolution: {integrity: sha512-wX/tZjoDyKYV2qCcWQru5Un93zc4rR+B/qAiCZqZP34tsZeO0orD1UiNm7PkimSB3snJ0mi5J3U2u59qZudIZg==}
     peerDependencies:
       typescript: '>= 4.5.5'
     peerDependenciesMeta:
