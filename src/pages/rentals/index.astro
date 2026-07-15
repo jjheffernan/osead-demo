@@ -1,0 +1,39 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import PropertyCard from "../../components/properties/PropertyCard.astro";
+import { getPropertiesByListingType } from "../../lib/properties";
+
+const locale = (Astro.currentLocale || "en") as "en";
+const properties = await getPropertiesByListingType("rental");
+---
+
+<MarketingLayout
+  title="Weekly Beach Rentals"
+  description="High-end weekly vacation rentals on the Outer Banks, Jersey Shore, and Delaware Beaches — oceanfront and near-beach homes."
+  locale={locale}
+  path="/rentals"
+>
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Weekly rentals</p>
+      <h1 class="section-head__title">Coastal weeks worth returning for</h1>
+      <p class="section-head__lead">
+        Oceanfront estates and semi-oceanfront family homes curated for peak-season
+        weeks and shoulder-season escapes.
+      </p>
+    </header>
+
+    <div class="property-grid">
+      {properties.map((property) => <PropertyCard property={property} />)}
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .property-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 2.5rem;
+  }
+</style>

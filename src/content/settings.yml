@@ -1,0 +1,13 @@
+name: OSEAD
+description: "High-end coastal rentals and sales template — Outer Banks, Jersey Shore, Delaware Beaches."
+url: "https://osead-demo.pages.dev"
+defaultLocale: en
+analyticsProvider: none
+gtmId: ""
+umamiUrl: ""
+umamiId: ""
+mapLatitude: "35.9174"
+mapLongitude: "-75.6157"
+orgName: "OSEAD"
+orgEmail: "hello@osead.example"
+socialLinks: []

@@ -1,0 +1,66 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import { getMarkets, marketPath } from "../../lib/properties";
+
+const locale = (Astro.currentLocale || "en") as "en";
+const markets = await getMarkets();
+---
+
+<MarketingLayout
+  title="Coastal Markets"
+  description="Browse Outer Banks, Jersey Shore, and Delaware Beaches — destination pages built for rental and sales intent."
+  locale={locale}
+  path="/markets"
+>
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Markets</p>
+      <h1 class="section-head__title">Where summer homes live</h1>
+      <p class="section-head__lead">
+        Destination landings that map to how travelers and second-home buyers
+        actually search.
+      </p>
+    </header>
+
+    <ul class="market-list">
+      {
+        markets.map((market) => (
+          <li>
+            <a href={marketPath(market)}>
+              <h2>{market.data.title}</h2>
+              <p>{market.data.description}</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</MarketingLayout>
+
+<style>
+  .market-list {
+    list-style: none;
+    margin: 2.5rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .market-list a {
+    display: block;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--border);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .market-list h2 {
+    margin: 0 0 0.4rem;
+  }
+
+  .market-list p {
+    margin: 0;
+    color: var(--muted-foreground);
+    max-width: 48rem;
+  }
+</style>

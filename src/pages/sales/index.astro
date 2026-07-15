@@ -1,0 +1,39 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import PropertyCard from "../../components/properties/PropertyCard.astro";
+import { getPropertiesByListingType } from "../../lib/properties";
+
+const locale = (Astro.currentLocale || "en") as "en";
+const properties = await getPropertiesByListingType("sale");
+---
+
+<MarketingLayout
+  title="Beach Homes for Sale"
+  description="High-end oceanfront, bayfront, and ocean-block homes for sale across the Outer Banks, Jersey Shore, and Delaware Beaches."
+  locale={locale}
+  path="/sales"
+>
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Homes for sale</p>
+      <h1 class="section-head__title">Second homes on the water</h1>
+      <p class="section-head__lead">
+        Ownership inventory for buyers who want Atlantic access, rental upside, and
+        a house they can actually use in peak season.
+      </p>
+    </header>
+
+    <div class="property-grid">
+      {properties.map((property) => <PropertyCard property={property} />)}
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .property-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 2.5rem;
+  }
+</style>

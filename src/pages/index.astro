@@ -1,0 +1,169 @@
+---
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import Hero from "../components/Hero.astro";
+import FAQ from "../components/FAQ.astro";
+import CTA from "../components/CTA.astro";
+import PropertyCard from "../components/properties/PropertyCard.astro";
+import { FeatureTabs } from "../components/landing/index";
+import { getPublishedProperties, getMarkets, marketPath } from "../lib/properties";
+import { t } from "../i18n/ui";
+
+const locale = (Astro.currentLocale || "en") as "en";
+const featured = (await getPublishedProperties()).slice(0, 3);
+const markets = await getMarkets();
+
+const tabs = [
+  {
+    id: "rentals",
+    icon: "zap",
+    heading: "Weekly rentals",
+    description:
+      "Peak-season inventory with beds, sleep count, waterfront type, and amenity filters — built for direct-booking intent.",
+    points: [
+      "Oceanfront and semi-oceanfront collections",
+      "Town-level Outer Banks and Shore landings",
+      "VacationRental JSON-LD on every rental PDP",
+    ],
+    visual:
+      "/rentals\n/markets/outer-banks\n/properties/dune-crest-corolla",
+  },
+  {
+    id: "sales",
+    icon: "pen-line",
+    heading: "Homes for sale",
+    description:
+      "Second-home sales pages that still feel premium — sale price, water relationship, and rental history when relevant.",
+    points: [
+      "RealEstateListing schema for sale inventory",
+      "Dual listingType for buy + book homes",
+      "Inquiry CTAs instead of heavy CRM backends",
+    ],
+    visual: "/sales\n/markets/delaware-beaches\n/contact",
+  },
+  {
+    id: "seo",
+    icon: "trending-up",
+    heading: "SEO destinations",
+    description:
+      "Market and intent pages modeled on how guests and buyers search: oceanfront Corolla, LBI ocean block, Dewey bayfront.",
+    points: [
+      "Markdown markets + property collections",
+      "Canonical, sitemap, OG, llms.txt retained",
+      "Programmatic filters planned for AFK stages",
+    ],
+    visual:
+      "\"oceanfront villa Corolla\"\n\"LBI homes for sale\"\n\"Dewey Beach bayfront\"",
+  },
+];
+---
+
+<MarketingLayout
+  title="OSEAD — Coastal Rentals & Sales"
+  description={t(locale, "hero.subtitle")}
+  locale={locale}
+  path="/"
+>
+  <Hero
+    variant="centered"
+    eyebrow="OSEAD"
+    headline={t(locale, "hero.title")}
+    subheadline={t(locale, "hero.subtitle")}
+    primaryCta={{ label: t(locale, "hero.cta"), href: "/rentals" }}
+    secondaryCta={{ label: "View homes for sale", href: "/sales" }}
+    locale={locale}
+  />
+
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Featured homes</p>
+      <h2 class="section-head__title">Ocean-close inventory</h2>
+      <p class="section-head__lead">
+        Demo listings spanning Outer Banks, Jersey Shore, and Delaware Beaches.
+      </p>
+    </header>
+    <div class="property-grid">
+      {featured.map((property) => <PropertyCard property={property} />)}
+    </div>
+  </section>
+
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Markets</p>
+      <h2 class="section-head__title">Search the way guests search</h2>
+    </header>
+    <ul class="market-row">
+      {
+        markets.map((market) => (
+          <li>
+            <a href={marketPath(market)}>{market.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Template capabilities</p>
+      <h2 class="section-head__title">Built for coastal dual inventory</h2>
+    </header>
+    <FeatureTabs client:visible tabs={tabs} />
+  </section>
+
+  <FAQ
+    title="Frequently asked questions"
+    items={[
+      {
+        question: "Is this a rentals site or a brokerage site?",
+        answer:
+          "Both. Listings can be rentals, sales, or both so a single template covers weekly beach weeks and second-home ownership.",
+      },
+      {
+        question: "How is content managed?",
+        answer:
+          "Markdown collections in Git — no CMS or database required for demos. Optional Cloudflare Pages Functions handle light contact flows.",
+      },
+      {
+        question: "What about SEO?",
+        answer:
+          "Canonical URLs, sitemap, OG images, market landings, and dual schema (VacationRental + RealEstateListing) ship with listing pages.",
+      },
+    ]}
+  />
+
+  <CTA
+    eyebrow="Ready to inquire"
+    title="Plan a week or find a second home"
+    content="Browse weekly rentals and sale inventory, then send a light inquiry — no heavy booking backend required for demos."
+    ctaText="Browse rentals"
+    ctaHref="/rentals"
+    secondaryText="Contact"
+    secondaryHref="/contact"
+    locale={locale}
+  />
+</MarketingLayout>
+
+<style>
+  .property-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 2.5rem;
+  }
+
+  .market-row {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    margin: 1.5rem 0 0;
+    padding: 0;
+  }
+
+  .market-row a {
+    color: inherit;
+    font-size: 1.25rem;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

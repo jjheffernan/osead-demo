@@ -1,0 +1,71 @@
+---
+import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import PropertyCard from "../../components/properties/PropertyCard.astro";
+import {
+  getMarkets,
+  getPropertiesByMarket,
+  type MarketEntry,
+} from "../../lib/properties";
+
+export async function getStaticPaths() {
+  const markets = await getMarkets();
+  return markets.map((market) => ({
+    params: { slug: market.data.slug },
+    props: { market },
+  }));
+}
+
+interface Props {
+  market: MarketEntry;
+}
+
+const { market } = Astro.props;
+const locale = (Astro.currentLocale || "en") as "en";
+const properties = await getPropertiesByMarket(market.data.market);
+const title = market.data.seoTitle ?? market.data.title;
+const description = market.data.seoDescription ?? market.data.description;
+---
+
+<MarketingLayout
+  title={title}
+  description={description}
+  locale={locale}
+  path={`/markets/${market.data.slug}`}
+>
+  <section class="container py-16">
+    <header class="section-head">
+      <p class="section-head__eyebrow">Market guide</p>
+      <h1 class="section-head__title">{market.data.title}</h1>
+      <p class="section-head__lead">{market.data.description}</p>
+      {
+        market.data.towns.length > 0 && (
+          <p class="towns">Towns: {market.data.towns.join(", ")}</p>
+        )
+      }
+    </header>
+
+    <div class="property-grid">
+      {
+        properties.length > 0 ? (
+          properties.map((property) => <PropertyCard property={property} />)
+        ) : (
+          <p>Listings for this market are coming soon.</p>
+        )
+      }
+    </div>
+  </section>
+</MarketingLayout>
+
+<style>
+  .towns {
+    margin-top: 1rem;
+    color: var(--muted-foreground);
+  }
+
+  .property-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    margin-top: 2.5rem;
+  }
+</style>
