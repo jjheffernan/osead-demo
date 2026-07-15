@@ -141,13 +141,13 @@ export const siteConfig: SiteConfig = {
   /* Branding */
   branding: {
     colors: {
-      primary: "#162433",
-      secondary: "#5b6b7a",
-      accent: "#2f5d62",
-      background: "#f8fafb",
-      foreground: "#162433",
-      border: "#d7dde3",
-      ring: "#162433",
+      primary: "#694b38",
+      secondary: "#a9d2cf",
+      accent: "#e9d8bd",
+      background: "#f7f1e7",
+      foreground: "#193849",
+      border: "#d3c5ad",
+      ring: "#397d80",
     },
     logo: {
       light: "/logos/logo-light.svg",

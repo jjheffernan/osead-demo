@@ -1,48 +1,48 @@
 /**
  * Color tokens — Semantic design tokens for light and dark modes
- * Monochrome OKLCH palette (neutral, AstroDeck-style):
- *   near-black foreground on white in light mode, inverted in dark mode.
- * Chroma is 0 for surfaces/primary so the UI stays calm and never goes
- * "off-system"; functional status colors keep just enough chroma to read.
+ * Coastal palette:
+ *   salt-washed linen, weathered wood, deep coastal ink, and muted tide teal.
+ * Semantic names keep the visual system portable when a template fork changes
+ * its brand, while the restrained chroma avoids tourist-blue marketplace UI.
  * These map to Tailwind via @theme block in global.css.
  */
 
 :root {
   /* === Core surfaces === */
-  --background: oklch(1 0 0deg);
-  --foreground: oklch(0.145 0 0deg);
-  --card: oklch(1 0 0deg);
-  --card-foreground: oklch(0.145 0 0deg);
-  --popover: oklch(1 0 0deg);
-  --popover-foreground: oklch(0.145 0 0deg);
+  --background: oklch(0.963 0.018 85deg);
+  --foreground: oklch(0.25 0.028 235deg);
+  --card: oklch(0.987 0.009 80deg);
+  --card-foreground: oklch(0.25 0.028 235deg);
+  --popover: oklch(0.987 0.009 80deg);
+  --popover-foreground: oklch(0.25 0.028 235deg);
 
-  /* === Primary — neutral (near-black) === */
-  --primary: oklch(0.205 0 0deg);
-  --primary-foreground: oklch(0.985 0 0deg);
-  --primary-hover: oklch(0.27 0 0deg);
-  --primary-active: oklch(0.32 0 0deg);
-  --primary-muted: oklch(0.97 0 0deg);
+  /* === Primary — weathered wood === */
+  --primary: oklch(0.38 0.045 55deg);
+  --primary-foreground: oklch(0.985 0.008 85deg);
+  --primary-hover: oklch(0.33 0.042 55deg);
+  --primary-active: oklch(0.29 0.038 55deg);
+  --primary-muted: oklch(0.92 0.025 65deg);
 
   /* === Secondary === */
-  --secondary: oklch(0.97 0 0deg);
-  --secondary-foreground: oklch(0.205 0 0deg);
-  --secondary-hover: oklch(0.94 0 0deg);
+  --secondary: oklch(0.91 0.027 190deg);
+  --secondary-foreground: oklch(0.25 0.028 235deg);
+  --secondary-hover: oklch(0.86 0.032 190deg);
 
   /* === Accent === */
-  --accent: oklch(0.97 0 0deg);
-  --accent-foreground: oklch(0.205 0 0deg);
-  --accent-hover: oklch(0.94 0 0deg);
+  --accent: oklch(0.9 0.026 80deg);
+  --accent-foreground: oklch(0.25 0.028 235deg);
+  --accent-hover: oklch(0.85 0.032 80deg);
 
   /* === Muted === */
-  --muted: oklch(0.97 0 0deg);
+  --muted: oklch(0.93 0.016 85deg);
 
-  /* 0.50 keeps secondary text >= WCAG AA (>=4.5:1) on both white and muted bg */
-  --muted-foreground: oklch(0.5 0 0deg);
+  /* Keeps secondary text >= WCAG AA on linen and muted surfaces. */
+  --muted-foreground: oklch(0.42 0.025 235deg);
 
   /* === Border & Ring === */
-  --border: oklch(0.922 0 0deg);
-  --ring: oklch(0.45 0 0deg);
-  --ring-offset: oklch(1 0 0deg);
+  --border: oklch(0.83 0.02 75deg);
+  --ring: oklch(0.43 0.055 190deg);
+  --ring-offset: oklch(0.963 0.018 85deg);
 
   /* === Semantic (functional status — kept chromatic) === */
   --destructive: oklch(0.577 0.245 27.325deg);
@@ -51,66 +51,66 @@
   --success-foreground: oklch(0.985 0 0deg);
   --warning: oklch(0.75 0.16 75deg);
   --warning-foreground: oklch(0.205 0 0deg);
-  --info: oklch(0.45 0 0deg);
+  --info: oklch(0.45 0.065 210deg);
   --info-foreground: oklch(0.985 0 0deg);
 
   /* === Surface invert (for dark sections on light bg) === */
-  --surface-invert: oklch(0.205 0 0deg);
-  --surface-invert-foreground: oklch(0.985 0 0deg);
-  --surface-invert-border: oklch(0.32 0 0deg);
+  --surface-invert: oklch(0.25 0.035 235deg);
+  --surface-invert-foreground: oklch(0.97 0.014 85deg);
+  --surface-invert-border: oklch(0.39 0.035 220deg);
 }
 
 .dark {
   /* === Core surfaces === */
-  --background: oklch(0.145 0 0deg);
-  --foreground: oklch(0.985 0 0deg);
-  --card: oklch(0.205 0 0deg);
-  --card-foreground: oklch(0.985 0 0deg);
-  --popover: oklch(0.205 0 0deg);
-  --popover-foreground: oklch(0.985 0 0deg);
+  --background: oklch(0.2 0.026 235deg);
+  --foreground: oklch(0.97 0.014 85deg);
+  --card: oklch(0.25 0.03 235deg);
+  --card-foreground: oklch(0.97 0.014 85deg);
+  --popover: oklch(0.25 0.03 235deg);
+  --popover-foreground: oklch(0.97 0.014 85deg);
 
-  /* === Primary — neutral (near-white) === */
-  --primary: oklch(0.985 0 0deg);
-  --primary-foreground: oklch(0.205 0 0deg);
-  --primary-hover: oklch(0.9 0 0deg);
-  --primary-active: oklch(0.82 0 0deg);
-  --primary-muted: oklch(0.269 0 0deg);
+  /* === Primary — sun-bleached wood === */
+  --primary: oklch(0.82 0.045 75deg);
+  --primary-foreground: oklch(0.22 0.03 235deg);
+  --primary-hover: oklch(0.88 0.035 75deg);
+  --primary-active: oklch(0.74 0.05 75deg);
+  --primary-muted: oklch(0.3 0.03 235deg);
 
   /* === Secondary === */
-  --secondary: oklch(0.269 0 0deg);
-  --secondary-foreground: oklch(0.985 0 0deg);
-  --secondary-hover: oklch(0.32 0 0deg);
+  --secondary: oklch(0.3 0.04 205deg);
+  --secondary-foreground: oklch(0.97 0.014 85deg);
+  --secondary-hover: oklch(0.35 0.045 205deg);
 
   /* === Accent === */
-  --accent: oklch(0.269 0 0deg);
-  --accent-foreground: oklch(0.985 0 0deg);
-  --accent-hover: oklch(0.32 0 0deg);
+  --accent: oklch(0.3 0.025 75deg);
+  --accent-foreground: oklch(0.97 0.014 85deg);
+  --accent-hover: oklch(0.35 0.028 75deg);
 
   /* === Muted === */
-  --muted: oklch(0.269 0 0deg);
+  --muted: oklch(0.27 0.02 235deg);
 
-  /* 0.74 keeps secondary text >= WCAG AA (>=4.5:1) on dark muted bg */
-  --muted-foreground: oklch(0.74 0 0deg);
+  /* Keeps secondary text >= WCAG AA on deep coastal ink. */
+  --muted-foreground: oklch(0.78 0.018 85deg);
 
   /* === Border & Ring === */
-  --border: oklch(0.32 0 0deg);
-  --ring: oklch(0.6 0 0deg);
-  --ring-offset: oklch(0.145 0 0deg);
+  --border: oklch(0.38 0.025 220deg);
+  --ring: oklch(0.75 0.07 190deg);
+  --ring-offset: oklch(0.2 0.026 235deg);
 
   /* === Semantic (functional status — kept chromatic) === */
   --destructive: oklch(0.704 0.191 22.216deg);
   --destructive-foreground: oklch(0.985 0 0deg);
-  --success: oklch(0.7 0.15 150deg);
-  --success-foreground: oklch(0.145 0 0deg);
-  --warning: oklch(0.8 0.15 80deg);
-  --warning-foreground: oklch(0.145 0 0deg);
-  --info: oklch(0.708 0 0deg);
-  --info-foreground: oklch(0.145 0 0deg);
+  --success: oklch(0.72 0.12 165deg);
+  --success-foreground: oklch(0.2 0.026 235deg);
+  --warning: oklch(0.8 0.13 85deg);
+  --warning-foreground: oklch(0.2 0.026 235deg);
+  --info: oklch(0.72 0.08 210deg);
+  --info-foreground: oklch(0.2 0.026 235deg);
 
   /* === Surface invert (for light sections on dark bg) === */
-  --surface-invert: oklch(0.985 0 0deg);
-  --surface-invert-foreground: oklch(0.205 0 0deg);
-  --surface-invert-border: oklch(0.85 0 0deg);
+  --surface-invert: oklch(0.97 0.014 85deg);
+  --surface-invert-foreground: oklch(0.25 0.035 235deg);
+  --surface-invert-border: oklch(0.79 0.025 80deg);
 }
 
 /* === Radius === */
