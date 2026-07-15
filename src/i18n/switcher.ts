@@ -23,7 +23,7 @@ const EQUIVALENT_ROUTES: Record<string, boolean> = {
  * and target locale. Uses the translation key mapping to find
  * equivalent content items.
  *
- * Example: getEquivalentPath("/id/services", "en") → "/en/services"
+ * Example: getEquivalentPath("/id/rentals", "en") → "/en/rentals"
  */
 export function getEquivalentPath(
   currentPath: string,

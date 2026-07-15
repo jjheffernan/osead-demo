@@ -25,7 +25,7 @@ name, email address, and message.
 ## Use of Information
 
 The information we collect is used to:
-- Provide services you request
+- Respond to your inquiry
 - Respond to questions about a sample stay or property
 - Improve this demonstration experience
 
