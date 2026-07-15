@@ -10,7 +10,7 @@ Vision SoT: `docs/VISION.md`
 - [x] V2 Fair Housing + demo disclaimers on layout, indexes, and property PDPs
 - [x] V3 ListingFilters Svelte island (PMC-scale: beds, baths, waterfront, amenities, listingType) on /rentals and /sales
 - [x] V4 PropertyGallery Svelte island on PDPs
-- [ ] V5 Faux booking + check availability → contact flow (mocked dates, no payments)
+- [x] V5 Faux booking + check availability → contact flow (mocked dates, no payments)
 - [ ] V6 Coastal weathered-wood design tokens + brand-first homepage CX (50/50 rent/buy, never Zillow/Airbnb)
 - [ ] V7 Expand seed inventory to ~12–16 homes + richer amenity data for filters
 - [ ] V8 Contact/inquiry Function polish wired to faux booking + sale/rent intents
