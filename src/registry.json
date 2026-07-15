@@ -10,7 +10,7 @@
     {
       "name": "Button",
       "tier": "component",
-      "path": "src/components/ui/form/Button/Button.astro",
+      "path": "src/components/ui/form/Button/Button.svelte",
       "props": ["variant", "size", "href", "type", "loading", "class"],
       "i18nAware": false
     },
@@ -24,7 +24,7 @@
     {
       "name": "Badge",
       "tier": "component",
-      "path": "src/components/ui/data-display/Badge/Badge.astro",
+      "path": "src/components/ui/data-display/Badge/Badge.svelte",
       "props": ["variant", "size", "class"],
       "i18nAware": false
     },
@@ -38,7 +38,7 @@
     {
       "name": "Card",
       "tier": "component",
-      "path": "src/components/ui/data-display/Card/Card.astro",
+      "path": "src/components/ui/data-display/Card/Card.svelte",
       "props": ["hover", "class"],
       "i18nAware": false
     },
@@ -73,7 +73,7 @@
     {
       "name": "Pagination",
       "tier": "component",
-      "path": "src/components/ui/data-display/Pagination/Pagination.astro",
+      "path": "src/components/ui/data-display/Pagination/Pagination.svelte",
       "props": ["currentPage", "totalPages", "basePath", "query", "locale"],
       "i18nAware": true
     },
@@ -108,21 +108,21 @@
     {
       "name": "Input",
       "tier": "component",
-      "path": "src/components/ui/form/Input/Input.astro",
+      "path": "src/components/ui/form/Input/Input.svelte",
       "props": ["id", "name", "label", "type", "placeholder", "value", "helperText", "errorText", "required", "class"],
       "i18nAware": false
     },
     {
       "name": "Select",
       "tier": "component",
-      "path": "src/components/ui/form/Select/Select.astro",
+      "path": "src/components/ui/form/Select/Select.svelte",
       "props": ["id", "name", "label", "options", "value", "helperText", "errorText", "required", "class"],
       "i18nAware": false
     },
     {
       "name": "Textarea",
       "tier": "component",
-      "path": "src/components/ui/form/Textarea/Textarea.astro",
+      "path": "src/components/ui/form/Textarea/Textarea.svelte",
       "props": ["id", "name", "label", "rows", "placeholder", "value", "helperText", "errorText", "required", "class"],
       "i18nAware": false
     },
@@ -150,49 +150,49 @@
     {
       "name": "BlogCard",
       "tier": "component",
-      "path": "src/components/blog/BlogCard.astro",
+      "path": "src/components/blog/BlogCard.svelte",
       "props": ["post", "variant", "locale", "headingLevel"],
       "i18nAware": true
     },
     {
       "name": "ArticleHero",
       "tier": "component",
-      "path": "src/components/blog/ArticleHero.astro",
+      "path": "src/components/blog/ArticleHero.svelte",
       "props": ["post", "locale"],
       "i18nAware": true
     },
     {
       "name": "RelatedPosts",
       "tier": "component",
-      "path": "src/components/blog/RelatedPosts.astro",
+      "path": "src/components/blog/RelatedPosts.svelte",
       "props": ["currentPost", "allPosts", "limit", "locale"],
       "i18nAware": true
     },
     {
       "name": "ShareButtons",
       "tier": "component",
-      "path": "src/components/blog/ShareButtons.astro",
+      "path": "src/components/blog/ShareButtons.svelte",
       "props": ["url", "title", "locale"],
       "i18nAware": true
     },
     {
       "name": "BlogImageSVG",
       "tier": "component",
-      "path": "src/components/blog/BlogImageSVG.astro",
+      "path": "src/components/blog/BlogImageSVG.svelte",
       "props": ["slug", "title"],
       "i18nAware": false
     },
     {
       "name": "TagList",
       "tier": "component",
-      "path": "src/components/blog/TagList.astro",
+      "path": "src/components/blog/TagList.svelte",
       "props": ["tags", "basePath", "locale"],
       "i18nAware": true
     },
     {
       "name": "TableOfContents",
       "tier": "component",
-      "path": "src/components/blog/TableOfContents.astro",
+      "path": "src/components/blog/TableOfContents.svelte",
       "props": ["headings", "layout", "maxDepth", "minHeadings", "title", "locale"],
       "i18nAware": true
     }
@@ -201,7 +201,7 @@
     {
       "name": "Hero",
       "tier": "section",
-      "path": "src/components/hero/Hero.astro",
+      "path": "src/components/hero/Hero.svelte",
       "props": ["variant", "size", "eyebrow", "headline", "subheadline", "primaryCta", "secondaryCta", "locale"],
       "i18nAware": true
     },
@@ -222,7 +222,7 @@
     {
       "name": "FAQ",
       "tier": "section",
-      "path": "src/components/FAQ.astro",
+      "path": "src/components/FAQ.svelte",
       "props": ["title", "items"],
       "i18nAware": true
     }

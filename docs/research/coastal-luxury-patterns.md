@@ -91,6 +91,6 @@ Defer / avoid for MVP demo:
 ## Implications for OSEAD template
 
 1. Content model must encode **listingType**, **market**, **waterfront**, pricing axes, amenities.
-2. Svelte islands only where interaction pays off (filters, gallery, inquiry form).
+2. Svelte for site UI (SSR by default); hydrate with `client:*` only where interaction pays off (filters, gallery, inquiry form, nav, theme).
 3. AFK backlog should prioritize SEO page types and listing UX before decorative polish.
 4. Template swaps: `site.config.ts`, logos, seed Markdown — then redeploy Pages.

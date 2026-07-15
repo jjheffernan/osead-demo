@@ -4,8 +4,9 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
 import { resolveRoute } from "../i18n/routes";
 import { siteConfig } from "../config/site.config";
-import { BlogCard } from "../components/blog/index";
-import Pagination from "../components/ui/data-display/Pagination/Pagination.astro";
+import BlogCard from "../components/blog/BlogCard.svelte";
+import Pagination from "../components/ui/data-display/Pagination/Pagination.svelte";
+import { toBlogPostSummary } from "../lib/blog";
 
 const locale = (Astro.currentLocale || "en") as "en";
 const searchParams = Astro.url.searchParams;
@@ -109,33 +110,33 @@ const allTags = [
       )
     }
 
-    {
-      featuredPost && currentPage === 1 && (
-        <section class="blog-list__featured" aria-label="Featured article">
-          <BlogCard
-            post={featuredPost}
-            variant="list"
-            locale={locale}
-            headingLevel="h2"
-          />
-        </section>
-      )
-    }
-
-    {
-      pagePosts.length > 0 && (
-        <section class="blog-list__grid">
-          {pagePosts.map((post) => (
+      {
+        featuredPost && currentPage === 1 && (
+          <section class="blog-list__featured" aria-label="Featured article">
             <BlogCard
-              post={post}
-              variant="grid"
+              post={toBlogPostSummary(featuredPost, locale)}
+              variant="list"
               locale={locale}
               headingLevel="h2"
             />
-          ))}
-        </section>
-      )
-    }
+          </section>
+        )
+      }
+
+      {
+        pagePosts.length > 0 && (
+          <section class="blog-list__grid">
+            {pagePosts.map((post) => (
+              <BlogCard
+                post={toBlogPostSummary(post, locale)}
+                variant="grid"
+                locale={locale}
+                headingLevel="h2"
+              />
+            ))}
+          </section>
+        )
+      }
 
     {
       totalPages > 1 && (

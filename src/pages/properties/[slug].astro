@@ -3,13 +3,14 @@ import { render } from "astro:content";
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import Breadcrumbs from "../../components/seo/Breadcrumbs.astro";
 import JsonLd from "../../components/seo/JsonLd.astro";
-import ListingNotice from "../../components/properties/ListingNotice.astro";
-import PropertyCard from "../../components/properties/PropertyCard.astro";
+import ListingNotice from "../../components/properties/ListingNotice.svelte";
+import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import PropertyGallery from "../../components/properties/PropertyGallery.svelte";
 import AvailabilityInquiry from "../../components/properties/AvailabilityInquiry.svelte";
 import {
   getPublishedProperties,
   getRelatedProperties,
+  toPropertyCardProps,
   type PropertyEntry,
 } from "../../lib/properties";
 import {
@@ -183,7 +184,7 @@ const related = await getRelatedProperties(property);
           </header>
           <div class="property__related-grid">
             {related.map((entry) => (
-              <PropertyCard property={entry} />
+              <PropertyCard property={toPropertyCardProps(entry)} />
             ))}
           </div>
         </section>

@@ -1,0 +1,69 @@
+<script lang="ts">
+	import type { Locale } from "../../lib/site-config";
+	import { SITE_CONFIG } from "../../lib/site-config";
+	import { getEquivalentPath } from "../../i18n/switcher";
+
+	interface Props {
+		currentLocale: Locale;
+		currentPath: string;
+	}
+
+	const { currentLocale, currentPath }: Props = $props();
+	// Only render when there is another locale to switch to. The switcher
+	// reappears automatically once SITE_CONFIG.locales has more than one entry.
+	// (Single-locale builds make `.find` infer `never` — index avoids that.)
+	const targetLocale = $derived(
+		SITE_CONFIG.locales.filter(
+			(locale): locale is Locale => locale !== currentLocale,
+		)[0],
+	);
+	const href = $derived(
+		targetLocale ? getEquivalentPath(currentPath, targetLocale) : "#",
+	);
+</script>
+
+{#if targetLocale}
+	<a
+		{href}
+		hreflang={targetLocale}
+		class="language-switcher"
+		aria-label={`Switch to ${targetLocale.toUpperCase()}`}
+	>
+		{targetLocale.toUpperCase()}
+	</a>
+{/if}
+
+<style>
+	.language-switcher {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		background: var(--color-bg-primary);
+		color: var(--color-text-primary);
+		text-decoration: none;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.language-switcher:hover {
+		border-color: var(--color-brand-primary);
+		color: var(--color-brand-primary);
+		background: var(--color-bg-secondary);
+		transform: scale(1.05);
+	}
+
+	.language-switcher:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+
+	.language-switcher:active {
+		transform: scale(0.95);
+	}
+</style>

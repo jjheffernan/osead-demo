@@ -1,9 +1,10 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
-import PropertyCard from "../../components/properties/PropertyCard.astro";
+import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import {
   getIntentCollections,
   getPropertiesForCollection,
+  toPropertyCardProps,
   type IntentCollectionEntry,
 } from "../../lib/properties";
 
@@ -44,7 +45,7 @@ const description =
     <div class="property-grid">
       {
         properties.length > 0 ? (
-          properties.map((property) => <PropertyCard property={property} />)
+          properties.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)
         ) : (
           <p>No matching listings yet.</p>
         )

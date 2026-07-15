@@ -155,6 +155,34 @@ export function propertyPath(property: PropertyEntry): string {
   return `/properties/${property.data.slug}`;
 }
 
+/** Flattened, serializable shape for the SSR PropertyCard.svelte component. */
+export interface PropertyCardData {
+  href: string;
+  title: string;
+  regionLabel: string;
+  beds: number;
+  baths: number;
+  sleeps?: number;
+  waterfront: PropertyEntry["data"]["waterfront"];
+  priceDisplay?: string;
+  image?: { src: string; alt: string };
+}
+
+export function toPropertyCardProps(property: PropertyEntry): PropertyCardData {
+  const { data } = property;
+  return {
+    href: propertyPath(property),
+    title: data.title,
+    regionLabel: data.regionLabel,
+    beds: data.beds,
+    baths: data.baths,
+    sleeps: data.sleeps,
+    waterfront: data.waterfront,
+    priceDisplay: data.priceDisplay,
+    image: data.images[0],
+  };
+}
+
 export function marketPath(market: MarketEntry): string {
   return `/markets/${market.data.slug}`;
 }

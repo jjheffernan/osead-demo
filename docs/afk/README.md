@@ -72,7 +72,9 @@ Paste from:
 ## Guardrails
 
 - Stay on design tokens (`system/globals`, `check:kpis`)
-- Svelte islands for interaction only
+- **Stack order:** Astro (pages/layouts/SEO) → Svelte 5 (UI, SSR default) → TypeScript (config/schemas/queries/Functions/tests only)
+- Prefer new UI as `.svelte`; use `client:*` only for interaction (filters, gallery, nav, theme, forms)
+- Do not grow TypeScript for presentational UI or barrels
 - Markdown remains source of truth for listings
 - Draft PRs only (`draftPrs: true`)
 - Do not commit secrets; `.env*` stays local

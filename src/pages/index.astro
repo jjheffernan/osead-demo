@@ -1,8 +1,8 @@
 ---
 import MarketingLayout from "../layouts/MarketingLayout.astro";
-import PropertyCard from "../components/properties/PropertyCard.astro";
-import MarketplaceLinks from "../components/sections/MarketplaceLinks.astro";
-import Team from "../components/sections/Team.astro";
+import PropertyCard from "../components/properties/PropertyCard.svelte";
+import MarketplaceLinks from "../components/sections/MarketplaceLinks.svelte";
+import Team from "../components/sections/Team.svelte";
 import {
   buyMarketplaces,
   rentMarketplaces,
@@ -11,6 +11,7 @@ import { demoStaff } from "../config/staff";
 import {
   getPropertiesByListingType,
   getPublishedProperties,
+  toPropertyCardProps,
 } from "../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
@@ -98,7 +99,7 @@ const homeSales =
       >
     </header>
     <div class="property-grid">
-      {homeRentals.map((property) => <PropertyCard property={property} />)}
+      {homeRentals.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)}
     </div>
   </section>
 
@@ -113,7 +114,7 @@ const homeSales =
       >
     </header>
     <div class="property-grid">
-      {homeSales.map((property) => <PropertyCard property={property} />)}
+      {homeSales.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)}
     </div>
   </section>
 

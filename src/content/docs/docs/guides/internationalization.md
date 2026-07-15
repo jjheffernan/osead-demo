@@ -16,7 +16,7 @@ The i18n system is built on three layers:
 2. **Content collection locale fields** — each content entry declares its `locale`
 3. **Translation files** — UI strings live in `src/i18n/<locale>.json`
 
-The single source of truth for active locales is `src/config/i18n.config.ts`
+The single source of truth for active locales is `src/config/site.config.ts`
 (mirrored in `src/lib/site-config.ts` and `astro.config.ts`).
 
 ## UI Translations
@@ -52,7 +52,7 @@ loudly when a translation is absent.
    ```
 
    ```typescript
-   // src/config/i18n.config.ts  → locales: ["en", "id"]
+   // src/config/site.config.ts  → locales: ["en", "id"]
    // astro.config.ts            → i18n.locales + sitemap.i18n.locales
    ```
 
