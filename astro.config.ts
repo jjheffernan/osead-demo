@@ -76,7 +76,6 @@ function contentValidationIntegration() {
         const contentBase = join(process.cwd(), "src", "content");
       const collections = [
         { dir: join(contentBase, "blog"), extensions: [".md", ".mdx"] },
-        { dir: join(contentBase, "services"), extensions: [".md", ".mdx"] },
         { dir: join(contentBase, "pages"), extensions: [".md"] },
         { dir: join(contentBase, "faqs"), extensions: [".json"] },
         { dir: join(contentBase, "stack"), extensions: [".md", ".mdx"] },
