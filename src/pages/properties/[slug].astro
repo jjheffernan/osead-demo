@@ -1,6 +1,7 @@
 ---
 import { render } from "astro:content";
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import Breadcrumbs from "../../components/seo/Breadcrumbs.astro";
 import JsonLd from "../../components/seo/JsonLd.astro";
 import ListingNotice from "../../components/properties/ListingNotice.astro";
 import PropertyCard from "../../components/properties/PropertyCard.astro";
@@ -48,6 +49,11 @@ const listingLabel =
     : data.listingType === "rental"
       ? "Weekly rental"
       : "For sale";
+// Primary IA is Rentals/Sales; markets stay secondary SEO (V13 towns).
+const inventoryCrumb =
+  data.listingType === "sale"
+    ? { label: "Homes for Sale", href: "/sales" }
+    : { label: "Weekly Rentals", href: "/rentals" };
 const related = await getRelatedProperties(property);
 ---
 
@@ -55,6 +61,9 @@ const related = await getRelatedProperties(property);
   {schemas.length > 0 && <JsonLd schema={schemas} />}
 
   <article class="container property">
+    <Breadcrumbs
+      crumbs={[inventoryCrumb, { label: data.title, href: path }]}
+    />
     <PropertyGallery
       client:load
       images={data.images}

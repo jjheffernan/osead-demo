@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import Breadcrumbs from "../../components/seo/Breadcrumbs.astro";
 import { getMarkets, marketPath } from "../../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
@@ -13,6 +14,7 @@ const markets = await getMarkets();
   path="/markets"
 >
   <section class="container py-16">
+    <Breadcrumbs crumbs={[{ label: "Markets", href: "/markets" }]} />
     <header class="section-head">
       <p class="section-head__eyebrow">Markets</p>
       <h1 class="section-head__title">Where summer homes live</h1>

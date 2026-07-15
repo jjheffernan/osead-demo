@@ -1,9 +1,11 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import Breadcrumbs from "../../components/seo/Breadcrumbs.astro";
 import PropertyCard from "../../components/properties/PropertyCard.astro";
 import {
   getMarkets,
   getPropertiesByMarket,
+  marketPath,
   type MarketEntry,
 } from "../../lib/properties";
 
@@ -21,6 +23,7 @@ interface Props {
 
 const { market } = Astro.props;
 const locale = (Astro.currentLocale || "en") as "en";
+const path = marketPath(market);
 const properties = await getPropertiesByMarket(market.data.market);
 const title = market.data.seoTitle ?? market.data.title;
 const description = market.data.seoDescription ?? market.data.description;
@@ -30,9 +33,15 @@ const description = market.data.seoDescription ?? market.data.description;
   title={title}
   description={description}
   locale={locale}
-  path={`/markets/${market.data.slug}`}
+  path={path}
 >
   <section class="container py-16">
+    <Breadcrumbs
+      crumbs={[
+        { label: "Markets", href: "/markets" },
+        { label: market.data.title, href: path },
+      ]}
+    />
     <header class="section-head">
       <p class="section-head__eyebrow">Market guide</p>
       <h1 class="section-head__title">{market.data.title}</h1>

@@ -12,7 +12,7 @@ Keep max concurrent agent work small; config `maxPrs` caps completed slices per 
 ### A1 — Property gallery Svelte island — DONE (V4 / V10b video)
 ### A2 — Listing filters Svelte island — DONE (V3)
 ### A3 — Related properties — OPEN → TODO V11
-### A4 — Breadcrumbs on market + property pages — OPEN → TODO V12
+### A4 — Breadcrumbs on market + property pages — DONE (V12)
 
 ## Wave B — SEO destinations
 

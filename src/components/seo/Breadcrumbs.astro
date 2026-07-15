@@ -34,14 +34,16 @@ const jsonLd = {
             <a href={crumb.href} class="breadcrumbs__home">
               {crumb.label}
             </a>
-          ) : index === visibleCrumbs.length - 1 ? (
-            <span aria-current="page">{crumb.label}</span>
           ) : (
             <>
               <span class="breadcrumbs__separator" aria-hidden="true">
                 /
               </span>
-              <a href={crumb.href}>{crumb.label}</a>
+              {index === visibleCrumbs.length - 1 ? (
+                <span aria-current="page">{crumb.label}</span>
+              ) : (
+                <a href={crumb.href}>{crumb.label}</a>
+              )}
             </>
           )}
         </li>
@@ -53,6 +55,10 @@ const jsonLd = {
 <JsonLd schema={jsonLd} />
 
 <style>
+  .breadcrumbs {
+    margin-bottom: 1rem;
+  }
+
   .breadcrumbs__list {
     display: flex;
     flex-wrap: wrap;
