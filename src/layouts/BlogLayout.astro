@@ -9,8 +9,8 @@ import { t } from "../i18n/ui";
 import { siteConfig } from "../config/site.config";
 import ArticleHero from "../components/blog/ArticleHero.svelte";
 import RelatedPosts from "../components/blog/RelatedPosts.svelte";
-import ShareButtons from "../components/blog/ShareButtons.astro";
-import TableOfContents from "../components/blog/TableOfContents.astro";
+import ShareButtons from "../components/blog/ShareButtons.svelte";
+import TableOfContents from "../components/blog/TableOfContents.svelte";
 import { toBlogPostSummary, pickRelatedPosts } from "../lib/blog";
 
 interface Heading {
@@ -92,9 +92,10 @@ const relatedPosts = pickRelatedPosts(post, allPosts).map((entry) =>
     <ArticleHero post={toBlogPostSummary(post, locale)} locale={locale} />
 
     {
-      siteConfig.articleFeatures.toc.enabled &&
+        siteConfig.articleFeatures.toc.enabled &&
         siteConfig.articleFeatures.toc.layout === "inline" && (
           <TableOfContents
+            client:visible
             headings={headings}
             layout="inline"
             maxDepth={siteConfig.articleFeatures.toc.maxDepth}
@@ -113,6 +114,7 @@ const relatedPosts = pickRelatedPosts(post, allPosts).map((entry) =>
           siteConfig.articleFeatures.toc.layout === "sidebar" && (
             <aside class="blog-layout__toc blog-layout__toc--sidebar">
               <TableOfContents
+                client:visible
                 headings={headings}
                 layout="sidebar"
                 maxDepth={siteConfig.articleFeatures.toc.maxDepth}
@@ -132,6 +134,7 @@ const relatedPosts = pickRelatedPosts(post, allPosts).map((entry) =>
     </div>
 
     <ShareButtons
+      client:visible
       url={canonicalUrl(locale, `/blog/${post.id}`)}
       title={post.data.title}
       locale={locale}

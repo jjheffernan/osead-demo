@@ -1,7 +1,8 @@
 ---
-import Header from "../components/layout/Header.astro";
+import Header from "../components/layout/Header.svelte";
+import ThemeToggle from "../components/layout/ThemeToggle.svelte";
 import Footer from "../components/layout/Footer.svelte";
-import SearchModal from "../components/layout/SearchModal.astro";
+import SearchModal from "../components/layout/SearchModal.svelte";
 import SEO from "../components/seo/SEO.astro";
 import Analytics from "../components/layout/Analytics.astro";
 import { SITE_CONFIG, type Locale } from "../lib/site-config";
@@ -123,15 +124,15 @@ function defaultOgImage(routePath: string) {
 
     {
       showHeader && (
-        <Header
-          currentLocale={locale}
-          currentPath={path}
-          showThemeToggle={showThemeToggle}
-        />
+        <Header client:idle currentLocale={locale} currentPath={path}>
+          {showThemeToggle && (
+            <ThemeToggle client:load locale={locale} slot="themeToggle" />
+          )}
+        </Header>
       )
     }
 
-    <SearchModal locale={locale} />
+    <SearchModal client:idle locale={locale} />
 
     <main id="main-content" class="flex-1">
       <slot />

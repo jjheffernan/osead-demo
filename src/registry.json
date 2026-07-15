@@ -171,7 +171,7 @@
     {
       "name": "ShareButtons",
       "tier": "component",
-      "path": "src/components/blog/ShareButtons.astro",
+      "path": "src/components/blog/ShareButtons.svelte",
       "props": ["url", "title", "locale"],
       "i18nAware": true
     },
@@ -192,7 +192,7 @@
     {
       "name": "TableOfContents",
       "tier": "component",
-      "path": "src/components/blog/TableOfContents.astro",
+      "path": "src/components/blog/TableOfContents.svelte",
       "props": ["headings", "layout", "maxDepth", "minHeadings", "title", "locale"],
       "i18nAware": true
     }
@@ -222,7 +222,7 @@
     {
       "name": "FAQ",
       "tier": "section",
-      "path": "src/components/FAQ.astro",
+      "path": "src/components/FAQ.svelte",
       "props": ["title", "items"],
       "i18nAware": true
     }
