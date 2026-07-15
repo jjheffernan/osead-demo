@@ -33,7 +33,8 @@ Product source of truth for AFK agents. Do not reopen overnight unless the opera
 
 1. **Delete starter cruft** (`/services`, `/pricing`, showcase leftovers, leftover SaaS marketing copy) and build OSEAD paths.
 2. Scope is otherwise **open** — limit only by **drift** and the spin-up rule below.
-3. **Hard constraint:** stay lightweight enough to spin a demo quickly (static Markdown inventory, Svelte islands, Cloudflare Pages, light Functions). No mandatory CMS/DB/IDX.
+3. **Hard constraint:** stay lightweight enough to spin a demo quickly (static Markdown inventory, Svelte UI, Cloudflare Pages, light Functions). No mandatory CMS/DB/IDX.
+4. **Authoring stack (strict order):** **Astro** (pages, layouts, content loading, SEO head, endpoints) → **Svelte 5** (all site UI; SSR by default, `client:*` only where interaction needs it) → **TypeScript** (config, Zod/`content.config`, lib queries, Pages Functions, tests only).
 4. Goal: **shippable product**, full steam ahead.
 
 ## Operator workflow (AFK)

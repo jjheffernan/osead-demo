@@ -1,7 +1,7 @@
 # OSEAD build plan
 
 **Product:** Template-ready high-end coastal real estate site for **weekly rentals** + **sales**.  
-**Stack:** Astro 7 (static), Svelte 5 islands, Cloudflare Pages, Markdown collections, light Pages Functions.  
+**Stack (authoring order):** Astro 7 (pages/layouts/SEO/endpoints) → Svelte 5 (UI: SSR by default; `client:*` only for interaction) → thin TypeScript (config, content schemas, lib queries, Pages Functions, tests). Cloudflare Pages + Markdown collections.  
 **Starter base:** [astro-cloudflare-starter](https://github.com/milzamsz/astro-cloudflare-starter) + Svelte swap.
 
 ## North star
@@ -65,7 +65,9 @@ Priority tickets in `TODO.md` / GitHub `ready-for-agent`:
 
 | Decision | Choice | Why |
 | --- | --- | --- |
-| Islands | Svelte 5 | Interactive filters/gallery without React tax |
+| UI | Svelte 5 | All site UI; SSR default; hydrate only when interaction pays off |
+| Pages | Astro 7 | Routing, layouts, content loading, SEO head |
+| Glue | TypeScript | Config, Zod schemas, queries, Functions, tests only |
 | Content | Astro content collections | Git-based, type-safe, demo-friendly |
 | Hosting | Cloudflare Pages | Static + optional Functions/R2 |
 | Schema | VacationRental + RealEstateListing | Matches dual inventory |
