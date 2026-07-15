@@ -23,3 +23,5 @@ This repo is an **OSEAD** coastal real estate template (weekly rentals + sales) 
 - For overnight work, follow `.agents/skills/after-hours/SKILL.md` and only pick `ready-for-agent` / `TODO.md` **Now** items with clear acceptance checks.
 
 **Verify before done:** `pnpm build`, `pnpm lint` (includes `pnpm check:kpis`).
+
+**AFK overnight (local-first):** follow `docs/VISION.md` and `docs/afk/local-first.md`. Merge locally; do not wait on GitHub PR permissions.

@@ -1,25 +1,30 @@
 # TODO
 
-Agent-ready work for after-hours `todo-md` Source. Move one card into **Now** at a time.
+Vertical slices for after-hours. One slice = one subagent, conception → integration on a branch, then **local merge to main** (no GitHub PR wait). Mark done with `[x]` when merged.
+
+Vision SoT: `docs/VISION.md`
 
 ## Now
 
-- [ ] A2 Listing filters Svelte island — see docs/afk/backlog.md#a2--listing-filters-svelte-island
+- [ ] V1 Delete starter SaaS pages/nav/copy; OSEAD IA only (rentals primary, sales secondary, filters-forward; markets not primary nav)
+- [ ] V2 Fair Housing + demo disclaimers on layout, indexes, and property PDPs
+- [ ] V3 ListingFilters Svelte island (PMC-scale: beds, baths, waterfront, amenities, listingType) on /rentals and /sales
+- [ ] V4 PropertyGallery Svelte island on PDPs
+- [ ] V5 Faux booking + check availability → contact flow (mocked dates, no payments)
+- [ ] V6 Coastal weathered-wood design tokens + brand-first homepage CX (50/50 rent/buy, never Zillow/Airbnb)
+- [ ] V7 Expand seed inventory to ~12–16 homes + richer amenity data for filters
+- [ ] V8 Contact/inquiry Function polish wired to faux booking + sale/rent intents
+- [ ] V9 SEO collections without market-first IA (oceanfront, pets, large groups, elevators)
+- [ ] V10 Remove leftover starter services/pricing/sections/showcase surfaces and fix tests
 
 ## Next
 
-- [ ] A1 Property gallery Svelte island
-- [ ] A3 Related properties on PDP
-- [ ] B1 Collections content type
-- [ ] B3 Three SEO journal posts
-- [ ] C1 Inquiry form island → Pages Function
+- [ ] (refill from docs/afk/backlog.md after V1–V10)
 
 ## Later
 
-- [ ] B2 Town pages under markets
-- [ ] B4 Expand seed inventory to 12
-- [ ] D1 Coastal tokens sync
-- [ ] D2 Brand-first homepage refinement
+- [ ] Cloudflare Pages deploy checklist pass
+- [ ] Optional town pages (SEO only, not primary nav)
 
 ## Blocked
 
