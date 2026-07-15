@@ -1,0 +1,25 @@
+{
+  "repo": "jjheffernan/osead-demo",
+  "baseBranch": "main",
+  "packageManager": "pnpm",
+  "testCommand": "pnpm build",
+  "todoPath": "TODO.md",
+  "statePath": ".cursor/after-hours-loop.state.json",
+  "morningBriefPath": ".cursor/after-hours-morning-brief.md",
+  "cloudLedgerPath": null,
+  "runsPath": null,
+  "draftPrs": true,
+  "maxPrs": 10,
+  "allowSkipTests": false,
+  "allowEmptyQueue": false,
+  "maxConsecutiveBlocked": 3,
+  "babysitCi": false,
+  "stopOnCiRed": false,
+  "tickIntervalMinutes": 10,
+  "maxRuntimeHours": 10,
+  "safety": {
+    "pathDenylist": [".env", ".env.*", "**/*secret*", "**/*credential*"],
+    "stopOnAuthWeakening": true,
+    "stopOnDirtyTree": true
+  }
+}
