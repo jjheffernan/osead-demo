@@ -10,5 +10,5 @@ This demo is built with [Astro](https://astro.build), Svelte islands, and [Starl
 ## Sections
 
 - **Getting Started** — Overview, quick start, and project structure
-- **Guides** — Content management, internationalization, and customization
-- **Deployment** — Deploying to Cloudflare Pages and environment configuration
+- **Guides** — [White-label this template](/docs/guides/white-label-this-template/), content, i18n, customization
+- **Deployment** — Cloudflare Pages prep and environment configuration (production deploy gated until TODO Now is clear)

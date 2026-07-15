@@ -138,6 +138,7 @@ export default defineConfig({
         {
           label: "Guides",
           items: [
+            { label: "White-label this template", slug: "docs/guides/white-label-this-template" },
             { label: "Content Management", slug: "docs/guides/content-management" },
             { label: "Internationalization", slug: "docs/guides/internationalization" },
             { label: "Customization", slug: "docs/guides/customization" },
