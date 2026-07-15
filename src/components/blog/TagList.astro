@@ -5,10 +5,11 @@ import { Badge } from "../ui/index";
 export interface Props {
   tags: string[];
   basePath?: string;
+  /** Reserved for locale-prefixed tag links when i18n routes expand. */
   locale?: Locale;
 }
 
-const { tags, basePath = "/blog", locale = "en" } = Astro.props as Props;
+const { tags, basePath = "/blog" } = Astro.props as Props;
 
 function slugify(value: string) {
   return value

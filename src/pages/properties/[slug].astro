@@ -39,7 +39,7 @@ const title = data.seoTitle ?? `${data.title} | ${data.regionLabel}`;
 const description = data.seoDescription ?? data.description;
 const saleLd = buildSaleJsonLd(data, pageUrl);
 const rentalLd = buildRentalJsonLd(data, pageUrl);
-const schemas = [saleLd, rentalLd].filter(Boolean) as Record<
+const schemas = [saleLd, rentalLd].filter(Boolean) as unknown as Record<
   string,
   unknown
 >[];
@@ -148,7 +148,7 @@ const related = await getRelatedProperties(property);
         <section class="property__section">
           <h2>Highlights</h2>
           <ul class="highlights">
-            {data.highlights.map((item) => (
+            {data.highlights.map((item: string) => (
               <li>{item}</li>
             ))}
           </ul>
@@ -161,7 +161,7 @@ const related = await getRelatedProperties(property);
         <section class="property__section">
           <h2>Amenities</h2>
           <ul class="amenities">
-            {data.amenities.map((item) => (
+            {data.amenities.map((item: string) => (
               <li>{item}</li>
             ))}
           </ul>

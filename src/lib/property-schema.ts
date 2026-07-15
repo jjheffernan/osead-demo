@@ -20,7 +20,7 @@ export function buildSaleJsonLd(
     description: property.description,
     url,
     datePosted: new Date().toISOString().slice(0, 10),
-    image: property.images.map((image) => image.src),
+    image: property.images.map((image: { src: string }) => image.src),
     ...(property.salePrice
       ? {
           offers: {
@@ -47,7 +47,7 @@ export function buildRentalJsonLd(
     description: property.description,
     identifier: property.uid ?? property.slug,
     url,
-    image: property.images.map((image) => image.src),
+    image: property.images.map((image: { src: string }) => image.src),
     ...(property.checkInTime ? { checkinTime: property.checkInTime } : {}),
     ...(property.checkOutTime ? { checkoutTime: property.checkOutTime } : {}),
     ...(property.geo
@@ -82,7 +82,7 @@ export function buildRentalJsonLd(
             },
           }
         : {}),
-      amenityFeature: property.amenities.map((name) => ({
+      amenityFeature: property.amenities.map((name: string) => ({
         "@type": "LocationFeatureSpecification",
         name,
         value: true,

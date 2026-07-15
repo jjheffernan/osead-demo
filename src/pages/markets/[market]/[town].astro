@@ -15,7 +15,7 @@ import {
 export async function getStaticPaths() {
   const markets = await getMarkets();
   return markets.flatMap((market) =>
-    market.data.towns.map((town) => ({
+    market.data.towns.map((town: string) => ({
       params: { market: market.data.slug, town: slugify(town) },
       props: { market, town },
     })),

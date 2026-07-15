@@ -56,7 +56,7 @@ const heroImage =
     {
       market.data.towns.length > 0 && (
         <ul class="towns">
-          {market.data.towns.map((town) => (
+          {market.data.towns.map((town: string) => (
             <li>
               <a href={townPath(market, town)}>{town}</a>
             </li>

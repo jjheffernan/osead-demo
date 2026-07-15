@@ -9,8 +9,11 @@ export type CollectionMatch = IntentCollectionEntry["data"]["match"];
 export async function getPublishedProperties(): Promise<PropertyEntry[]> {
   const all = await getCollection("properties");
   return all
-    .filter((entry) => !entry.data.draft)
-    .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+    .filter((entry: PropertyEntry) => !entry.data.draft)
+    .sort(
+      (a: PropertyEntry, b: PropertyEntry) =>
+        Number(b.data.featured) - Number(a.data.featured),
+    );
 }
 
 export async function getPropertiesByListingType(
@@ -51,12 +54,17 @@ export async function getPropertiesByTown(
 
 export async function getMarkets(): Promise<MarketEntry[]> {
   const all = await getCollection("markets");
-  return all.sort((a, b) => a.data.order - b.data.order);
+  return all.sort(
+    (a: MarketEntry, b: MarketEntry) => a.data.order - b.data.order,
+  );
 }
 
 export async function getIntentCollections(): Promise<IntentCollectionEntry[]> {
   const all = await getCollection("collections");
-  return all.sort((a, b) => a.data.order - b.data.order);
+  return all.sort(
+    (a: IntentCollectionEntry, b: IntentCollectionEntry) =>
+      a.data.order - b.data.order,
+  );
 }
 
 /** AND across present match keys; vacuous match (no keys) matches nothing. */
@@ -92,7 +100,7 @@ export function propertyMatchesCollection(
   if (match.amenityContains) {
     const needle = match.amenityContains.toLowerCase();
     if (
-      !property.amenities.some((amenity) =>
+      !property.amenities.some((amenity: string) =>
         amenity.toLowerCase().includes(needle),
       )
     ) {

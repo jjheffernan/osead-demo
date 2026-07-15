@@ -26,7 +26,7 @@ export default [
       "@typescript-eslint/consistent-type-definitions": ["error", "interface"],
       "@typescript-eslint/no-unused-expressions": "off",
       "no-unused-vars": "warn",
-      "no-console": "warn",
+      "no-console": ["warn", { allow: ["warn", "error"] }],
       "prefer-const": "error",
     },
   },

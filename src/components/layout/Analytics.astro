@@ -9,11 +9,14 @@ const umamiId = settings?.data.umamiId;
 ---
 
 {gaId && (
-  <script async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+  <script
+    is:inline
+    async
+    src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
   ></script>
 )}
 {gaId && (
-  <script define:vars={{ gaId }}>
+  <script is:inline define:vars={{ gaId }}>
     window.dataLayer = window.dataLayer || [];
     function gtag(...args) {
       window.dataLayer.push(args);
@@ -24,11 +27,14 @@ const umamiId = settings?.data.umamiId;
 )}
 
 {gtmId && (
-  <script async src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
+  <script
+    is:inline
+    async
+    src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`}
   ></script>
 )}
 {gtmId && (
-  <script>
+  <script is:inline>
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
       "gtm.start": new Date().getTime(),
@@ -38,5 +44,11 @@ const umamiId = settings?.data.umamiId;
 )}
 
 {umamiUrl && umamiId && (
-  <script async defer src={umamiUrl} data-website-id={umamiId}></script>
+  <script
+    is:inline
+    async
+    defer
+    src={umamiUrl}
+    data-website-id={umamiId}
+  ></script>
 )}
