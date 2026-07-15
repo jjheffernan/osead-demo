@@ -48,7 +48,7 @@
 		}
 
 		const query = new URLSearchParams({
-			inquiry: "availability",
+			intent: "booking-inquiry",
 			property: propertySlug,
 			checkIn,
 			checkOut,
