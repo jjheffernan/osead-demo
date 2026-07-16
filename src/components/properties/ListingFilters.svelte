@@ -186,7 +186,14 @@
 				</a>
 			</article>
 		{:else}
-			<p class="listing-filters__empty">No properties match these preferences. Try broadening the brief.</p>
+			<div class="listing-filters__empty">
+				<p>No properties match these preferences. Try broadening the brief.</p>
+				{#if hasActiveFilters}
+					<button class="listing-filters__clear" type="button" onclick={clearFilters}>
+						Clear filters
+					</button>
+				{/if}
+			</div>
 		{/each}
 	</div>
 </section>
@@ -374,8 +381,15 @@
 	}
 
 	.listing-filters__empty {
+		display: grid;
+		gap: var(--spacing-3);
+		justify-items: start;
 		margin: 0;
 		color: var(--muted-foreground);
+	}
+
+	.listing-filters__empty p {
+		margin: 0;
 	}
 
 	@media (width < 40rem) {

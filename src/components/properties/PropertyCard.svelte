@@ -14,7 +14,7 @@
 			`${property.beds} beds`,
 			`${property.baths} baths`,
 			property.sleeps ? `Sleeps ${property.sleeps}` : null,
-			property.waterfront.replace("-", " "),
+			property.waterfront.replace(/-/g, " "),
 		]
 			.filter(Boolean)
 			.join(" · "),

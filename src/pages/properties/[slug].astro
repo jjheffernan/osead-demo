@@ -181,6 +181,12 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
             </a>
           )
         }
+        <a
+          class="property__ask"
+          href={`/contact?intent=${showRental ? "rental" : "sale"}&property=${encodeURIComponent(data.slug)}`}
+        >
+          {showSale && !showRental ? "Request info" : "Ask a question"}
+        </a>
         <p class="property__response">
           We typically reply within one business day.
         </p>
@@ -197,7 +203,7 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
       </aside>
     </div>
 
-    <section class="property__section property__ratings" aria-labelledby="listing-ratings">
+    <section class="property__section property__ratings" aria-label="Listing ratings and feedback">
       {
         listingTestimonials.length > 0 && (
           <Testimonials items={listingTestimonials} title="What guests say" />
@@ -331,6 +337,15 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
     color: var(--muted-foreground);
     font-size: 0.875rem;
     line-height: 1.45;
+  }
+
+  .property__ask {
+    width: fit-content;
+    border-bottom: 1px solid currentcolor;
+    color: var(--foreground);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
   }
 
   .button {
