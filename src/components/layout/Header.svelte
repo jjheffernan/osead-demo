@@ -7,6 +7,10 @@
 	import { siteConfig } from "../../config/site.config";
 	import Logo from "./Logo.svelte";
 	import LanguageSwitcher from "./LanguageSwitcher.svelte";
+	import Sheet from "../ui/overlay/Sheet/Sheet.svelte";
+	import DropdownMenu from "../ui/overlay/DropdownMenu/DropdownMenu.svelte";
+	import Tooltip from "../ui/overlay/Tooltip/Tooltip.svelte";
+	import { clearDemoAccount } from "../../lib/demo-account";
 
 	interface Props {
 		currentLocale: Locale;
@@ -34,8 +38,22 @@
 		(link) => link.platform === "github",
 	)?.url;
 
+	const loginHref = $derived(resolveRoute(effectiveLocale, "/login"));
+	const accountHref = $derived(resolveRoute(effectiveLocale, "/account"));
+	const loginActive = $derived(contentPath === "/login");
+	const accountActive = $derived(contentPath === "/account");
+
 	let menuOpen = $state(false);
 	let scrollDir = $state<"up" | "down">("up");
+	let hasSession = $state(false);
+
+	$effect(() => {
+		try {
+			hasSession = Boolean(sessionStorage.getItem("osead-demo-account"));
+		} catch {
+			hasSession = false;
+		}
+	});
 
 	$effect(() => {
 		let lastScrollY = window.scrollY;
@@ -49,13 +67,11 @@
 		return () => window.removeEventListener("scroll", updateScrollState);
 	});
 
-	$effect(() => {
-		const onKeydown = (event: KeyboardEvent) => {
-			if (event.key === "Escape") menuOpen = false;
-		};
-		document.addEventListener("keydown", onKeydown);
-		return () => document.removeEventListener("keydown", onKeydown);
-	});
+	function signOut() {
+		clearDemoAccount();
+		hasSession = false;
+		window.location.assign(loginHref);
+	}
 </script>
 
 <header class="header" data-scrolled={scrollDir}>
@@ -125,32 +141,62 @@
 					</svg>
 				</a>
 			{/if}
-			<button
-				type="button"
-				class="header__icon-button header__search"
-				data-search-trigger
-				aria-label={t(effectiveLocale, "aria.searchButton")}
-			>
-				<svg
-					class="header__icon"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					aria-hidden="true"
+			<Tooltip content={`${t(effectiveLocale, "aria.searchButton")} (⌘K)`}>
+				<button
+					type="button"
+					class="header__icon-button header__search"
+					data-search-trigger
+					aria-label={t(effectiveLocale, "aria.searchButton")}
 				>
-					<circle cx="11" cy="11" r="8" />
-					<path d="m21 21-4.3-4.3" />
-				</svg>
-				<kbd class="header__kbd">⌘K</kbd>
-			</button>
+					<svg
+						class="header__icon"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="2"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+					>
+						<circle cx="11" cy="11" r="8" />
+						<path d="m21 21-4.3-4.3" />
+					</svg>
+					<kbd class="header__kbd">⌘K</kbd>
+				</button>
+			</Tooltip>
 			<LanguageSwitcher
 				currentLocale={effectiveLocale}
 				currentPath={currentPath}
 			/>
 			{@render themeToggle?.()}
+			<DropdownMenu align="end" class="header__account-menu">
+				{#snippet trigger()}
+					<span
+						class="header__login"
+						aria-current={(hasSession ? accountActive : loginActive)
+							? "page"
+							: undefined}
+					>
+						{hasSession
+							? t(effectiveLocale, "nav.account")
+							: t(effectiveLocale, "nav.login")}
+					</span>
+				{/snippet}
+				{#if hasSession}
+					<a href={accountHref} role="menuitem">{t(effectiveLocale, "nav.account")}</a>
+					<a href={resolveRoute(effectiveLocale, "/register")} role="menuitem"
+						>{t(effectiveLocale, "nav.register")}</a
+					>
+					<button type="button" class="ui-dropdown__item" role="menuitem" onclick={signOut}
+						>Sign out</button
+					>
+				{:else}
+					<a href={loginHref} role="menuitem">{t(effectiveLocale, "nav.login")}</a>
+					<a href={resolveRoute(effectiveLocale, "/register")} role="menuitem"
+						>{t(effectiveLocale, "nav.register")}</a
+					>
+				{/if}
+			</DropdownMenu>
 			<button
 				type="button"
 				class="header__icon-button header__menu-button"
@@ -190,19 +236,31 @@
 		</div>
 	</div>
 
-	<div id="header-mobile-menu" class="header__mobile" hidden={!menuOpen}>
-		<nav aria-label={t(effectiveLocale, "nav.home")}>
+	<Sheet
+		bind:open={menuOpen}
+		side="right"
+		label={t(effectiveLocale, "nav.toggleMenu")}
+		class="header__sheet"
+	>
+		<nav id="header-mobile-menu" class="header__mobile" aria-label={t(effectiveLocale, "nav.home")}>
 			<ul class="header__mobile-list">
 				{#each navLinks as item (item.href)}
 					<li>
-						<a href={item.href} aria-current={item.active ? "page" : undefined}>
+						<a
+							href={item.href}
+							aria-current={item.active ? "page" : undefined}
+							onclick={() => (menuOpen = false)}
+						>
 							{t(effectiveLocale, item.labelKey)}
 						</a>
 						{#if item.children?.length}
 							<ul class="header__mobile-sublist">
 								{#each item.children as child (child.href)}
 									<li>
-										<a href={resolveRoute(effectiveLocale, child.href)}>
+										<a
+											href={resolveRoute(effectiveLocale, child.href)}
+											onclick={() => (menuOpen = false)}
+										>
 											{t(effectiveLocale, child.labelKey)}
 										</a>
 									</li>
@@ -211,9 +269,23 @@
 						{/if}
 					</li>
 				{/each}
+				<li>
+					<a
+						href={hasSession ? accountHref : loginHref}
+						class="header__mobile-login"
+						aria-current={(hasSession ? accountActive : loginActive)
+							? "page"
+							: undefined}
+						onclick={() => (menuOpen = false)}
+					>
+						{hasSession
+							? t(effectiveLocale, "nav.account")
+							: t(effectiveLocale, "nav.login")}
+					</a>
+				</li>
 			</ul>
 		</nav>
-	</div>
+	</Sheet>
 </header>
 
 <style>
@@ -355,6 +427,42 @@
 		padding-inline: 0;
 	}
 
+	.header__login {
+		display: inline-flex;
+		align-items: center;
+		height: 2.5rem;
+		padding: 0 0.9rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		background: var(--primary);
+		color: var(--primary-foreground);
+		font: inherit;
+		font-size: 0.8125rem;
+		font-weight: 700;
+		text-decoration: none;
+		white-space: nowrap;
+		transition:
+			opacity 0.15s ease,
+			transform 0.15s ease;
+	}
+
+	:global(.header__account-menu) .ui-dropdown__trigger:hover .header__login {
+		opacity: 0.9;
+	}
+
+	.header__login:hover {
+		opacity: 0.9;
+	}
+
+	.header__login:focus-visible {
+		outline: 2px solid var(--ring);
+		outline-offset: 2px;
+	}
+
+	.header__login[aria-current="page"] {
+		box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--primary-foreground) 35%, transparent);
+	}
+
 	.header__icon {
 		width: 1.05rem;
 		height: 1.05rem;
@@ -414,9 +522,7 @@
 	}
 
 	.header__mobile {
-		display: none;
-		padding-inline: var(--section-px);
-		border-top: 1px solid var(--color-border);
+		padding: var(--space-md) var(--section-px);
 		background: var(--color-bg-primary);
 	}
 
@@ -430,7 +536,6 @@
 	.header__mobile-list {
 		display: grid;
 		gap: 0.25rem;
-		padding: var(--space-md) 0;
 	}
 
 	.header__mobile-list a {
@@ -458,6 +563,19 @@
 		color: var(--color-brand-primary);
 	}
 
+	.header__mobile-login {
+		margin-top: 0.35rem;
+		border: 1px solid var(--border);
+		background: var(--primary);
+		color: var(--primary-foreground) !important;
+		text-align: center;
+	}
+
+	.header__mobile-login:hover {
+		background: var(--primary) !important;
+		opacity: 0.92;
+	}
+
 	.header__mobile-sublist {
 		padding-left: 1rem;
 		margin-top: 0.5rem;
@@ -472,10 +590,6 @@
 
 		.header__menu-button {
 			display: inline-flex;
-		}
-
-		.header__mobile:not([hidden]) {
-			display: block;
 		}
 	}
 </style>

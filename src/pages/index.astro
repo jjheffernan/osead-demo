@@ -6,11 +6,11 @@ import Team from "../components/sections/Team.svelte";
 import Testimonials from "../components/testimonials/Testimonials.svelte";
 import {
   buyMarketplaces,
-  rentMarketplaces,
 } from "../config/marketplaces";
 import { demoStaff } from "../config/staff";
 import {
   getPropertiesByListingType,
+  pickRandom,
   toPropertyCardProps,
 } from "../lib/properties";
 import { getTestimonialsFor } from "../lib/testimonials";
@@ -21,12 +21,8 @@ const [rentals, sales, businessTestimonials] = await Promise.all([
   getPropertiesByListingType("sale"),
   getTestimonialsFor("business", "osead", locale),
 ]);
-const featuredRentals = rentals.filter((p) => p.data.featured).slice(0, 6);
-const featuredSales = sales.filter((p) => p.data.featured).slice(0, 6);
-const homeRentals =
-  featuredRentals.length >= 3 ? featuredRentals : rentals.slice(0, 6);
-const homeSales =
-  featuredSales.length >= 3 ? featuredSales : sales.slice(0, 6);
+const homeRentals = pickRandom(rentals, 3);
+const homeSales = pickRandom(sales, 3);
 ---
 
 <MarketingLayout
@@ -132,14 +128,6 @@ const homeSales =
   </section>
 
   <MarketplaceLinks
-    id="rent-platforms"
-    eyebrow="Short stays elsewhere"
-    title="Also explore vacation rental platforms"
-    lead="O-sea-D is a demo brokerage collection. For broader short-stay browsing, these platforms are common starting points."
-    links={rentMarketplaces}
-  />
-
-  <MarketplaceLinks
     id="buy-platforms"
     eyebrow="Buy on the open market"
     title="Popular sites for homes for sale"
@@ -199,14 +187,17 @@ const homeSales =
 
 <style>
   .home-hero {
+    /* Always a dark media plane — --surface-invert flips to cream in .dark */
+    --hero-ink: oklch(0.25 0.035 235deg);
+    --hero-foam: oklch(0.97 0.014 85deg);
     position: relative;
     isolation: isolate;
     display: grid;
     align-items: end;
     min-height: clamp(28rem, 78vh, 44rem);
     overflow: hidden;
-    background: var(--surface-invert);
-    color: var(--surface-invert-foreground);
+    background: var(--hero-ink);
+    color: var(--hero-foam);
   }
 
   .home-hero__media {
@@ -216,7 +207,7 @@ const homeSales =
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center;
+    object-position: center 40%;
   }
 
   .home-hero__veil {
@@ -226,9 +217,9 @@ const homeSales =
     background:
       linear-gradient(
         to top,
-        color-mix(in srgb, var(--surface-invert) 90%, transparent) 0%,
-        color-mix(in srgb, var(--surface-invert) 48%, transparent) 42%,
-        color-mix(in srgb, var(--surface-invert) 22%, transparent) 100%
+        color-mix(in srgb, var(--hero-ink) 92%, transparent) 0%,
+        color-mix(in srgb, var(--hero-ink) 48%, transparent) 45%,
+        color-mix(in srgb, var(--hero-ink) 18%, transparent) 100%
       );
   }
 
@@ -236,26 +227,25 @@ const homeSales =
     position: absolute;
     inset: 0;
     z-index: -1;
-    opacity: 0.28;
+    opacity: 0.22;
     background:
       linear-gradient(
         105deg,
-        color-mix(in srgb, var(--primary) 35%, transparent),
+        color-mix(in srgb, var(--primary) 28%, transparent),
         transparent 42%
       ),
       repeating-linear-gradient(
         -7deg,
         transparent 0,
         transparent 15px,
-        color-mix(in srgb, var(--surface-invert-foreground) 5%, transparent)
-          16px,
+        color-mix(in srgb, var(--hero-foam) 5%, transparent) 16px,
         transparent 18px
       );
   }
 
   .home-hero__content {
     max-width: 70rem;
-    padding-block: clamp(3.5rem, 9vw, 7rem);
+    padding-block: clamp(2rem, 5vw, 4rem);
   }
 
   .home-hero__kicker,
@@ -296,24 +286,23 @@ const homeSales =
     display: inline-flex;
     align-items: center;
     padding: 0.7rem 1.1rem;
-    background: var(--primary-foreground);
-    color: var(--surface-invert);
+    background: var(--hero-foam);
+    color: var(--hero-ink);
     font-weight: var(--font-weight-bold);
     text-decoration: none;
   }
 
   .home-hero__cta--ghost {
     background: transparent;
-    color: var(--surface-invert-foreground);
-    border: 1px solid
-      color-mix(in srgb, var(--surface-invert-foreground) 45%, transparent);
+    color: var(--hero-foam);
+    border: 1px solid color-mix(in srgb, var(--hero-foam) 45%, transparent);
   }
 
   .paths,
   .inventory,
   .home-trust,
   .home-closing {
-    padding-block: clamp(2.5rem, 5vw, 4.25rem);
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
   }
 
   .inventory--tight {
@@ -344,9 +333,9 @@ const homeSales =
   .path-card {
     position: relative;
     display: flex;
-    min-height: 16rem;
     flex-direction: column;
-    padding: clamp(1.25rem, 3vw, 2rem);
+    gap: 0.35rem;
+    padding: clamp(1rem, 2vw, 1.35rem);
     color: var(--foreground);
     text-decoration: none;
     transition:
@@ -381,13 +370,13 @@ const homeSales =
   }
 
   .path-card__eyebrow {
-    margin-top: auto;
+    margin-top: 0.15rem;
     color: inherit;
   }
 
   .path-card h3 {
     max-width: 12ch;
-    margin: var(--spacing-2) 0 0;
+    margin: 0.15rem 0 0;
     color: inherit;
     font-size: var(--heading-h3);
     letter-spacing: var(--tracking-tight);
@@ -395,7 +384,7 @@ const homeSales =
 
   .path-card p:not(.path-card__eyebrow) {
     max-width: 36ch;
-    margin: var(--spacing-3) 0 0;
+    margin: 0.35rem 0 0;
     color: var(--muted-foreground);
     line-height: var(--leading-relaxed);
   }
@@ -409,7 +398,7 @@ const homeSales =
   .closing-link {
     display: inline-block;
     width: fit-content;
-    margin-top: var(--spacing-4);
+    margin-top: var(--spacing-3);
     border-bottom: 1px solid currentcolor;
     color: inherit;
     font-weight: var(--font-weight-bold);
@@ -431,8 +420,8 @@ const homeSales =
   }
 
   .property-grid--featured {
-    gap: clamp(1.25rem, 2.5vw, 2rem);
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   /* High-contrast band — explicit colors so the headline never washes out */
@@ -445,7 +434,7 @@ const homeSales =
     display: grid;
     grid-template-columns: 1.2fr 0.8fr;
     gap: clamp(1.25rem, 4vw, 3rem);
-    padding-block: clamp(2.5rem, 5vw, 4rem);
+    padding-block: clamp(1.5rem, 3vw, 2.5rem);
   }
 
   .collection .eyebrow {
@@ -509,8 +498,8 @@ const homeSales =
       grid-template-columns: 1fr;
     }
 
-    .path-card {
-      min-height: 14rem;
+    .property-grid--featured {
+      grid-template-columns: 1fr;
     }
 
     .path-card + .path-card {

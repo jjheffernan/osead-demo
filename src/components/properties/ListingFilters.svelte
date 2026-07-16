@@ -200,7 +200,7 @@
 
 <style>
 	.listing-filters {
-		margin-top: var(--spacing-7);
+		margin-top: var(--spacing-5);
 	}
 
 	.listing-filters__bar {
@@ -208,7 +208,7 @@
 		align-items: end;
 		justify-content: space-between;
 		gap: var(--spacing-4);
-		margin-bottom: var(--spacing-5);
+		margin-bottom: var(--spacing-4);
 	}
 
 	.listing-filters__eyebrow,
@@ -246,7 +246,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--spacing-3);
-		padding-block: var(--spacing-5);
+		padding-block: var(--spacing-3);
 		border-block: 1px solid var(--border);
 	}
 

@@ -40,6 +40,8 @@ export const footerNav = {
   company: [
     { href: "/about", labelKey: "nav.about" },
     { href: "/contact", labelKey: "nav.contact" },
+    { href: "/register", labelKey: "nav.register" },
+    { href: "/account", labelKey: "nav.account" },
   ] as const,
   /** Legal pages — rendered once in the footer meta bar */
   legal: [

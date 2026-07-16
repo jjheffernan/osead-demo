@@ -8,6 +8,7 @@ import icon from "astro-icon";
 import { readdir, readFile } from "node:fs/promises";
 import { join, extname, basename } from "node:path";
 import { siteConfig } from "./src/config/site.config";
+import { contentApiPlugin } from "./plugins/content-api";
 
 async function collectFiles(dir: string, extensions: string[]): Promise<string[]> {
   const results: string[] = [];
@@ -206,12 +207,13 @@ export default defineConfig({
       BING_SITE_VERIFICATION: envField.string({ context: "server", access: "public", optional: true }),
       PUBLIC_GA_MEASUREMENT_ID: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_GTM_ID: envField.string({ context: "client", access: "public", optional: true }),
+      PUBLIC_ADMIN_ANALYTICS_URL: envField.string({ context: "client", access: "public", optional: true }),
       PUBLIC_CONSENT_ENABLED: envField.boolean({ context: "client", access: "public", optional: true, default: false }),
       PUBLIC_PRIVACY_POLICY_URL: envField.string({ context: "client", access: "public", optional: true }),
     },
   },
   vite: {
-    plugins: [tailwindcss()],
+    plugins: [tailwindcss(), contentApiPlugin()],
   },
   build: {
     format: "directory",

@@ -141,6 +141,83 @@
       "i18nAware": false
     },
     {
+      "name": "Label",
+      "tier": "component",
+      "path": "src/components/ui/form/Label/Label.svelte",
+      "props": ["for", "required", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Field",
+      "tier": "component",
+      "path": "src/components/ui/form/Field/Field.svelte",
+      "props": ["description", "error", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Separator",
+      "tier": "component",
+      "path": "src/components/ui/layout/Separator/Separator.svelte",
+      "props": ["orientation", "decorative", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Dialog",
+      "tier": "component",
+      "path": "src/components/ui/overlay/Dialog/Dialog.svelte",
+      "props": ["open", "labelledBy", "label", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Sheet",
+      "tier": "component",
+      "path": "src/components/ui/overlay/Sheet/Sheet.svelte",
+      "props": ["open", "side", "labelledBy", "label", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "DropdownMenu",
+      "tier": "component",
+      "path": "src/components/ui/overlay/DropdownMenu/DropdownMenu.svelte",
+      "props": ["align", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Tooltip",
+      "tier": "component",
+      "path": "src/components/ui/overlay/Tooltip/Tooltip.svelte",
+      "props": ["content", "side", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Popover",
+      "tier": "component",
+      "path": "src/components/ui/overlay/Popover/Popover.svelte",
+      "props": ["id", "align", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Tabs",
+      "tier": "component",
+      "path": "src/components/ui/navigation/Tabs/Tabs.svelte",
+      "props": ["tabs", "value", "label", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Accordion",
+      "tier": "component",
+      "path": "src/components/ui/navigation/Accordion/Accordion.svelte",
+      "props": ["items", "type", "class"],
+      "i18nAware": false
+    },
+    {
+      "name": "Breadcrumb",
+      "tier": "component",
+      "path": "src/components/ui/navigation/Breadcrumb/Breadcrumb.svelte",
+      "props": ["items", "includeHome", "class"],
+      "i18nAware": false
+    },
+    {
       "name": "Logo",
       "tier": "component",
       "path": "src/components/ui/marketing/Logo/Logo.astro",

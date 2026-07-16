@@ -90,8 +90,9 @@
 
 	.hero {
 		display: grid;
-		gap: var(--space-xl);
-		padding-block: clamp(3.5rem, 8vw, 6.5rem);
+		gap: var(--space-md);
+		/* Text-only heroes — keep short; media heroes set their own plane */
+		padding-block: clamp(1.5rem, 3.5vw, 2.5rem);
 	}
 
 	.hero--centered {

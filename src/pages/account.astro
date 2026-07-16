@@ -1,0 +1,414 @@
+---
+import { getCollection } from "astro:content";
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import Separator from "../components/ui/layout/Separator/Separator.astro";
+import AdminAnalytics from "../components/account/AdminAnalytics.svelte";
+import ContentEditor from "../components/account/ContentEditor.svelte";
+import {
+  getIntentCollections,
+  getMarkets,
+  getPropertiesByListingType,
+} from "../lib/properties";
+
+const locale = (Astro.currentLocale || "en") as "en";
+
+const [rentals, sales, markets, collections, posts] = await Promise.all([
+  getPropertiesByListingType("rental"),
+  getPropertiesByListingType("sale"),
+  getMarkets(),
+  getIntentCollections(),
+  getCollection("blog"),
+]);
+
+const inventory = [
+  { href: "/rentals", label: "Rentals", count: rentals.length },
+  { href: "/sales", label: "Sales", count: sales.length },
+  { href: "/markets", label: "Markets", count: markets.length },
+  { href: "/collections", label: "Collections", count: collections.length },
+  { href: "/blog", label: "Journal", count: posts.length },
+] as const;
+
+const walkthrough = [
+  {
+    title: "Listings",
+    links: [
+      { href: "/rentals", label: "Rentals", hint: "Filter + inquire" },
+      { href: "/sales", label: "Sales", hint: "Filter + showing" },
+      { href: "/collections", label: "Collections", hint: "Intent groups" },
+    ],
+  },
+  {
+    title: "Markets & story",
+    links: [
+      { href: "/markets", label: "Markets", hint: "Town pages" },
+      { href: "/blog", label: "Journal", hint: "Editorial posts" },
+      { href: "/about", label: "About", hint: "Team + ratings" },
+    ],
+  },
+  {
+    title: "Flows",
+    links: [
+      { href: "/contact", label: "Contact", hint: "Inquiry form" },
+      { href: "/register", label: "Register", hint: "Signup path" },
+      { href: "/login", label: "Login", hint: "Auth form" },
+      { href: "/docs", label: "Docs", hint: "Starlight" },
+    ],
+  },
+] as const;
+---
+
+<MarketingLayout
+  title="Your account — O-sea-D"
+  description="Demo account page for the O-sea-D coastal template."
+  locale={locale}
+  path="/account"
+>
+  <section class="account container" data-account-root>
+    <div data-account-signed-out hidden>
+      <p class="account__eyebrow">Demo account</p>
+      <h1>No demo session yet</h1>
+      <p>
+        Sign in with the demo admin for local click-through and admin tools, or
+        create any account for a plain user session.
+      </p>
+      <div class="account__actions">
+        <a class="account__cta" href="/login">Sign in</a>
+        <a class="account__ghost" href="/register">Create account</a>
+      </div>
+    </div>
+
+    <div data-account-signed-in hidden>
+      <header class="account__head">
+        <div class="account__head-main">
+          <p class="account__eyebrow">
+            Demo account
+            <span class="account__role" data-account-role hidden>Admin</span>
+          </p>
+          <h1><span data-account-name></span></h1>
+          <p class="account__meta">
+            <span data-account-email></span>
+            ·
+            <time data-account-at></time>
+            · tab session only
+          </p>
+        </div>
+        <button type="button" class="account__signout" data-account-signout>
+          Sign out
+        </button>
+      </header>
+
+      <div class="account__admin" data-account-admin hidden>
+        <AdminAnalytics client:load />
+        <ContentEditor client:load />
+
+        <div class="account__inventory" aria-label="Content inventory">
+          {
+            inventory.map((item) => (
+              <a class="account__stat" href={item.href}>
+                <span class="account__stat-count">{item.count}</span>
+                <span class="account__stat-label">{item.label}</span>
+              </a>
+            ))
+          }
+        </div>
+
+        <div class="account__creds" aria-label="Demo credentials">
+          <span>Demo credentials</span>
+          <code>admin@osead.demo</code>
+          <span aria-hidden="true">/</span>
+          <code>osead-admin</code>
+        </div>
+
+        <p class="account__hint">
+          Content lives in <code>src/content/</code> — edit Markdown, refresh.
+        </p>
+
+        {
+          walkthrough.map((group, index) => (
+            <section class="account__group">
+              {index > 0 && <Separator class="account__rule" />}
+              <h2>{group.title}</h2>
+              <ul>
+                {group.links.map((link) => (
+                  <li>
+                    <a href={link.href}>
+                      <span class="account__link-label">{link.label}</span>
+                      <span class="account__link-hint">{link.hint}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))
+        }
+
+        <p class="account__home">
+          <a href="/">← Back to home</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</MarketingLayout>
+
+<script>
+  import {
+    clearDemoAccount,
+    readDemoAccount,
+  } from "../lib/demo-account";
+
+  const root = document.querySelector("[data-account-root]");
+  const signedIn = root?.querySelector<HTMLElement>("[data-account-signed-in]");
+  const signedOut = root?.querySelector<HTMLElement>(
+    "[data-account-signed-out]",
+  );
+  const nameEl = root?.querySelector("[data-account-name]");
+  const emailEl = root?.querySelector("[data-account-email]");
+  const atEl = root?.querySelector("time[data-account-at]");
+  const roleEl = root?.querySelector<HTMLElement>("[data-account-role]");
+  const adminEl = root?.querySelector<HTMLElement>("[data-account-admin]");
+  const signOut = root?.querySelector("[data-account-signout]");
+
+  const account = readDemoAccount();
+  if (account && signedIn && signedOut && nameEl && emailEl && atEl) {
+    nameEl.textContent = account.name;
+    emailEl.textContent = account.email;
+    atEl.textContent = new Date(account.at).toLocaleString();
+    atEl.setAttribute("datetime", account.at);
+    signedIn.hidden = false;
+    if (account.role === "admin") {
+      if (roleEl) roleEl.hidden = false;
+      if (adminEl) adminEl.hidden = false;
+    }
+  } else if (signedOut) {
+    signedOut.hidden = false;
+  }
+
+  signOut?.addEventListener("click", () => {
+    clearDemoAccount();
+    window.location.assign("/login");
+  });
+</script>
+
+<style>
+  .account {
+    max-width: var(--container-wide);
+    padding-block: var(--spacing-6) var(--spacing-8);
+  }
+
+  .account__eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .account__role {
+    display: inline-block;
+    padding: 0.15rem 0.45rem;
+    border: 1px solid var(--border);
+    color: var(--foreground);
+    letter-spacing: var(--tracking-widest);
+  }
+
+  .account__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-4);
+  }
+
+  .account h1 {
+    margin: 0.25rem 0 0;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    line-height: 1.15;
+  }
+
+  .account__meta {
+    margin: 0.4rem 0 0;
+    font-size: var(--text-sm);
+    color: var(--muted-foreground);
+  }
+
+  .account p {
+    margin: 0.75rem 0 0;
+    color: var(--muted-foreground);
+    line-height: 1.5;
+  }
+
+  .account__admin {
+    margin-top: var(--spacing-5);
+    display: grid;
+    gap: var(--spacing-5);
+  }
+
+  .account__inventory {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    background: var(--border);
+  }
+
+  .account__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.75rem 0.7rem;
+    background: var(--background);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .account__stat:hover {
+    background: color-mix(in oklab, var(--foreground) 6%, var(--background));
+  }
+
+  .account__stat-count {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .account__stat-label {
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .account__creds {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.55rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px dashed var(--border);
+    font-size: var(--text-sm);
+    color: var(--muted-foreground);
+  }
+
+  .account__creds code {
+    color: var(--foreground);
+  }
+
+	.account__hint {
+		margin: 0 !important;
+		font-size: var(--text-sm);
+	}
+
+	.account__rule {
+		margin-bottom: var(--spacing-4);
+	}
+
+  .account__group h2 {
+    margin: 0 0 0.45rem;
+    font-size: var(--text-xs);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .account__group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+    grid-template-columns: repeat(auto-fill, minmax(11.5rem, 1fr));
+  }
+
+  .account__group a {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    padding: 0.55rem 0.65rem;
+    border: 1px solid var(--border);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .account__group a:hover {
+    border-color: var(--foreground);
+  }
+
+  .account__link-label {
+    font-weight: 700;
+    font-size: var(--text-sm);
+  }
+
+  .account__link-hint {
+    font-size: var(--text-xs);
+    color: var(--muted-foreground);
+  }
+
+  .account__home {
+    margin: 0 !important;
+  }
+
+  .account__home a {
+    color: inherit;
+    font-weight: 700;
+    font-size: var(--text-sm);
+  }
+
+  .account__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.25rem;
+    margin-top: 1.25rem;
+    align-items: center;
+  }
+
+  .account__cta {
+    display: inline-flex;
+    padding: 0.65rem 1.1rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .account__ghost {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid currentcolor;
+  }
+
+  .account__signout {
+    padding: 0.45rem 0.8rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted-foreground);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .account__signout:hover {
+    color: var(--foreground);
+    border-color: var(--foreground);
+  }
+
+  @media (max-width: 40rem) {
+    .account__inventory {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 24rem) {
+    .account__inventory {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

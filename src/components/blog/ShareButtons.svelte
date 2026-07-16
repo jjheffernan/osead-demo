@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Locale } from "../../lib/site-config";
 	import { t } from "../../i18n/ui";
+	import Popover from "../ui/overlay/Popover/Popover.svelte";
 
 	interface Props {
 		url: string;
@@ -11,10 +12,10 @@
 	const { url, title, locale = "en" }: Props = $props();
 	const shareText = $derived(encodeURIComponent(title));
 	const encodedUrl = $derived(encodeURIComponent(url));
+	const popoverId = "share-more";
 
-	// Never changes after mount, so a plain const (re-evaluated per hydrated
-	// instance) is enough — no reactivity needed.
-	const canNativeShare = typeof navigator !== "undefined" && "share" in navigator;
+	const canNativeShare =
+		typeof navigator !== "undefined" && "share" in navigator;
 
 	let copied = $state(false);
 	let copyTimer: ReturnType<typeof setTimeout> | undefined;
@@ -64,34 +65,6 @@
 		</button>
 	{/if}
 
-	<a
-		class="share-buttons__btn"
-		href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${shareText}`}
-		target="_blank"
-		rel="noreferrer"
-		aria-label="Share on X"
-	>
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-		</svg>
-		X
-	</a>
-
-	<a
-		class="share-buttons__btn"
-		href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
-		target="_blank"
-		rel="noreferrer"
-		aria-label="Share on LinkedIn"
-	>
-		<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-			<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-			<rect width="4" height="12" x="2" y="9" />
-			<circle cx="4" cy="4" r="2" />
-		</svg>
-		LinkedIn
-	</a>
-
 	<button
 		type="button"
 		class="share-buttons__btn"
@@ -111,6 +84,28 @@
 		{/if}
 		<span>{copied ? "Copied!" : t(locale, "blog.copyLink")}</span>
 	</button>
+
+	<Popover id={popoverId} align="end">
+		{#snippet trigger()}
+			<span class="share-buttons__btn share-buttons__more">More</span>
+		{/snippet}
+		<a
+			class="share-buttons__menu-item"
+			href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${shareText}`}
+			target="_blank"
+			rel="noreferrer"
+		>
+			Share on X
+		</a>
+		<a
+			class="share-buttons__menu-item"
+			href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`}
+			target="_blank"
+			rel="noreferrer"
+		>
+			Share on LinkedIn
+		</a>
+	</Popover>
 </div>
 
 <style>
@@ -165,6 +160,20 @@
 	.share-buttons__btn.is-copied {
 		border-color: var(--color-text-primary);
 		color: var(--color-text-primary);
+	}
+
+	.share-buttons__menu-item {
+		display: block;
+		padding: 0.45rem 0.55rem;
+		border-radius: var(--radius-md);
+		color: inherit;
+		font-size: 0.875rem;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.share-buttons__menu-item:hover {
+		background: var(--color-bg-tertiary);
 	}
 
 	@media (prefers-reduced-motion: reduce) {

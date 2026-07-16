@@ -1,0 +1,40 @@
+<script lang="ts">
+	import { cn } from "../../../../lib/cn";
+
+	interface Props {
+		orientation?: "horizontal" | "vertical";
+		decorative?: boolean;
+		class?: string;
+	}
+
+	const {
+		orientation = "horizontal",
+		decorative = true,
+		class: className,
+	}: Props = $props();
+</script>
+
+<div
+	class={cn("ui-separator", `ui-separator--${orientation}`, className)}
+	role={decorative ? "none" : "separator"}
+	aria-orientation={decorative ? undefined : orientation}
+	aria-hidden={decorative ? "true" : undefined}
+></div>
+
+<style>
+	.ui-separator {
+		flex-shrink: 0;
+		background: var(--border, var(--color-border));
+	}
+
+	.ui-separator--horizontal {
+		height: 1px;
+		width: 100%;
+	}
+
+	.ui-separator--vertical {
+		width: 1px;
+		align-self: stretch;
+		min-height: 1em;
+	}
+</style>

@@ -14,6 +14,16 @@ export function slugify(str: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+/** Fisher–Yates sample of up to `n` items (build-time random on static sites). */
+export function pickRandom<T>(items: readonly T[], n: number): T[] {
+  const copy = items.slice();
+  for (let i = copy.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy.slice(0, Math.max(0, n));
+}
+
 export type MarketEntry = CollectionEntry<"markets">;
 export type IntentCollectionEntry = CollectionEntry<"collections">;
 export type CollectionMatch = IntentCollectionEntry["data"]["match"];

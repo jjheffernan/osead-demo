@@ -66,7 +66,7 @@
 	.market-hero__content {
 		display: grid;
 		gap: 0.85rem;
-		padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 5vw, 3.5rem);
+		padding-block: clamp(1.75rem, 4vw, 3rem) clamp(1.5rem, 3vw, 2.5rem);
 		max-width: 48rem;
 	}
 

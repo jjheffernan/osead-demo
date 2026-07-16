@@ -50,7 +50,7 @@
 
 <style>
 	.team {
-		padding-block: clamp(2rem, 4vw, 3rem);
+		padding-block: clamp(1.25rem, 3vw, 2rem);
 	}
 
 	.team__grid {

@@ -4,8 +4,9 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
 import Team from "../components/sections/Team.svelte";
-import Testimonials from "../components/testimonials/Testimonials.svelte";
-import RatingSubmit from "../components/testimonials/RatingSubmit.svelte";
+import Marquee from "../components/ui/Marquee.svelte";
+import RatingsCarousel from "../components/testimonials/RatingsCarousel.svelte";
+import RatingTabs from "../components/testimonials/RatingTabs.svelte";
 import { demoStaff } from "../config/staff";
 import { getTestimonialsFor } from "../lib/testimonials";
 
@@ -23,6 +24,20 @@ const [businessTestimonials, ...staffTestimonialGroups] = await Promise.all([
   ),
 ]);
 const staffTestimonials = staffTestimonialGroups.flat();
+const ratingCarouselItems = [...businessTestimonials, ...staffTestimonials];
+
+const coastMarquee = [
+  "Outer Banks",
+  "Jersey Shore",
+  "Delaware Beaches",
+  "Oceanfront",
+  "Soundfront",
+  "Bayfront",
+  "Weekly stays",
+  "Second homes",
+  "Direct inquiry",
+  "Equal housing",
+];
 ---
 
 <MarketingLayout
@@ -32,91 +47,72 @@ const staffTestimonials = staffTestimonialGroups.flat();
   path="/about"
 >
   <section class="about-hero container">
-    <p class="eyebrow">About O-sea-D</p>
-    <h1>Coastal homes, matched by people who care.</h1>
-    <p class="about-hero__lead">
-      Real estate is a personal business. O-sea-D is a demo collection that
-      keeps weekly stays and second-home sales in one brand — with a human team
-      on the other side of every inquiry.
-    </p>
-  </section>
-
-  <section class="about-story container">
-    <div class="about-story__grid">
-      <div>
-        <h2>How we work</h2>
-        <ul class="about-story__list">
-          <li>
-            <strong>Weekly stays</strong>
-            Find an unhurried week by the water, with room for everyone you
-            bring along.
-          </li>
-          <li>
-            <strong>Coastal ownership</strong>
-            Explore homes for sale with local context and a clear path to a
-            private showing.
-          </li>
-          <li>
-            <strong>Direct guidance</strong>
-            Start an inquiry with a real question — not a checkout flow or
-            generic lead funnel.
-          </li>
-        </ul>
-      </div>
-      <div class="about-story__aside">
-        <p>
-          This site is a template demonstration. Listings are sample inventory;
-          inquiries are accepted for walkthrough purposes only and never collect
-          payment.
-        </p>
-        <a class="about-story__cta" href="/contact">Start an inquiry →</a>
+    <div class="about-hero__copy">
+      <p class="eyebrow">About O-sea-D</p>
+      <h1>Coastal homes, matched by people who care.</h1>
+      <p class="about-hero__lead">
+        Weekly stays and second-home sales under one brand — with a human team
+        on every inquiry. Demo inventory; never a checkout funnel.
+      </p>
+      <div class="about-hero__actions">
+        <a class="about-hero__cta" href="/contact">Start an inquiry</a>
+        <a class="about-hero__ghost" href="/rentals">Browse rentals</a>
+        <a class="about-hero__ghost" href="/sales">Homes for sale</a>
       </div>
     </div>
+    <aside class="about-hero__aside" aria-label="How we work">
+      <h2 class="about-hero__aside-title">How we work</h2>
+      <ol class="about-hero__steps">
+        <li>
+          <strong>Weekly stays</strong>
+          Unhurried weeks by the water.
+        </li>
+        <li>
+          <strong>Coastal ownership</strong>
+          Local context, private showings.
+        </li>
+        <li>
+          <strong>Direct guidance</strong>
+          Real questions — not lead mills.
+        </li>
+      </ol>
+    </aside>
   </section>
+
+  <Marquee
+    items={coastMarquee}
+    label="Coastal markets and stay types we demonstrate"
+    duration={42}
+  />
 
   <Team
     title="Meet the demo team"
-    description="A boutique coastal group — principal, rentals, sales, and guest experience — so the template shows how personal a brokerage can feel."
+    description="Principal, rentals, sales, and guest experience — a boutique coastal group."
     members={demoStaff}
   />
 
-  <section class="about-ratings container">
-    {
-      businessTestimonials.length > 0 && (
-        <Testimonials
-          items={businessTestimonials}
-          title="What clients say about the office"
-        />
-      )
-    }
-    {
-      staffTestimonials.length > 0 && (
-        <Testimonials items={staffTestimonials} title="Team praise" />
-      )
-    }
-    <div class="about-ratings__forms">
-      <RatingSubmit
+  {
+    ratingCarouselItems.length > 0 && (
+      <RatingsCarousel
         client:visible
-        targetType="business"
-        targetId="osead"
-        label="Rate the O-sea-D office"
+        items={ratingCarouselItems}
+        title="What clients say"
+        label="Client ratings carousel"
       />
-      <RatingSubmit
-        client:visible
-        targetType="staff"
-        targetId="mara-ellison"
-        label="Rate a team member (demo: Mara)"
-      />
-    </div>
-  </section>
+    )
+  }
 
-  <section class="about-close container">
-    <h2>Ready when you are</h2>
-    <p>Browse the collection, then tell us what you have in mind.</p>
-    <div class="about-close__links">
-      <a href="/rentals">Weekly rentals</a>
-      <a href="/sales">Homes for sale</a>
-      <a href="/contact">Inquire</a>
+  <RatingTabs client:visible />
+
+  <section class="about-close">
+    <div class="about-close__inner container">
+      <h2>Ready when you are</h2>
+      <p>Browse the collection, then tell us what you have in mind.</p>
+      <div class="about-close__links">
+        <a href="/rentals">Weekly rentals</a>
+        <a href="/sales">Homes for sale</a>
+        <a href="/contact">Inquire</a>
+      </div>
     </div>
   </section>
 </MarketingLayout>
@@ -132,94 +128,113 @@ const staffTestimonials = staffTestimonialGroups.flat();
   }
 
   .about-hero {
-    padding-block: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+    display: grid;
+    gap: 1.75rem 2.5rem;
+    grid-template-columns: 1.35fr 0.85fr;
+    align-items: end;
+    padding-block: clamp(1.75rem, 4vw, 2.75rem) 1.75rem;
   }
 
   .about-hero h1 {
-    max-width: 16ch;
-    margin: 0.5rem 0 0;
-    font-size: clamp(2rem, 4vw, 3.25rem);
+    max-width: 14ch;
+    margin: 0.4rem 0 0;
+    font-size: clamp(1.85rem, 3.6vw, 2.85rem);
     letter-spacing: var(--tracking-tight);
-    line-height: 1.1;
+    line-height: 1.08;
   }
 
   .about-hero__lead {
-    max-width: 48ch;
-    margin: 1rem 0 0;
+    max-width: 42ch;
+    margin: 0.85rem 0 0;
     color: var(--muted-foreground);
-    font-size: var(--text-lg);
-    line-height: 1.55;
-  }
-
-  .about-story {
-    padding-block: 1rem 2rem;
-  }
-
-  .about-story__grid {
-    display: grid;
-    gap: 1.5rem 2.5rem;
-    grid-template-columns: 1.3fr 0.7fr;
-  }
-
-  .about-story h2 {
-    margin: 0 0 1rem;
-    font-size: 1.35rem;
-  }
-
-  .about-story__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 0.85rem;
-  }
-
-  .about-story__list li {
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--border);
-    background: var(--card);
-    line-height: 1.45;
-  }
-
-  .about-story__list strong {
-    display: block;
-    margin-bottom: 0.25rem;
-  }
-
-  .about-story__aside {
-    padding: 1.15rem 1.25rem;
-    background: var(--primary);
-    color: var(--primary-foreground);
-  }
-
-  .about-story__aside p {
-    margin: 0;
+    font-size: var(--text-base);
     line-height: 1.5;
   }
 
-  .about-story__cta {
-    display: inline-block;
-    margin-top: 1rem;
-    border-bottom: 1px solid currentcolor;
-    color: inherit;
+  .about-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.35rem;
+    margin-top: 1.25rem;
+    align-items: center;
+  }
+
+  .about-hero__cta {
+    display: inline-flex;
+    padding: 0.65rem 1.1rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
     font-weight: 700;
     text-decoration: none;
   }
 
-  .about-ratings {
-    display: grid;
-    gap: 1.5rem;
-    padding-block: 1rem 2rem;
+  .about-hero__ghost {
+    display: inline-block;
+    margin-inline: 0.15rem;
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid currentcolor;
   }
 
-  .about-ratings__forms {
+  .about-hero__aside {
+    padding: 1.15rem 1.2rem;
+    border: 1px solid var(--border);
+    background: color-mix(in oklab, var(--card) 80%, transparent);
+  }
+
+  .about-hero__aside-title {
+    margin: 0 0 0.75rem;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+  }
+
+  .about-hero__steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
     display: grid;
-    gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 0.75rem;
+    counter-reset: step;
+  }
+
+  .about-hero__steps li {
+    counter-increment: step;
+    padding-left: 2rem;
+    position: relative;
+    line-height: 1.4;
+    color: var(--muted-foreground);
+  }
+
+  .about-hero__steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    width: 1.35rem;
+    height: 1.35rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--border);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+
+  .about-hero__steps strong {
+    display: block;
+    color: var(--foreground);
+    margin-bottom: 0.1rem;
   }
 
   .about-close {
-    padding-block: 1rem 3rem;
+    border-top: 1px solid var(--border);
+    background: color-mix(in oklab, var(--muted) 40%, transparent);
+  }
+
+  .about-close__inner {
+    padding-block: 1.35rem 1.75rem;
     text-align: center;
   }
 
@@ -228,7 +243,7 @@ const staffTestimonials = staffTestimonialGroups.flat();
   }
 
   .about-close p {
-    margin: 0.5rem 0 0;
+    margin: 0.45rem 0 0;
     color: var(--muted-foreground);
   }
 
@@ -237,7 +252,7 @@ const staffTestimonials = staffTestimonialGroups.flat();
     flex-wrap: wrap;
     justify-content: center;
     gap: 1.25rem;
-    margin-top: 1.25rem;
+    margin-top: 1.1rem;
   }
 
   .about-close__links a {
@@ -248,7 +263,7 @@ const staffTestimonials = staffTestimonialGroups.flat();
   }
 
   @media (max-width: 48rem) {
-    .about-story__grid {
+    .about-hero {
       grid-template-columns: 1fr;
     }
   }

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { Locale } from "../../lib/site-config";
 	import { t } from "../../i18n/ui";
+	import Dialog from "../ui/overlay/Dialog/Dialog.svelte";
 
 	interface Props {
 		locale?: Locale;
@@ -14,12 +15,10 @@
 		__pagefindUI?: unknown;
 	};
 
-	let dialogEl: HTMLDialogElement | undefined = $state();
+	let open = $state(false);
 	let pagefindInitialized = false;
 	let pagefindLoading: Promise<void> | null = null;
 
-	// Load the Pagefind UI bundle + styles on demand, the first time search is
-	// opened, so they never weigh on initial page load (TBT / unused JS).
 	function loadPagefind(): Promise<void> {
 		if (pagefindLoading) return pagefindLoading;
 		pagefindLoading = new Promise((resolve) => {
@@ -38,13 +37,12 @@
 	}
 
 	async function openSearch() {
-		if (!dialogEl || typeof dialogEl.showModal !== "function") return;
-		dialogEl.showModal();
-
-		const pagefindMount = dialogEl.querySelector("[data-pagefind-ui]");
-		if (!pagefindMount) return;
+		open = true;
 
 		await loadPagefind();
+
+		const pagefindMount = document.querySelector("[data-pagefind-ui]");
+		if (!pagefindMount) return;
 
 		const win = window as PagefindWindow;
 		if (win.PagefindUI && !pagefindInitialized) {
@@ -58,11 +56,9 @@
 	}
 
 	function closeSearch() {
-		if (dialogEl?.open) dialogEl.close();
+		open = false;
 	}
 
-	// The trigger button lives in the Header island — a separate hydration
-	// boundary — so we find it by attribute rather than via component props.
 	$effect(() => {
 		const triggers = document.querySelectorAll<HTMLElement>(
 			"[data-search-trigger]",
@@ -90,14 +86,10 @@
 	});
 </script>
 
-<dialog
-	bind:this={dialogEl}
-	id="search-modal"
+<Dialog
+	bind:open
+	labelledBy="search-modal-title"
 	class="search-modal"
-	aria-label={t(locale, "search.title")}
-	onclick={(event) => {
-		if (event.target === dialogEl) closeSearch();
-	}}
 >
 	<div class="search-modal__panel">
 		<div class="search-modal__header">
@@ -115,7 +107,9 @@
 					<circle cx="11" cy="11" r="8" />
 					<path d="m21 21-4.3-4.3" />
 				</svg>
-				<h2 class="search-modal__title">{t(locale, "search.title")}</h2>
+				<h2 id="search-modal-title" class="search-modal__title">
+					{t(locale, "search.title")}
+				</h2>
 			</span>
 			<button
 				type="button"
@@ -146,61 +140,9 @@
 			<p class="search-modal__fallback">{t(locale, "search.devFallback")}</p>
 		{/if}
 	</div>
-</dialog>
+</Dialog>
 
 <style>
-	.search-modal::backdrop {
-		background: color-mix(in srgb, var(--foreground) 45%, transparent);
-		backdrop-filter: blur(0.35rem);
-	}
-
-	/* Command-palette placement: top-centered, not the UA default corner. */
-	.search-modal {
-		position: fixed;
-		inset-block-start: 9vh;
-		inset-inline: 0;
-		margin-inline: auto;
-		margin-block: 0;
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-2xl);
-		padding: 0;
-		width: min(40rem, calc(100vw - 2rem));
-		max-width: none;
-		max-height: min(80vh, 42rem);
-		overflow: hidden;
-		background: var(--color-bg-primary);
-		color: var(--color-text-primary);
-		box-shadow: var(--shadow-lg);
-	}
-
-	.search-modal[open] {
-		animation: search-modal-in 0.18s ease;
-	}
-
-	.search-modal[open]::backdrop {
-		animation: search-modal-fade 0.18s ease;
-	}
-
-	@keyframes search-modal-in {
-		from {
-			opacity: 0;
-			transform: translateY(-0.75rem) scale(0.98);
-		}
-		to {
-			opacity: 1;
-			transform: none;
-		}
-	}
-
-	@keyframes search-modal-fade {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
 	.search-modal__panel {
 		display: flex;
 		flex-direction: column;
@@ -279,7 +221,6 @@
 		color: var(--color-text-secondary);
 	}
 
-	/* Theme the Pagefind UI to the design tokens (monochrome, on-system). */
 	.search-modal__ui {
 		--pagefind-ui-scale: 0.85;
 		--pagefind-ui-primary: var(--color-text-primary);
@@ -292,12 +233,5 @@
 		--pagefind-ui-font: inherit;
 
 		overflow-y: auto;
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.search-modal[open],
-		.search-modal[open]::backdrop {
-			animation: none;
-		}
 	}
 </style>

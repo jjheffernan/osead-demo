@@ -1,0 +1,17 @@
+---
+import MarketingLayout from "../layouts/MarketingLayout.astro";
+import AccountAuthForm from "../components/account/AccountAuthForm.svelte";
+
+const locale = (Astro.currentLocale || "en") as "en";
+---
+
+<MarketingLayout
+  title="Create account — O-sea-D"
+  description="Demo account registration for the O-sea-D coastal template. Local session only."
+  locale={locale}
+  path="/register"
+>
+  <div class="container">
+    <AccountAuthForm client:load mode="register" />
+  </div>
+</MarketingLayout>

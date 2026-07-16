@@ -11,8 +11,8 @@
 
 <style>
 	.listing-notice {
-		margin: var(--space-xl) 0 0;
-		padding: var(--space-md);
+		margin: var(--space-md) 0 0;
+		padding: var(--space-sm) var(--space-md);
 		border: 1px solid var(--color-border);
 		background: var(--color-bg-secondary);
 		color: var(--color-text-secondary);

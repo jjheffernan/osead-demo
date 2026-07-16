@@ -26,17 +26,17 @@
   --container-max: 80rem; /* ~1280px (design max width) */
 
   /* === Section padding === */
-  --section-py: var(--spacing-16); /* vertical sections */
-  --section-px: var(--spacing-8); /* horizontal sections */
-  --section-py-sm: var(--spacing-8);
-  --section-py-lg: var(--spacing-20);
+  --section-py: var(--spacing-7); /* was broken --spacing-16 */
+  --section-px: var(--spacing-6);
+  --section-py-sm: var(--spacing-6);
+  --section-py-lg: var(--spacing-8);
 
   /* === Grid gaps === */
   --grid-gap-xs: var(--spacing-2);
   --grid-gap-sm: var(--spacing-4);
-  --grid-gap-md: var(--spacing-6);
-  --grid-gap-lg: var(--spacing-8);
-  --grid-gap-xl: var(--spacing-12);
+  --grid-gap-md: var(--spacing-5);
+  --grid-gap-lg: var(--spacing-6);
+  --grid-gap-xl: var(--spacing-8);
 
   /* === Miscellaneous === */
   --sidebar-width: 16rem;
@@ -75,11 +75,11 @@
   --px-section: clamp(1rem, 2.5vw, 4rem);
 
   /* === Responsive vertical padding === */
-  --py-section: clamp(2rem, 5vh, 6rem);
+  --py-section: clamp(1.5rem, 3.5vh, 2.75rem);
 
   /* === Component margins === */
-  --component-spacing: var(--spacing-8);
-  --component-spacing-lg: var(--spacing-12);
+  --component-spacing: var(--spacing-6);
+  --component-spacing-lg: var(--spacing-8);
   --component-spacing-sm: var(--spacing-4);
 }
 
@@ -106,6 +106,6 @@
   --space-md: var(--spacing-4); /* 16px */
   --space-lg: var(--spacing-6); /* 24px */
   --space-xl: var(--spacing-7); /* 32px */
-  --space-2xl: var(--spacing-8); /* 48px */
-  --space-3xl: var(--spacing-9); /* 80px */
+  --space-2xl: var(--spacing-7); /* 32px — denser sections */
+  --space-3xl: var(--spacing-8); /* 48px — was 80px empty air */
 }
