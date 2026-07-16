@@ -6,6 +6,7 @@ Property gallery files under `public/images/properties/` and market heroes under
 
 - Illustrative coastal SVGs named `demo-*.svg` (ocean, bay, sound, canal, dunes, cottage, pool, deck, interior, lighthouse, penthouse).
 - Market full-bleed heroes (`hero-*.svg`) wired via optional `heroImage` on `src/content/markets/*.md`.
+- Home hero plane: `public/images/markets/hero-home.svg` (Atlantic dusk — demo-marked via alt).
 - Compositions vary by waterfront type so inventory does not share one identical placeholder.
 - Alts in `src/content/properties/*.md` describe the scene and market context — never “placeholder”.
 

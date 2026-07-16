@@ -36,6 +36,16 @@ const homeSales =
   path="/"
 >
   <section class="home-hero">
+    <img
+      class="home-hero__media"
+      src="/images/markets/hero-home.svg"
+      alt="Atlantic horizon at dusk — O-sea-D demo home frame"
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="home-hero__veil" aria-hidden="true"></div>
     <div class="home-hero__grain" aria-hidden="true"></div>
     <div class="home-hero__content container">
       <p class="home-hero__kicker">Atlantic homes, deliberately kept</p>
@@ -97,8 +107,10 @@ const homeSales =
         >See all {rentals.length} rentals <span aria-hidden="true">→</span></a
       >
     </header>
-    <div class="property-grid">
-      {homeRentals.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)}
+    <div class="property-grid property-grid--featured">
+      {homeRentals.map((property) => (
+        <PropertyCard property={toPropertyCardProps(property)} featured />
+      ))}
     </div>
   </section>
 
@@ -112,8 +124,10 @@ const homeSales =
         >See all {sales.length} listings <span aria-hidden="true">→</span></a
       >
     </header>
-    <div class="property-grid">
-      {homeSales.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)}
+    <div class="property-grid property-grid--featured">
+      {homeSales.map((property) => (
+        <PropertyCard property={toPropertyCardProps(property)} featured />
+      ))}
     </div>
   </section>
 
@@ -187,28 +201,53 @@ const homeSales =
   .home-hero {
     position: relative;
     isolation: isolate;
+    display: grid;
+    align-items: end;
+    min-height: clamp(28rem, 78vh, 44rem);
     overflow: hidden;
-    padding-block: clamp(3.5rem, 9vw, 7rem);
     background: var(--surface-invert);
     color: var(--surface-invert-foreground);
+  }
+
+  .home-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .home-hero__veil {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background:
+      linear-gradient(
+        to top,
+        color-mix(in srgb, var(--surface-invert) 90%, transparent) 0%,
+        color-mix(in srgb, var(--surface-invert) 48%, transparent) 42%,
+        color-mix(in srgb, var(--surface-invert) 22%, transparent) 100%
+      );
   }
 
   .home-hero__grain {
     position: absolute;
     inset: 0;
     z-index: -1;
-    opacity: 0.7;
+    opacity: 0.28;
     background:
       linear-gradient(
         105deg,
-        color-mix(in srgb, var(--primary) 55%, transparent),
-        transparent 40%
+        color-mix(in srgb, var(--primary) 35%, transparent),
+        transparent 42%
       ),
       repeating-linear-gradient(
         -7deg,
         transparent 0,
         transparent 15px,
-        color-mix(in srgb, var(--surface-invert-foreground) 6%, transparent)
+        color-mix(in srgb, var(--surface-invert-foreground) 5%, transparent)
           16px,
         transparent 18px
       );
@@ -216,6 +255,7 @@ const homeSales =
 
   .home-hero__content {
     max-width: 70rem;
+    padding-block: clamp(3.5rem, 9vw, 7rem);
   }
 
   .home-hero__kicker,
@@ -388,6 +428,11 @@ const homeSales =
     display: grid;
     gap: var(--grid-gap-md, 1.25rem);
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+
+  .property-grid--featured {
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
   }
 
   /* High-contrast band — explicit colors so the headline never washes out */

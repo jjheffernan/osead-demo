@@ -3,9 +3,11 @@
 
 	interface Props {
 		property: PropertyCardData;
+		/** Larger image plane for home featured grids */
+		featured?: boolean;
 	}
 
-	const { property }: Props = $props();
+	const { property, featured = false }: Props = $props();
 
 	const meta = $derived(
 		[
@@ -19,7 +21,7 @@
 	);
 </script>
 
-<article class="property-card">
+<article class="property-card" class:property-card--featured={featured}>
 	<a class="property-card__link" href={property.href}>
 		{#if property.image}
 			<img
@@ -28,7 +30,7 @@
 				alt={property.image.alt}
 				loading="lazy"
 				width="800"
-				height="500"
+				height={featured ? 600 : 500}
 			/>
 		{/if}
 		<div class="property-card__body">
@@ -59,6 +61,14 @@
 		aspect-ratio: 16 / 10;
 		object-fit: cover;
 		background: var(--muted);
+	}
+
+	.property-card--featured .property-card__image {
+		aspect-ratio: 4 / 3;
+	}
+
+	.property-card--featured .property-card__title {
+		font-size: clamp(1.25rem, 2vw, 1.45rem);
 	}
 
 	.property-card__market {

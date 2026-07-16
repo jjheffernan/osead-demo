@@ -56,8 +56,12 @@
 		selected?.kind === "photo" ? selected.alt : (selected?.title ?? ""),
 	);
 	const typeLabel = $derived(selected?.kind === "photo" ? "Photo" : "Video");
-	const caption = $derived(
-		selected ? `${selectedIndex + 1} of ${count}` : "",
+	const positionLabel = $derived(
+		selected && count > 0 ? `${selectedIndex + 1} of ${count}` : "",
+	);
+	/** First photo is the PDP LCP candidate — high fetch priority */
+	const isLcpCandidate = $derived(
+		selected?.kind === "photo" && selectedIndex === 0,
 	);
 
 	function youtubeId(src: string): string {
@@ -134,6 +138,8 @@
 					alt={selected.alt}
 					width="1600"
 					height="1000"
+					decoding="async"
+					fetchpriority={isLcpCandidate ? "high" : "auto"}
 				/>
 			{:else if selected.provider === "youtube"}
 				{@const id = youtubeId(selected.src)}
@@ -162,7 +168,7 @@
 				<span class="gallery__eyebrow">{typeLabel}</span>
 				<span class="gallery__alt">{captionLabel}</span>
 				{#if count > 1}
-					<span class="gallery__count" aria-live="polite">{caption}</span>
+					<span class="gallery__count" aria-live="polite">{positionLabel}</span>
 				{/if}
 			</figcaption>
 		</figure>
@@ -244,7 +250,8 @@
 	.gallery__image {
 		display: block;
 		width: 100%;
-		aspect-ratio: 16 / 9;
+		aspect-ratio: 16 / 10;
+		min-height: clamp(16rem, 48vw, 32rem);
 		object-fit: cover;
 		background: var(--muted);
 	}
@@ -252,7 +259,8 @@
 	.gallery__video {
 		position: relative;
 		width: 100%;
-		aspect-ratio: 16 / 9;
+		aspect-ratio: 16 / 10;
+		min-height: clamp(16rem, 48vw, 32rem);
 		background: var(--muted);
 	}
 
@@ -289,9 +297,14 @@
 	}
 
 	.gallery__count {
-		color: var(--muted-foreground);
+		margin-inline-start: auto;
+		padding: 0.2rem 0.55rem;
+		border: 1px solid var(--border);
+		color: var(--foreground);
 		font-size: var(--text-sm);
+		font-weight: var(--font-weight-semibold);
 		font-variant-numeric: tabular-nums;
+		letter-spacing: var(--tracking-wide);
 	}
 
 	.gallery__thumbs {
@@ -304,7 +317,7 @@
 
 	.gallery__thumb {
 		flex: 0 0 auto;
-		width: 5.5rem;
+		width: 6.25rem;
 		padding: 0;
 		border: 1px solid var(--border);
 		background: var(--muted);
