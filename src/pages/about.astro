@@ -4,7 +4,10 @@ import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 import { t } from "../i18n/ui";
 import Team from "../components/sections/Team.svelte";
+import Testimonials from "../components/testimonials/Testimonials.svelte";
+import RatingSubmit from "../components/testimonials/RatingSubmit.svelte";
 import { demoStaff } from "../config/staff";
+import { getTestimonialsFor } from "../lib/testimonials";
 
 const locale = (Astro.currentLocale || "en") as "en";
 
@@ -12,6 +15,14 @@ const allPages: CollectionEntry<"pages">[] = await getCollection("pages");
 const page = allPages.find(
   (p) => p.data.slug === "about" && p.data.locale === locale,
 );
+
+const [businessTestimonials, ...staffTestimonialGroups] = await Promise.all([
+  getTestimonialsFor("business", "osead", locale),
+  ...demoStaff.map((member) =>
+    getTestimonialsFor("staff", member.id, locale),
+  ),
+]);
+const staffTestimonials = staffTestimonialGroups.flat();
 ---
 
 <MarketingLayout
@@ -68,6 +79,36 @@ const page = allPages.find(
     description="A boutique coastal group — principal, rentals, sales, and guest experience — so the template shows how personal a brokerage can feel."
     members={demoStaff}
   />
+
+  <section class="about-ratings container">
+    {
+      businessTestimonials.length > 0 && (
+        <Testimonials
+          items={businessTestimonials}
+          title="What clients say about the office"
+        />
+      )
+    }
+    {
+      staffTestimonials.length > 0 && (
+        <Testimonials items={staffTestimonials} title="Team praise" />
+      )
+    }
+    <div class="about-ratings__forms">
+      <RatingSubmit
+        client:visible
+        targetType="business"
+        targetId="osead"
+        label="Rate the O-sea-D office"
+      />
+      <RatingSubmit
+        client:visible
+        targetType="staff"
+        targetId="mara-ellison"
+        label="Rate a team member (demo: Mara)"
+      />
+    </div>
+  </section>
 
   <section class="about-close container">
     <h2>Ready when you are</h2>
@@ -163,6 +204,18 @@ const page = allPages.find(
     color: inherit;
     font-weight: 700;
     text-decoration: none;
+  }
+
+  .about-ratings {
+    display: grid;
+    gap: 1.5rem;
+    padding-block: 1rem 2rem;
+  }
+
+  .about-ratings__forms {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   }
 
   .about-close {

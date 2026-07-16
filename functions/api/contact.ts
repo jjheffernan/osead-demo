@@ -1,4 +1,4 @@
-type InquiryIntent = "rental" | "sale" | "booking-inquiry";
+type InquiryIntent = "rental" | "sale" | "booking-inquiry" | "rating";
 
 interface ContactInquiry {
   name: string;
@@ -10,7 +10,12 @@ interface ContactInquiry {
   checkOut?: string;
 }
 
-const intents = new Set<InquiryIntent>(["rental", "sale", "booking-inquiry"]);
+const intents = new Set<InquiryIntent>([
+  "rental",
+  "sale",
+  "booking-inquiry",
+  "rating",
+]);
 const datePattern = /^\d{4}-\d{2}-\d{2}$/;
 
 /**

@@ -101,4 +101,26 @@ describe("contact Pages Function", () => {
     expect(other.status).toBe(202);
     log.mockRestore();
   });
+
+  it("accepts a rating inquiry lead", async () => {
+    const log = vi.spyOn(console, "log").mockImplementation(() => undefined);
+    const response = await post(
+      {
+        name: "Jordan Lee",
+        email: "jordan@example.com",
+        message: "Rating submission (business:osead) — 5/5\n\nGreat office.",
+        intent: "rating",
+        property: "business:osead",
+      },
+      { "CF-Connecting-IP": "203.0.113.70" },
+    );
+
+    expect(response.status).toBe(202);
+    await expect(response.json()).resolves.toEqual({ accepted: true });
+    expect(log).toHaveBeenCalledWith(
+      "O-sea-D inquiry accepted",
+      expect.objectContaining({ intent: "rating" }),
+    );
+    log.mockRestore();
+  });
 });

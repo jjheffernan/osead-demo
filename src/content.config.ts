@@ -273,6 +273,23 @@ const intentCollections = defineCollection({
   }),
 });
 
+const testimonials = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/testimonials",
+    generateId: ({ entry }) => entry.replace(/\.[^/.]+$/, ""),
+  }),
+  schema: z.object({
+    locale: localeSchema,
+    targetType: z.enum(["listing", "staff", "business"]),
+    /** Property slug, staff id, or business id (e.g. osead). */
+    targetId: z.string().min(1),
+    rating: z.number().int().min(1).max(5),
+    quote: z.string().min(1),
+    author: z.string().min(1),
+  }),
+});
+
 export const collections = {
   blog,
   docs,
@@ -282,4 +299,5 @@ export const collections = {
   properties,
   markets,
   collections: intentCollections,
+  testimonials,
 };
