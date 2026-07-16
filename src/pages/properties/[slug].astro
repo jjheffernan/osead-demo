@@ -7,6 +7,8 @@ import ListingNotice from "../../components/properties/ListingNotice.svelte";
 import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import PropertyGallery from "../../components/properties/PropertyGallery.svelte";
 import AvailabilityInquiry from "../../components/properties/AvailabilityInquiry.svelte";
+import Testimonials from "../../components/testimonials/Testimonials.svelte";
+import RatingSubmit from "../../components/testimonials/RatingSubmit.svelte";
 import {
   getPublishedProperties,
   getRelatedProperties,
@@ -17,6 +19,7 @@ import {
   buildRentalJsonLd,
   buildSaleJsonLd,
 } from "../../lib/property-schema";
+import { getTestimonialsFor } from "../../lib/testimonials";
 
 export async function getStaticPaths() {
   const properties = await getPublishedProperties();
@@ -56,6 +59,14 @@ const inventoryCrumb =
     ? { label: "Homes for Sale", href: "/sales" }
     : { label: "Weekly Rentals", href: "/rentals" };
 const related = await getRelatedProperties(property);
+const listingTestimonials = await getTestimonialsFor(
+  "listing",
+  data.slug,
+  locale,
+);
+const showRental = data.listingType === "rental" || data.listingType === "both";
+const showSale = data.listingType === "sale" || data.listingType === "both";
+const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}`;
 ---
 
 <MarketingLayout title={title} description={description} locale={locale} path={path}>
@@ -73,66 +84,89 @@ const related = await getRelatedProperties(property);
     />
 
     <div class="property__layout">
-      <header class="property__header">
-        <p class="property__eyebrow">
-          {listingLabel} · {data.regionLabel} · {data.waterfront}
-        </p>
-        <h1>{data.title}</h1>
-        <p class="property__desc">{data.description}</p>
-        {
-          data.priceDisplay && (
-            <p class="property__price">{data.priceDisplay}</p>
-          )
-        }
-        <dl class="property__facts">
-          <div>
-            <dt>Beds</dt>
-            <dd>{data.beds}</dd>
-          </div>
-          <div>
-            <dt>Baths</dt>
-            <dd>{data.baths}</dd>
-          </div>
+      <div class="property__main">
+        <header class="property__header">
+          <p class="property__eyebrow">
+            {listingLabel} · {data.regionLabel} · {data.waterfront}
+          </p>
+          <h1>{data.title}</h1>
+          <p class="property__desc">{data.description}</p>
           {
-            data.sleeps && (
-              <div>
-                <dt>Sleeps</dt>
-                <dd>{data.sleeps}</dd>
-              </div>
+            data.priceDisplay && (
+              <p class="property__price">{data.priceDisplay}</p>
             )
           }
-          {
-            data.sqft && (
-              <div>
-                <dt>Sq ft</dt>
-                <dd>{data.sqft.toLocaleString()}</dd>
-              </div>
-            )
-          }
-          {
-            data.yearBuilt && (
-              <div>
-                <dt>Built</dt>
-                <dd>{data.yearBuilt}</dd>
-              </div>
-            )
-          }
-        </dl>
-      </header>
+          <dl class="property__facts">
+            <div>
+              <dt>Beds</dt>
+              <dd>{data.beds}</dd>
+            </div>
+            <div>
+              <dt>Baths</dt>
+              <dd>{data.baths}</dd>
+            </div>
+            {
+              data.sleeps && (
+                <div>
+                  <dt>Sleeps</dt>
+                  <dd>{data.sleeps}</dd>
+                </div>
+              )
+            }
+            {
+              data.sqft && (
+                <div>
+                  <dt>Sq ft</dt>
+                  <dd>{data.sqft.toLocaleString()}</dd>
+                </div>
+              )
+            }
+            {
+              data.yearBuilt && (
+                <div>
+                  <dt>Built</dt>
+                  <dd>{data.yearBuilt}</dd>
+                </div>
+              )
+            }
+          </dl>
+        </header>
 
-      <aside class="property__aside">
         {
-          (data.listingType === "sale" || data.listingType === "both") && (
-            <a
-              class="button"
-              href={`/contact?intent=sale&property=${encodeURIComponent(data.slug)}`}
-            >
-              Schedule a showing
-            </a>
+          data.highlights.length > 0 && (
+            <section class="property__section">
+              <h2>Highlights</h2>
+              <ul class="highlights">
+                {data.highlights.map((item: string) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </section>
           )
         }
+
         {
-          (data.listingType === "rental" || data.listingType === "both") && (
+          data.amenities.length > 0 && (
+            <section class="property__section">
+              <h2>Amenities</h2>
+              <ul class="amenities">
+                {data.amenities.map((item: string) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </section>
+          )
+        }
+
+        <section class="property__section prose">
+          <h2>About this home</h2>
+          <Content />
+        </section>
+      </div>
+
+      <aside class="property__aside" id="conversion-rail">
+        {
+          showRental && (
             <AvailabilityInquiry
               client:load
               propertySlug={data.slug}
@@ -140,39 +174,41 @@ const related = await getRelatedProperties(property);
             />
           )
         }
+        {
+          showSale && (
+            <a class="button" href={saleHref}>
+              Schedule a showing
+            </a>
+          )
+        }
+        <p class="property__response">
+          We typically reply within one business day.
+        </p>
         <ListingNotice />
+        {
+          listingTestimonials.length > 0 && (
+            <Testimonials
+              items={listingTestimonials}
+              title="Guest ratings"
+              compact
+            />
+          )
+        }
       </aside>
     </div>
 
-    {
-      data.highlights.length > 0 && (
-        <section class="property__section">
-          <h2>Highlights</h2>
-          <ul class="highlights">
-            {data.highlights.map((item: string) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      data.amenities.length > 0 && (
-        <section class="property__section">
-          <h2>Amenities</h2>
-          <ul class="amenities">
-            {data.amenities.map((item: string) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    <section class="property__section prose">
-      <h2>About this home</h2>
-      <Content />
+    <section class="property__section property__ratings" aria-labelledby="listing-ratings">
+      {
+        listingTestimonials.length > 0 && (
+          <Testimonials items={listingTestimonials} title="What guests say" />
+        )
+      }
+      <RatingSubmit
+        client:visible
+        targetType="listing"
+        targetId={data.slug}
+        label={`Rate ${data.title}`}
+      />
     </section>
 
     {
@@ -191,6 +227,26 @@ const related = await getRelatedProperties(property);
       )
     }
   </article>
+
+  <nav class="property__mobile-bar" aria-label="Property inquiry">
+    {
+      showRental && (
+        <a class="property__mobile-bar-primary" href="#availability-inquiry">
+          Check dates
+        </a>
+      )
+    }
+    {
+      showSale && (
+        <a
+          class={showRental ? "property__mobile-bar-ghost" : "property__mobile-bar-primary"}
+          href={saleHref}
+        >
+          Schedule showing
+        </a>
+      )
+    }
+  </nav>
 </MarketingLayout>
 
 <style>
@@ -202,6 +258,7 @@ const related = await getRelatedProperties(property);
     display: grid;
     gap: 1.5rem 2rem;
     grid-template-columns: minmax(0, 1.4fr) minmax(16rem, 0.75fr);
+    align-items: start;
     margin-top: 1.25rem;
   }
 
@@ -262,9 +319,18 @@ const related = await getRelatedProperties(property);
   }
 
   .property__aside {
+    position: sticky;
+    top: calc(var(--header-height) + 0.75rem);
     display: grid;
     gap: 1rem;
     align-content: start;
+  }
+
+  .property__response {
+    margin: 0;
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.45;
   }
 
   .button {
@@ -344,9 +410,56 @@ const related = await getRelatedProperties(property);
     grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   }
 
+  .property__mobile-bar {
+    display: none;
+  }
+
   @media (max-width: 48rem) {
+    .property {
+      padding-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
     .property__layout {
       grid-template-columns: 1fr;
+    }
+
+    .property__aside {
+      position: static;
+    }
+
+    .property__mobile-bar {
+      position: fixed;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: var(--z-index-sticky);
+      display: flex;
+      gap: 0.5rem;
+      padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+      border-top: 1px solid var(--border);
+      background: var(--background);
+    }
+
+    .property__mobile-bar a {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: 0.55rem 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+    }
+
+    .property__mobile-bar-primary {
+      background: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    .property__mobile-bar-ghost {
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: var(--foreground);
     }
   }
 </style>

@@ -33,8 +33,10 @@ const listings = properties.map(({ data }) => ({
       <p class="section-head__eyebrow">Weekly rentals</p>
       <h1 class="section-head__title">Coastal weeks worth returning for</h1>
       <p class="section-head__lead">
-        Oceanfront estates and semi-oceanfront family homes curated for peak-season
-        weeks and shoulder-season escapes.
+        Filter {properties.length} oceanfront and near-beach homes, then inquire
+        on dates. Prefer a conversation first?
+        <a class="section-head__cta" href="/contact?intent=rental">Contact us</a
+        >.
       </p>
     </header>
 
@@ -44,3 +46,11 @@ const listings = properties.map(({ data }) => ({
     <ListingFilters client:load listings={listings} listingType="rental" />
   </section>
 </MarketingLayout>
+
+<style>
+  .section-head__cta {
+    color: inherit;
+    font-weight: 700;
+    text-underline-offset: 0.15em;
+  }
+</style>

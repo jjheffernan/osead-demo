@@ -33,8 +33,9 @@ const listings = properties.map(({ data }) => ({
       <p class="section-head__eyebrow">Homes for sale</p>
       <h1 class="section-head__title">Second homes on the water</h1>
       <p class="section-head__lead">
-        Ownership inventory for buyers who want Atlantic access, rental upside, and
-        a house they can actually use in peak season.
+        Browse {properties.length} listings with filters, then request a showing.
+        Ready to talk?
+        <a class="section-head__cta" href="/contact?intent=sale">Contact us</a>.
       </p>
     </header>
 
@@ -44,3 +45,11 @@ const listings = properties.map(({ data }) => ({
     <ListingFilters client:load listings={listings} listingType="sale" />
   </section>
 </MarketingLayout>
+
+<style>
+  .section-head__cta {
+    color: inherit;
+    font-weight: 700;
+    text-underline-offset: 0.15em;
+  }
+</style>

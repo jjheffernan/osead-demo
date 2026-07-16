@@ -86,9 +86,9 @@ const methods = (featuresSection?.items || []).map((item) => ({
       <div class="contact__intro">
         <h2>Start a coastal conversation</h2>
         <p>
-          Tell us about the week or home you are considering. We will follow up
-          with availability or next steps; this is an inquiry, not a
-          reservation.
+          Tell us about the week or home you are considering. We typically reply
+          within one business day with availability or next steps — this is an
+          inquiry, not a reservation.
         </p>
         <div
           id="inquiry-summary"
@@ -174,6 +174,9 @@ const methods = (featuresSection?.items || []).map((item) => ({
             </p>
           </div>
           <button id="submit-btn" type="submit">Send inquiry</button>
+          <p class="contact__response">
+            Demo inquiries only. Expect a reply within one business day.
+          </p>
         </form>
 
         <ul class="contact__methods">
@@ -446,6 +449,19 @@ const methods = (featuresSection?.items || []).map((item) => ({
     font: inherit;
     font-weight: 700;
     cursor: pointer;
+  }
+
+  .contact__response {
+    grid-column: 1 / -1;
+    margin: 0;
+    max-width: none;
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.45;
+  }
+
+  .contact__form[data-state="thanks"] .contact__response {
+    display: none;
   }
 
   .contact__form button:disabled {

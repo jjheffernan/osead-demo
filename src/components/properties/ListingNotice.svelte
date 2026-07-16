@@ -4,8 +4,8 @@
 		does not discriminate in housing-related services.
 	</p>
 	<p>
-		<strong>Demo inventory.</strong> This site uses sample listings only; they
-		are not live offers or a real brokerage or rental transaction.
+		<strong>Demo inventory.</strong> Sample listings only — not live offers or a
+		real brokerage transaction. We typically reply within one business day.
 	</p>
 </aside>
 

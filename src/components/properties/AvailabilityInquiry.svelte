@@ -57,13 +57,16 @@
 	}
 </script>
 
-<section class="availability" aria-labelledby="availability-title">
+<section
+	id="availability-inquiry"
+	class="availability"
+	aria-labelledby="availability-title"
+>
 	<div>
 		<p class="availability__eyebrow">Weekly rental inquiry</p>
-		<h2 id="availability-title">Check availability for {propertyTitle}</h2>
+		<h2 id="availability-title">Check availability</h2>
 		<p class="availability__copy">
-			Choose dates to start an availability inquiry. Mocked unavailable dates are checked before
-			you continue.
+			Choose dates to inquire about {propertyTitle}. This is not a reservation or payment.
 		</p>
 	</div>
 
@@ -95,11 +98,11 @@
 		{#if error}
 			<p id="availability-error" class="availability__error" role="alert">{error}</p>
 		{/if}
-		<button type="submit">Continue with availability inquiry</button>
+		<button type="submit">Check dates</button>
 	</form>
 
 	<p class="availability__notice">
-		Demo availability only. This inquiry is not a reservation, payment, or live offer.
+		Demo availability only. We typically reply within one business day.
 	</p>
 </section>
 
@@ -107,7 +110,7 @@
 	.availability {
 		display: grid;
 		gap: var(--spacing-5);
-		margin-top: var(--spacing-7);
+		scroll-margin-top: calc(var(--header-height) + 0.75rem);
 		padding: var(--spacing-6);
 		border: 1px solid var(--border);
 		background: var(--secondary);

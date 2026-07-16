@@ -3,6 +3,7 @@ import MarketingLayout from "../layouts/MarketingLayout.astro";
 import PropertyCard from "../components/properties/PropertyCard.svelte";
 import MarketplaceLinks from "../components/sections/MarketplaceLinks.svelte";
 import Team from "../components/sections/Team.svelte";
+import Testimonials from "../components/testimonials/Testimonials.svelte";
 import {
   buyMarketplaces,
   rentMarketplaces,
@@ -10,15 +11,15 @@ import {
 import { demoStaff } from "../config/staff";
 import {
   getPropertiesByListingType,
-  getPublishedProperties,
   toPropertyCardProps,
 } from "../lib/properties";
+import { getTestimonialsFor } from "../lib/testimonials";
 
 const locale = (Astro.currentLocale || "en") as "en";
-const [all, rentals, sales] = await Promise.all([
-  getPublishedProperties(),
+const [rentals, sales, businessTestimonials] = await Promise.all([
   getPropertiesByListingType("rental"),
   getPropertiesByListingType("sale"),
+  getTestimonialsFor("business", "osead", locale),
 ]);
 const featuredRentals = rentals.filter((p) => p.data.featured).slice(0, 6);
 const featuredSales = sales.filter((p) => p.data.featured).slice(0, 6);
@@ -40,16 +41,14 @@ const homeSales =
       <p class="home-hero__kicker">Atlantic homes, deliberately kept</p>
       <h1 class="home-hero__wordmark">O-sea-D</h1>
       <p class="home-hero__line">
-        Find the house that brings you back to the water.
-      </p>
-      <p class="home-hero__intro">
-        A considered collection of coastal homes for a week away or a life
-        closer to the shore — {all.length} homes across rentals and sales.
+        Weekly rentals first. Homes for sale beside them.
       </p>
       <div class="home-hero__actions">
-        <a class="home-hero__cta" href="/rentals">Browse rentals</a>
+        <a class="home-hero__cta" href="/rentals"
+          >Browse {rentals.length} rentals</a
+        >
         <a class="home-hero__cta home-hero__cta--ghost" href="/sales"
-          >Homes for sale</a
+          >{sales.length} homes for sale</a
         >
       </div>
     </div>
@@ -160,6 +159,18 @@ const homeSales =
     members={demoStaff}
   />
 
+  {
+    businessTestimonials.length > 0 && (
+      <section class="home-trust container">
+        <Testimonials
+          items={businessTestimonials}
+          title="Trusted coastal guidance"
+          compact
+        />
+      </section>
+    )
+  }
+
   <section class="home-closing container">
     <p class="eyebrow">Start with the shoreline</p>
     <h2>Come for the week. Stay for the view.</h2>
@@ -227,23 +238,11 @@ const homeSales =
   }
 
   .home-hero__line {
-    max-width: 17ch;
+    max-width: 22ch;
     margin: clamp(1.5rem, 3vw, 2.75rem) 0 0;
     font-family: var(--font-heading);
     font-size: var(--text-2xl);
     line-height: var(--leading-tight);
-  }
-
-  .home-hero__intro {
-    max-width: 46ch;
-    margin: var(--spacing-4) 0 0;
-    color: color-mix(
-      in srgb,
-      var(--surface-invert-foreground) 76%,
-      transparent
-    );
-    font-size: var(--text-lg);
-    line-height: var(--leading-relaxed);
   }
 
   .home-hero__actions {
