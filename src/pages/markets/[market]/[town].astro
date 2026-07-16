@@ -3,11 +3,11 @@ import MarketingLayout from "../../../layouts/MarketingLayout.astro";
 import Breadcrumbs from "../../../components/seo/Breadcrumbs.astro";
 import MarketHero from "../../../components/markets/MarketHero.svelte";
 import PropertyCard from "../../../components/properties/PropertyCard.svelte";
-import { slugify } from "../../../lib/utils";
 import {
   getMarkets,
   getPropertiesByTown,
   marketPath,
+  slugify,
   townPath,
   toPropertyCardProps,
   type MarketEntry,

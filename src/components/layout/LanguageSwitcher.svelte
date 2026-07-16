@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Locale } from "../../lib/site-config";
 	import { SITE_CONFIG } from "../../lib/site-config";
-	import { getEquivalentPath } from "../../i18n/switcher";
+	import { getEquivalentPath } from "./get-equivalent-path.svelte";
 
 	interface Props {
 		currentLocale: Locale;

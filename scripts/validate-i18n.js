@@ -51,13 +51,17 @@ for (const file of localeFiles) {
   }
 }
 
+const switcherModule = join(
+  SRC_DIR,
+  "components/layout/get-equivalent-path.svelte.ts",
+);
 const helpersExist =
   existsSync(join(I18N_DIR, "routes.ts")) &&
-  existsSync(join(I18N_DIR, "switcher.ts")) &&
-  existsSync(join(I18N_DIR, "ui.ts"));
+  existsSync(join(I18N_DIR, "ui.ts")) &&
+  existsSync(switcherModule);
 if (!helpersExist) {
   errors.push(
-    "Missing i18n helpers: src/i18n/routes.ts, src/i18n/switcher.ts, or src/i18n/ui.ts not found",
+    "Missing i18n helpers: src/i18n/routes.ts, src/i18n/ui.ts, or get-equivalent-path.svelte.ts not found",
   );
 }
 

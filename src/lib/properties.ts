@@ -1,7 +1,19 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { slugify } from "./utils";
 
 export type PropertyEntry = CollectionEntry<"properties">;
+
+/** Town/path slug for Astro static paths and market URLs. */
+export function slugify(str: string) {
+  return str
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 export type MarketEntry = CollectionEntry<"markets">;
 export type IntentCollectionEntry = CollectionEntry<"collections">;
 export type CollectionMatch = IntentCollectionEntry["data"]["match"];
