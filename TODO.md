@@ -16,7 +16,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 - [ ] S26 Conversion UX build: implement top plan items from S25 (homepage/PDP/listings density & trust) — acceptance: `pnpm build`, visible UX changes, no new CMS/DB
 - [ ] S27 Conversion improvement audit: post-build pass; list residual surface in `docs/afk/conversion-audit.md`; fix trivial wins only — acceptance: audit doc + `pnpm build`
 - [ ] S28 Testimonials: Svelte component for ratings of listings, staff, and business/office; seed demo content; submit path via existing contact Function or static seed — acceptance: wired on about + ≥1 PDP + home or footer; `pnpm build`
-- [ ] S29 Beachfront media research+plan: impressive beachfront sites → stay-on-page techniques → implement plan in `docs/research/beachfront-media.md` — acceptance: ≥5 sites, technique list, prioritized plan
+- [x] S29 Beachfront media research+plan: impressive beachfront sites → stay-on-page techniques → implement plan in `docs/research/beachfront-media.md` — acceptance: ≥5 sites, technique list, prioritized plan
 - [ ] S30 Media build: implement S29 plan (hero/media presence; license-safe or clearly marked demo assets) — acceptance: `pnpm build`, richer media on home/markets/PDP without breaking LCP badly
 
 ### Wave 0 — Complete (do not re-open)
