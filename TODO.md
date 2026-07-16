@@ -12,7 +12,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 ### Wave E — TS placement + conversion UX + media + testimonials
 
 - [ ] S24 TS placement: move what can into Astro frontmatter or Svelte modules; **keep** Astro pages/layouts/SEO/Img/Icon; do not delete Astro UI just to chase language % — acceptance: `pnpm build` + short note in `docs/afk/ts-placement.md` of must-keep vs moved
-- [ ] S25 Conversion UX research+plan: high-conversion RE sites → audit frontend practices → plan for Astro+Svelte in `docs/research/conversion-ux.md` — acceptance: ≥5 exemplars, practice list, prioritized implement plan
+- [x] S25 Conversion UX research+plan: high-conversion RE sites → audit frontend practices → plan for Astro+Svelte in `docs/research/conversion-ux.md` — acceptance: ≥5 exemplars, practice list, prioritized implement plan
 - [ ] S26 Conversion UX build: implement top plan items from S25 (homepage/PDP/listings density & trust) — acceptance: `pnpm build`, visible UX changes, no new CMS/DB
 - [ ] S27 Conversion improvement audit: post-build pass; list residual surface in `docs/afk/conversion-audit.md`; fix trivial wins only — acceptance: audit doc + `pnpm build`
 - [ ] S28 Testimonials: Svelte component for ratings of listings, staff, and business/office; seed demo content; submit path via existing contact Function or static seed — acceptance: wired on about + ≥1 PDP + home or footer; `pnpm build`
