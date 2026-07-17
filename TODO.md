@@ -9,6 +9,19 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ## Now
 
+### Wave F — Admin analytics one-stop shop
+
+Plan: `docs/research/admin-analytics-v-slices.md`. Zero new deps (native SVG/CSS). Reuse `admin-analytics.ts` / `AdminAnalytics.svelte` / `AdminShell.svelte`. F1 = Analytics panel polish (one file, sequence to avoid conflicts); janitor between waves; F2 = one-stop shop + contract + docs.
+
+- [ ] F1 Sales trend sparkline: new `SalesSparkline.svelte` (`$derived` monthly group → inline `<svg><polyline>`, tokens only, no `client:*`) into `AdminAnalytics.svelte` — acceptance: `pnpm build` + sparkline renders in Analytics panel and reshapes on range/market filter change; no chart lib
+- [ ] F2 Employee leaderboard bars: CSS-only per-row `%`-width bar in `AdminAnalytics.svelte`'s existing `<table>` (sized vs top performer, same technique as occupancy bar) — acceptance: `pnpm build` + rows show proportional bars, top = full width; no `Table.astro` import
+- [ ] F3 Market split stat row: native 3-market tile row in `AdminAnalytics.svelte` (revenue + occupancy per market via `$derived`, same pattern as KPI grid) — acceptance: `pnpm build` + 3 market tiles render and update with filters; no pie/donut
+- [ ] F4 Loading state + source Badge: add `{#if status === "loading"}` shimmer (copy `Skeleton.astro` CSS, don't import) + optional `Badge.svelte` swap for source pill — acceptance: `pnpm build` + Refresh shows skeleton not instant zeroes; pill still reads Demo/External
+- [ ] F5 Overview KPI strip: independent `loadAdminAnalytics()` in `AdminShell.svelte` `panel === "overview"` branch, 3-KPI subset beside inventory tiles (second-fetch, no state lift) — acceptance: `pnpm build` + Overview shows 3 live KPIs matching Analytics YTD; no 5th nav
+- [ ] F6 Outbound JSON endpoint: `functions/api/admin-analytics.json.ts` returning `buildDemoAdminAnalytics()` as JSON (wraps existing fn, no new logic) — acceptance: `pnpm build` + endpoint returns valid `{source,generatedAt,currency,rows[]}`; pointing `PUBLIC_ADMIN_ANALYTICS_URL` at it shows "External feed"; no auth infra/KV/D1
+- [ ] F7 Adapter worked-example docs: `docs/specs/admin-analytics-adapters.md` mapping one PriceLabs `listing_metrics` JSON + one Hostaway `listingFinancials` CSV → `AdminAnalyticsRow` (doc-only, carry maturity caveats; market/employee are OSEAD-side joins) — acceptance: `pnpm build` + ≥2 vendor→row mappings + note which fields no rental vendor fills; no live client, no comps/AVM
+- [ ] F8 Metabase embed stub (optional): bring-your-own `PUBLIC_ADMIN_REPORT_EMBED_URL` Reports sub-section **inside** Analytics panel (iframe if set, documented placeholder if not; inert by default) — acceptance: `pnpm build` + env-unset shows placeholder, no network/CSP error, demo works offline; no `_headers` change
+
 ### Wave E — TS placement + conversion UX + media + testimonials
 
 - [x] S24 TS placement: move what can into Astro frontmatter or Svelte modules; **keep** Astro pages/layouts/SEO/Img/Icon; do not delete Astro UI just to chase language % — acceptance: `pnpm build` + short note in `docs/afk/ts-placement.md` of must-keep vs moved
@@ -63,7 +76,7 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ## Next
 
-- (empty — promote from Later only after Now is clear)
+- (empty — clear **Wave F** above before promoting from Later)
 
 ## Later
 
