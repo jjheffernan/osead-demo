@@ -1,6 +1,6 @@
 # Accounts + RBAC — Wave I feature push
 
-**Status:** Phase 1 research swarm starting (AFK)  
+**Status:** Built — Phase 2 complete (I1–I10 landed on `main`, see `docs/research/accounts-rbac-v-slices.md`)  
 **Goal:** Demo-ready roles for **admin**, **agent** (realtor/staff), and **guest** (customer) with clear UX gates. Booking stays external; this site owns experience + RBAC. Stack stays Astro 7 → Svelte 5 → thin TS on Cloudflare Pages. No mandatory CMS/DB/Auth SaaS unless a later ticket asks.
 
 ## Locked product intent
