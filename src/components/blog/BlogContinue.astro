@@ -1,0 +1,146 @@
+---
+/**
+ * Journal → inventory loop (W2-B): market + collection links + 2 property cards.
+ */
+import PropertyCard from "../properties/PropertyCard.svelte";
+import {
+  getIntentCollections,
+  getMarkets,
+  getPropertiesByMarket,
+  getPublishedProperties,
+  pickRandom,
+  toPropertyCardProps,
+  type PropertyEntry,
+} from "../../lib/properties";
+
+interface Props {
+  tags?: string[];
+}
+
+const { tags = [] } = Astro.props as Props;
+const lowered = tags.map((tag) => tag.toLowerCase());
+
+function pickMarketSlug(): string {
+  if (lowered.some((tag) => /jersey|lbi/.test(tag))) return "jersey-shore";
+  if (lowered.some((tag) => /delaware|dewey|rehoboth|bethany/.test(tag))) {
+    return "delaware-beaches";
+  }
+  return "outer-banks";
+}
+
+function pickCollectionSlug(): string {
+  if (lowered.some((tag) => /pet/.test(tag))) return "pets";
+  if (lowered.some((tag) => /elevator/.test(tag))) return "elevators";
+  if (lowered.some((tag) => /group|reunion|family/.test(tag))) {
+    return "large-groups";
+  }
+  return "oceanfront";
+}
+
+const marketSlug = pickMarketSlug();
+const collectionSlug = pickCollectionSlug();
+
+const [markets, collections, allProperties] = await Promise.all([
+  getMarkets(),
+  getIntentCollections(),
+  getPublishedProperties(),
+]);
+
+const market = markets.find((entry) => entry.data.slug === marketSlug);
+const collection = collections.find(
+  (entry) => entry.data.slug === collectionSlug,
+);
+
+let pool: PropertyEntry[] = market
+  ? await getPropertiesByMarket(market.data.market)
+  : allProperties;
+if (lowered.some((tag) => /oceanfront/.test(tag))) {
+  pool = pool.filter((entry) => entry.data.waterfront === "oceanfront");
+}
+if (pool.length < 2) pool = allProperties;
+const featured = pickRandom(pool, 2);
+---
+
+{
+  featured.length > 0 && (
+    <section class="blog-continue" aria-labelledby="blog-continue-title">
+      <header class="blog-continue__head">
+        <p class="blog-continue__eyebrow">Keep exploring</p>
+        <h2 id="blog-continue-title">From this guide into the inventory</h2>
+        <p class="blog-continue__lead">
+          Jump back into filter-first browse — markets and collections stay SEO
+          satellites, not a second homepage.
+        </p>
+        <div class="blog-continue__links">
+          {market && (
+            <a href={`/markets/${market.data.slug}`}>{market.data.title}</a>
+          )}
+          {collection && (
+            <a href={`/collections/${collection.data.slug}`}>
+              {collection.data.title}
+            </a>
+          )}
+          <a href="/rentals">All rentals</a>
+          <a href="/sales">Homes for sale</a>
+        </div>
+      </header>
+      <div class="blog-continue__grid">
+        {featured.map((property) => (
+          <PropertyCard property={toPropertyCardProps(property)} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .blog-continue {
+    display: grid;
+    gap: 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .blog-continue__eyebrow {
+    margin: 0;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+
+  .blog-continue__head h2 {
+    margin: 0.35rem 0 0;
+    font-size: 1.35rem;
+  }
+
+  .blog-continue__lead {
+    margin: 0.45rem 0 0;
+    max-width: 42ch;
+    color: var(--muted-foreground);
+    font-size: var(--text-sm);
+    line-height: 1.45;
+  }
+
+  .blog-continue__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    margin-top: 0.85rem;
+  }
+
+  .blog-continue__links a {
+    color: inherit;
+    font-weight: 700;
+    font-size: var(--text-sm);
+    text-decoration: none;
+    border-bottom: 1px solid currentcolor;
+  }
+
+  .blog-continue__grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  }
+</style>

@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { propertyMatchesCollection } from "../../lib/properties";
+import {
+  collectionToFilterQuery,
+  propertyMatchesCollection,
+} from "../../lib/properties";
 import type { PropertyEntry } from "../../lib/properties";
 
 type PropData = PropertyEntry["data"];
@@ -88,5 +91,25 @@ describe("propertyMatchesCollection", () => {
 
   it("rejects empty match objects", () => {
     expect(propertyMatchesCollection(prop({}), {})).toBe(false);
+  });
+});
+
+describe("collectionToFilterQuery", () => {
+  it("returns empty string when match has nothing filterable", () => {
+    expect(collectionToFilterQuery({})).toBe("");
+  });
+
+  it("maps waterfront, beds, amenity, and pets into query", () => {
+    const qs = collectionToFilterQuery({
+      waterfrontIn: ["oceanfront"],
+      minBeds: 5,
+      amenityContains: "Elevator",
+      petsAllowed: true,
+    });
+    const params = new URLSearchParams(qs.slice(1));
+    expect(params.get("waterfront")).toBe("oceanfront");
+    expect(params.get("beds")).toBe("5");
+    expect(params.get("amenity")).toBe("Elevator");
+    expect(params.get("pets")).toBe("1");
   });
 });

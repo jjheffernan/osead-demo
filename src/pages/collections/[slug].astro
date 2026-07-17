@@ -2,6 +2,7 @@
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
 import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import {
+  collectionToFilterQuery,
   getIntentCollections,
   getPropertiesForCollection,
   toPropertyCardProps,
@@ -26,6 +27,7 @@ const properties = await getPropertiesForCollection(collection.data.match);
 const title = collection.data.seoTitle ?? collection.data.title;
 const description =
   collection.data.seoDescription ?? collection.data.description;
+const filterQuery = collectionToFilterQuery(collection.data.match);
 ---
 
 <MarketingLayout
@@ -40,12 +42,22 @@ const description =
       <h1 class="section-head__title">{collection.data.title}</h1>
       <p class="section-head__lead">{collection.data.description}</p>
       <p class="match-notes">{collection.data.matchNotes}</p>
+      <div class="collection-handoff">
+        <a class="collection-handoff__primary" href={`/rentals${filterQuery}`}
+          >Browse matching rentals</a
+        >
+        <a class="collection-handoff__ghost" href={`/sales${filterQuery}`}
+          >Browse matching sales</a
+        >
+      </div>
     </header>
 
     <div class="property-grid">
       {
         properties.length > 0 ? (
-          properties.map((property) => <PropertyCard property={toPropertyCardProps(property)} />)
+          properties.map((property) => (
+            <PropertyCard property={toPropertyCardProps(property)} />
+          ))
         ) : (
           <p>No matching listings yet.</p>
         )
@@ -60,6 +72,30 @@ const description =
     color: var(--muted-foreground);
     font-size: 0.95rem;
     max-width: 48rem;
+  }
+
+  .collection-handoff {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.1rem;
+    margin-top: 1.25rem;
+    align-items: center;
+  }
+
+  .collection-handoff__primary {
+    display: inline-flex;
+    padding: 0.65rem 1.05rem;
+    background: var(--primary);
+    color: var(--primary-foreground);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .collection-handoff__ghost {
+    color: inherit;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid currentcolor;
   }
 
   .property-grid {

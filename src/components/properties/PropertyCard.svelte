@@ -9,6 +9,14 @@
 
 	const { property, featured = false }: Props = $props();
 
+	const listingLabel = $derived(
+		property.listingType === "rental"
+			? "Rental"
+			: property.listingType === "sale"
+				? "Sale"
+				: "Both",
+	);
+
 	const meta = $derived(
 		[
 			`${property.beds} beds`,
@@ -23,16 +31,19 @@
 
 <article class="property-card" class:property-card--featured={featured}>
 	<a class="property-card__link" href={property.href}>
-		{#if property.image}
-			<img
-				class="property-card__image"
-				src={property.image.src}
-				alt={property.image.alt}
-				loading="lazy"
-				width="800"
-				height={featured ? 600 : 500}
-			/>
-		{/if}
+		<div class="property-card__media">
+			{#if property.image}
+				<img
+					class="property-card__image"
+					src={property.image.src}
+					alt={property.image.alt}
+					loading="lazy"
+					width="800"
+					height={featured ? 600 : 500}
+				/>
+			{/if}
+			<span class="property-card__badge">{listingLabel}</span>
+		</div>
 		<div class="property-card__body">
 			<p class="property-card__market">{property.regionLabel}</p>
 			<h3 class="property-card__title">{property.title}</h3>
@@ -56,15 +67,34 @@
 		text-decoration: none;
 	}
 
+	.property-card__media {
+		position: relative;
+		background: var(--muted);
+	}
+
 	.property-card__image {
+		display: block;
 		width: 100%;
 		aspect-ratio: 16 / 10;
 		object-fit: cover;
-		background: var(--muted);
 	}
 
 	.property-card--featured .property-card__image {
 		aspect-ratio: 4 / 3;
+	}
+
+	.property-card__badge {
+		position: absolute;
+		top: 0.65rem;
+		left: 0.65rem;
+		padding: 0.2rem 0.5rem;
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+		line-height: 1.2;
+		color: var(--primary-foreground);
+		background: color-mix(in srgb, var(--primary) 88%, transparent);
 	}
 
 	.property-card--featured .property-card__title {

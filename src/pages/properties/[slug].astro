@@ -7,6 +7,7 @@ import ListingNotice from "../../components/properties/ListingNotice.svelte";
 import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import PropertyGallery from "../../components/properties/PropertyGallery.svelte";
 import AvailabilityInquiry from "../../components/properties/AvailabilityInquiry.svelte";
+import FAQ from "../../components/FAQ.svelte";
 import Testimonials from "../../components/testimonials/Testimonials.svelte";
 import RatingSubmit from "../../components/testimonials/RatingSubmit.svelte";
 import {
@@ -20,6 +21,7 @@ import {
   buildSaleJsonLd,
 } from "../../lib/property-schema";
 import { getTestimonialsFor } from "../../lib/testimonials";
+import { demoStaff } from "../../config/staff";
 
 export async function getStaticPaths() {
   const properties = await getPublishedProperties();
@@ -66,7 +68,45 @@ const listingTestimonials = await getTestimonialsFor(
 );
 const showRental = data.listingType === "rental" || data.listingType === "both";
 const showSale = data.listingType === "sale" || data.listingType === "both";
+const isDual = data.listingType === "both";
 const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}`;
+const propQ = encodeURIComponent(data.slug);
+const contactStaff =
+  demoStaff.find((member) =>
+    data.listingType === "sale"
+      ? member.id === "priya-santos"
+      : data.listingType === "rental"
+        ? member.id === "jonah-reed"
+        : member.id === "mara-ellison",
+  ) ?? demoStaff[0];
+const staffInitials = contactStaff.name
+  .split(/\s+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((part) => part[0]?.toUpperCase() ?? "")
+  .join("");
+const faqItems = [
+  {
+    question: "Are pets welcome at this home?",
+    answer: `Pet policies vary by listing and season. <a href="/contact?intent=${showRental ? "rental" : "sale"}&property=${propQ}">Ask us about pets here</a> and we’ll confirm before you book or buy.`,
+  },
+  ...(showRental
+    ? [
+        {
+          question: "How do weekly stays work?",
+          answer: `Most coastal rentals book by the week. <a href="/contact?intent=booking-inquiry&property=${propQ}">Share your preferred dates</a> and we’ll check availability.`,
+        },
+      ]
+    : []),
+  ...(showSale
+    ? [
+        {
+          question: "Can I schedule a showing?",
+          answer: `Yes — <a href="/contact?intent=sale&property=${propQ}">request a private showing</a> and we’ll arrange a time that fits.`,
+        },
+      ]
+    : []),
+];
 ---
 
 <MarketingLayout title={title} description={description} locale={locale} path={path}>
@@ -166,18 +206,26 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
 
       <aside class="property__aside" id="conversion-rail">
         {
+          isDual && (
+            <p class="property__dual">
+              Rent this week · Buy this home — pick the path that fits.
+            </p>
+          )
+        }
+        {
           showRental && (
             <AvailabilityInquiry
               client:load
               propertySlug={data.slug}
               propertyTitle={data.title}
+              heading={isDual ? "Rent this week" : "Check availability"}
             />
           )
         }
         {
           showSale && (
             <a class="button" href={saleHref}>
-              Schedule a showing
+              {isDual ? "Buy this home" : "Schedule a showing"}
             </a>
           )
         }
@@ -187,6 +235,15 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
         >
           {showSale && !showRental ? "Request info" : "Ask a question"}
         </a>
+        <div class="property__staff">
+          <span class="property__staff-avatar" aria-hidden="true"
+            >{staffInitials}</span
+          >
+          <div>
+            <p class="property__staff-name">{contactStaff.name}</p>
+            <p class="property__staff-role">{contactStaff.role}</p>
+          </div>
+        </div>
         <p class="property__response">
           We typically reply within one business day.
         </p>
@@ -217,6 +274,10 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
       />
     </section>
 
+    <section class="property__faq" aria-labelledby="property-faq-title">
+      <FAQ client:visible title="Common questions" items={faqItems} />
+    </section>
+
     {
       related.length > 0 && (
         <section class="property__related" aria-labelledby="related-homes">
@@ -238,7 +299,7 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
     {
       showRental && (
         <a class="property__mobile-bar-primary" href="#availability-inquiry">
-          Check dates
+          {isDual ? "Rent this week" : "Check dates"}
         </a>
       )
     }
@@ -248,7 +309,7 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
           class={showRental ? "property__mobile-bar-ghost" : "property__mobile-bar-primary"}
           href={saleHref}
         >
-          Schedule showing
+          {isDual ? "Buy this home" : "Schedule showing"}
         </a>
       )
     }
@@ -332,6 +393,47 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
     align-content: start;
   }
 
+  .property__dual {
+    margin: 0;
+    padding: 0.65rem 0.75rem;
+    border-left: 2px solid var(--primary);
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .property__staff {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .property__staff-avatar {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  .property__staff-name {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .property__staff-role {
+    margin: 0.15rem 0 0;
+    color: var(--muted-foreground);
+    font-size: 0.8rem;
+  }
+
   .property__response {
     margin: 0;
     color: var(--muted-foreground);
@@ -401,6 +503,27 @@ const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}
     background: var(--card);
     font-size: 0.92rem;
     line-height: 1.3;
+  }
+
+  .property__faq {
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .property__faq :global(.faq__title) {
+    text-align: left;
+    font-size: 1.35rem;
+  }
+
+  .property__faq :global(.faq__list) {
+    margin-inline: 0;
+  }
+
+  .property__faq :global(a) {
+    color: var(--foreground);
+    font-weight: 600;
+    text-underline-offset: 0.15em;
   }
 
   .property__related {

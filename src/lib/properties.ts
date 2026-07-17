@@ -139,6 +139,28 @@ export async function getPropertiesForCollection(
   return all.filter((entry) => propertyMatchesCollection(entry.data, match));
 }
 
+/**
+ * Map collection match rules → /rentals|/sales query string.
+ * ListingFilters reads these on mount (W2-A).
+ */
+export function collectionToFilterQuery(match: CollectionMatch): string {
+  const params = new URLSearchParams();
+  if (match.waterfrontIn?.[0]) {
+    params.set("waterfront", match.waterfrontIn[0]);
+  }
+  if (match.minBeds !== undefined) {
+    params.set("beds", String(match.minBeds));
+  }
+  if (match.amenityContains) {
+    params.append("amenity", match.amenityContains);
+  }
+  if (match.petsAllowed === true) {
+    params.set("pets", "1");
+  }
+  const qs = params.toString();
+  return qs ? `?${qs}` : "";
+}
+
 /** Score same market/waterfront first; featured breaks ties. Pads with other published if needed. */
 export function pickRelatedProperties(
   current: PropertyEntry,
@@ -182,6 +204,7 @@ export interface PropertyCardData {
   href: string;
   title: string;
   regionLabel: string;
+  listingType: PropertyEntry["data"]["listingType"];
   beds: number;
   baths: number;
   sleeps?: number;
@@ -196,6 +219,7 @@ export function toPropertyCardProps(property: PropertyEntry): PropertyCardData {
     href: propertyPath(property),
     title: data.title,
     regionLabel: data.regionLabel,
+    listingType: data.listingType,
     beds: data.beds,
     baths: data.baths,
     sleeps: data.sleeps,

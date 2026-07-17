@@ -23,7 +23,8 @@
 						name: item.question,
 						acceptedAnswer: {
 							"@type": "Answer",
-							text: item.answer,
+							// Strip markup so FAQPage JSON-LD stays plain text.
+							text: item.answer.replace(/<[^>]+>/g, ""),
 						},
 					})),
 				}
@@ -39,7 +40,7 @@
 	);
 </script>
 
-<section class="faq container">
+<section class="faq">
 	{#if title}
 		<h2 class="faq__title">{title}</h2>
 	{/if}

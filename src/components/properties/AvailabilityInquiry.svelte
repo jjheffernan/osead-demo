@@ -2,6 +2,8 @@
 	interface Props {
 		propertySlug: string;
 		propertyTitle: string;
+		/** Sticky-rail heading override (dual listings: "Rent this week"). */
+		heading?: string;
 	}
 
 	const blockedDates = [
@@ -12,7 +14,11 @@
 		"2026-08-23",
 	];
 
-	let { propertySlug, propertyTitle }: Props = $props();
+	let {
+		propertySlug,
+		propertyTitle,
+		heading = "Check availability",
+	}: Props = $props();
 	let checkIn = $state("");
 	let checkOut = $state("");
 	let error = $state("");
@@ -64,7 +70,7 @@
 >
 	<div>
 		<p class="availability__eyebrow">Weekly rental inquiry</p>
-		<h2 id="availability-title">Check availability</h2>
+		<h2 id="availability-title">{heading}</h2>
 		<p class="availability__copy">
 			Choose dates to inquire about {propertyTitle}. This is not a reservation or payment.
 		</p>

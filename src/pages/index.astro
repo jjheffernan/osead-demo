@@ -60,39 +60,6 @@ const homeSales = pickRandom(sales, 3);
     </div>
   </section>
 
-  <section class="paths container" aria-labelledby="paths-heading">
-    <header class="paths__heading">
-      <p class="eyebrow">Choose your way to the coast</p>
-      <h2 id="paths-heading">Stay awhile. Or stay for good.</h2>
-    </header>
-    <div class="paths__grid">
-      <a class="path-card path-card--rent" href="/rentals">
-        <span class="path-card__number" aria-hidden="true">01</span>
-        <p class="path-card__eyebrow">Weekly rentals · {rentals.length}</p>
-        <h3>Make room for everyone.</h3>
-        <p>
-          Oceanfront weeks, long-table dinners, and homes with enough beds for
-          the whole group.
-        </p>
-        <span class="path-card__link"
-          >Browse rentals <span aria-hidden="true">→</span></span
-        >
-      </a>
-      <a class="path-card path-card--buy" href="/sales">
-        <span class="path-card__number" aria-hidden="true">02</span>
-        <p class="path-card__eyebrow">Homes for sale · {sales.length}</p>
-        <h3>Keep a key by the sea.</h3>
-        <p>
-          Second homes with a sense of place, and the rental potential to make
-          the seasons work harder.
-        </p>
-        <span class="path-card__link"
-          >Explore homes for sale <span aria-hidden="true">→</span></span
-        >
-      </a>
-    </div>
-  </section>
-
   <section class="inventory container" aria-labelledby="rentals-heading">
     <header class="inventory__head">
       <div>
@@ -249,8 +216,7 @@ const homeSales = pickRandom(sales, 3);
   }
 
   .home-hero__kicker,
-  .eyebrow,
-  .path-card__eyebrow {
+  .eyebrow {
     margin: 0;
     font-size: var(--text-xs);
     font-weight: var(--font-weight-bold);
@@ -298,7 +264,6 @@ const homeSales = pickRandom(sales, 3);
     border: 1px solid color-mix(in srgb, var(--hero-foam) 45%, transparent);
   }
 
-  .paths,
   .inventory,
   .home-trust,
   .home-closing {
@@ -309,12 +274,6 @@ const homeSales = pickRandom(sales, 3);
     padding-top: 0;
   }
 
-  .paths__heading {
-    max-width: 35rem;
-    margin-bottom: var(--spacing-5);
-  }
-
-  .paths h2,
   .inventory h2,
   .collection h2,
   .home-closing h2 {
@@ -323,77 +282,6 @@ const homeSales = pickRandom(sales, 3);
     letter-spacing: var(--tracking-tight);
   }
 
-  .paths__grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .path-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: clamp(1rem, 2vw, 1.35rem);
-    color: var(--foreground);
-    text-decoration: none;
-    transition:
-      background-color 180ms ease,
-      color 180ms ease,
-      border-color 180ms ease;
-  }
-
-  .path-card + .path-card {
-    border-left: 1px solid var(--border);
-  }
-
-  .path-card--rent {
-    background: var(--card);
-  }
-
-  .path-card--buy {
-    background: var(--accent);
-  }
-
-  /* Soften hover: keep readable contrast. Global h1–h6 set color:
-     forcing inherit here so headings follow the card, not --foreground. */
-  .path-card:hover {
-    background: color-mix(in srgb, var(--primary) 12%, var(--card));
-    color: var(--foreground);
-  }
-
-  .path-card__number {
-    color: var(--muted-foreground);
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-  }
-
-  .path-card__eyebrow {
-    margin-top: 0.15rem;
-    color: inherit;
-  }
-
-  .path-card h3 {
-    max-width: 12ch;
-    margin: 0.15rem 0 0;
-    color: inherit;
-    font-size: var(--heading-h3);
-    letter-spacing: var(--tracking-tight);
-  }
-
-  .path-card p:not(.path-card__eyebrow) {
-    max-width: 36ch;
-    margin: 0.35rem 0 0;
-    color: var(--muted-foreground);
-    line-height: var(--leading-relaxed);
-  }
-
-  .path-card:hover .path-card__number {
-    color: var(--foreground);
-  }
-
-  .path-card__link,
   .text-link,
   .closing-link {
     display: inline-block;
@@ -493,18 +381,12 @@ const homeSales = pickRandom(sales, 3);
   }
 
   @media (max-width: 48rem) {
-    .paths__grid,
     .collection__content {
       grid-template-columns: 1fr;
     }
 
     .property-grid--featured {
       grid-template-columns: 1fr;
-    }
-
-    .path-card + .path-card {
-      border-top: 1px solid var(--border);
-      border-left: 0;
     }
 
     .inventory__head {

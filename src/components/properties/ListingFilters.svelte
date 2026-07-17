@@ -1,16 +1,20 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	type ListingType = "sale" | "rental" | "both";
 
 	export interface SerializedProperty {
 		slug: string;
 		title: string;
 		regionLabel: string;
+		market: string;
 		waterfront: string;
 		beds: number;
 		baths: number;
 		sleeps?: number;
 		listingType: ListingType;
 		amenities: string[];
+		petsAllowed?: boolean;
 		priceDisplay?: string;
 		image?: { src: string; alt: string };
 	}
@@ -27,11 +31,19 @@
 		{ label: "Beach access", matches: /beach access/i },
 	];
 
+	const emptyStateCollections = [
+		{ href: "/collections/oceanfront", label: "Oceanfront" },
+		{ href: "/collections/pets", label: "Pet-friendly" },
+		{ href: "/collections/large-groups", label: "Large groups" },
+	] as const;
+
 	let { listings, listingType }: Props = $props();
 
 	let minimumBeds = $state<number | null>(null);
 	let minimumBaths = $state<number | null>(null);
 	let waterfront = $state("");
+	let market = $state("");
+	let petsOnly = $state(false);
 	let selectedAmenities = $state<string[]>([]);
 	let selectedListingType = $state<ListingType | "">("");
 
@@ -40,6 +52,9 @@
 	const activeListingType = $derived(listingType ?? selectedListingType);
 	const waterfrontOptions = $derived(
 		[...new Set(listings.map((property) => property.waterfront))].sort(),
+	);
+	const marketOptions = $derived(
+		[...new Set(listings.map((property) => property.market))].sort(),
 	);
 	const availableAmenities = $derived(
 		amenityFilters.filter((filter) =>
@@ -55,15 +70,51 @@
 		minimumBeds !== null ||
 			minimumBaths !== null ||
 			waterfront !== "" ||
+			market !== "" ||
+			petsOnly ||
 			selectedAmenities.length > 0 ||
 			selectedListingType !== "",
 	);
+	const activeFilterChips = $derived.by(() => {
+		const chips: { key: string; label: string }[] = [];
+
+		if (minimumBeds !== null) {
+			const suffix = minimumBeds === bedOptions.at(-1) ? "+" : "";
+			chips.push({ key: "beds", label: `${minimumBeds}${suffix} beds` });
+		}
+		if (minimumBaths !== null) {
+			const suffix = minimumBaths === bathOptions.at(-1) ? "+" : "";
+			chips.push({ key: "baths", label: `${minimumBaths}${suffix} baths` });
+		}
+		if (waterfront !== "") {
+			chips.push({ key: "waterfront", label: formatWaterfront(waterfront) });
+		}
+		if (market !== "") {
+			chips.push({ key: "market", label: formatMarket(market) });
+		}
+		if (petsOnly) {
+			chips.push({ key: "pets", label: "Pets welcome" });
+		}
+		if (selectedListingType !== "") {
+			chips.push({
+				key: "listing-type",
+				label: selectedListingType === "rental" ? "Weekly rentals" : "Homes for sale",
+			});
+		}
+		for (const label of selectedAmenities) {
+			chips.push({ key: `amenity:${label}`, label });
+		}
+
+		return chips;
+	});
 	const filteredProperties = $derived(
 		listings.filter(
 			(property) =>
 				(minimumBeds === null || property.beds >= minimumBeds) &&
 				(minimumBaths === null || property.baths >= minimumBaths) &&
 				(waterfront === "" || property.waterfront === waterfront) &&
+				(market === "" || property.market === market) &&
+				(!petsOnly || property.petsAllowed === true) &&
 				(activeListingType === "" ||
 					property.listingType === "both" ||
 					property.listingType === activeListingType) &&
@@ -78,13 +129,75 @@
 		minimumBeds = null;
 		minimumBaths = null;
 		waterfront = "";
+		market = "";
+		petsOnly = false;
 		selectedAmenities = [];
 		selectedListingType = "";
+	}
+
+	function clearFilterDimension(key: string) {
+		switch (key) {
+			case "beds":
+				minimumBeds = null;
+				break;
+			case "baths":
+				minimumBaths = null;
+				break;
+			case "waterfront":
+				waterfront = "";
+				break;
+			case "market":
+				market = "";
+				break;
+			case "pets":
+				petsOnly = false;
+				break;
+			case "listing-type":
+				selectedListingType = "";
+				break;
+			default:
+				if (key.startsWith("amenity:")) {
+					const label = key.slice("amenity:".length);
+					selectedAmenities = selectedAmenities.filter((amenity) => amenity !== label);
+				}
+		}
 	}
 
 	function formatWaterfront(value: string) {
 		return value.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 	}
+
+	function formatMarket(value: string) {
+		return value.replace(/-/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+	}
+
+	function applyQueryParams() {
+		const query = new URLSearchParams(window.location.search);
+		const beds = query.get("beds");
+		const baths = query.get("baths");
+		const water = query.get("waterfront");
+		const marketParam = query.get("market");
+		const amenities = query.getAll("amenity");
+
+		if (beds && !Number.isNaN(Number(beds))) minimumBeds = Number(beds);
+		if (baths && !Number.isNaN(Number(baths))) minimumBaths = Number(baths);
+		if (water) waterfront = water;
+		if (marketParam) market = marketParam;
+		if (query.get("pets") === "1") petsOnly = true;
+		if (amenities.length) {
+			const known = new Set(amenityFilters.map((item) => item.label));
+			selectedAmenities = amenities
+				.map((value) => {
+					const hit = amenityFilters.find((item) =>
+						item.matches.test(value) || item.label.toLowerCase() === value.toLowerCase(),
+					);
+					return hit?.label ?? (known.has(value) ? value : null);
+				})
+				.filter((value): value is string => Boolean(value));
+		}
+	}
+
+	onMount(applyQueryParams);
 </script>
 
 <section class="listing-filters" aria-label="Filter properties">
@@ -131,6 +244,16 @@
 			</select>
 		</label>
 
+		<label class="listing-filters__field">
+			<span>Market</span>
+			<select bind:value={market}>
+				<option value="">Any market</option>
+				{#each marketOptions as option (option)}
+					<option value={option}>{formatMarket(option)}</option>
+				{/each}
+			</select>
+		</label>
+
 		{#if canFilterListingType}
 			<label class="listing-filters__field">
 				<span>Collection</span>
@@ -141,6 +264,11 @@
 				</select>
 			</label>
 		{/if}
+
+		<label class="listing-filters__chip listing-filters__pets">
+			<input type="checkbox" bind:checked={petsOnly} />
+			<span>Pets welcome</span>
+		</label>
 
 		{#if availableAmenities.length}
 			<fieldset class="listing-filters__amenities">
@@ -156,6 +284,22 @@
 			</fieldset>
 		{/if}
 	</form>
+
+	{#if activeFilterChips.length}
+		<div class="listing-filters__active" aria-label="Active filters">
+			{#each activeFilterChips as chip (chip.key)}
+				<button
+					type="button"
+					class="listing-filters__active-chip"
+					aria-label={`Remove ${chip.label} filter`}
+					onclick={() => clearFilterDimension(chip.key)}
+				>
+					<span>{chip.label}</span>
+					<span class="listing-filters__active-chip-remove" aria-hidden="true">×</span>
+				</button>
+			{/each}
+		</div>
+	{/if}
 
 	<div class="property-grid">
 		{#each filteredProperties as property (property.slug)}
@@ -193,6 +337,14 @@
 						Clear filters
 					</button>
 				{/if}
+				<p class="listing-filters__empty-hint">Or browse a curated collection:</p>
+				<ul class="listing-filters__empty-links">
+					{#each emptyStateCollections as link (link.href)}
+						<li>
+							<a href={link.href}>{link.label}</a>
+						</li>
+					{/each}
+				</ul>
 			</div>
 		{/each}
 	</div>
@@ -325,9 +477,36 @@
 
 	.listing-filters__chip input:focus-visible + span,
 	.listing-filters select:focus-visible,
-	.listing-filters__clear:focus-visible {
+	.listing-filters__clear:focus-visible,
+	.listing-filters__active-chip:focus-visible {
 		outline: 2px solid var(--ring);
 		outline-offset: 2px;
+	}
+
+	.listing-filters__active {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-2);
+		margin-top: var(--spacing-3);
+	}
+
+	.listing-filters__active-chip {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--spacing-1);
+		border: 1px solid var(--primary);
+		border-radius: var(--radius-full);
+		background: var(--primary);
+		color: var(--primary-foreground);
+		padding: var(--spacing-1) var(--spacing-2) var(--spacing-1) var(--spacing-3);
+		font: inherit;
+		font-size: var(--text-sm);
+		cursor: pointer;
+	}
+
+	.listing-filters__active-chip-remove {
+		font-size: var(--text-lg);
+		line-height: 1;
 	}
 
 	.property-grid {
@@ -390,6 +569,27 @@
 
 	.listing-filters__empty p {
 		margin: 0;
+	}
+
+	.listing-filters__empty-hint {
+		margin-top: var(--spacing-2);
+		font-size: var(--text-sm);
+	}
+
+	.listing-filters__empty-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--spacing-2) var(--spacing-4);
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.listing-filters__empty-links a {
+		color: var(--foreground);
+		font-size: var(--text-sm);
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
 	}
 
 	@media (width < 40rem) {

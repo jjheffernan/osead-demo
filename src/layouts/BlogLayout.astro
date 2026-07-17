@@ -11,6 +11,7 @@ import ArticleHero from "../components/blog/ArticleHero.svelte";
 import RelatedPosts from "../components/blog/RelatedPosts.svelte";
 import ShareButtons from "../components/blog/ShareButtons.svelte";
 import TableOfContents from "../components/blog/TableOfContents.svelte";
+import BlogContinue from "../components/blog/BlogContinue.astro";
 import { toBlogPostSummary, pickRelatedPosts } from "../lib/blog";
 
 interface Heading {
@@ -139,6 +140,8 @@ const relatedPosts = pickRelatedPosts(post, allPosts).map((entry) =>
       title={post.data.title}
       locale={locale}
     />
+
+    <BlogContinue tags={tags} />
 
     <RelatedPosts
       posts={relatedPosts}

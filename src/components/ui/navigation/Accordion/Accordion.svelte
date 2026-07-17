@@ -63,7 +63,8 @@
 			</summary>
 			<div class="ui-accordion__content">
 				{#if typeof item.content === "string"}
-					<p>{item.content}</p>
+					<!-- Trusted static FAQ copy only — may include contact intent links. -->
+					<p>{@html item.content}</p>
 				{:else}
 					{@render item.content()}
 				{/if}

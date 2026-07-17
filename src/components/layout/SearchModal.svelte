@@ -15,6 +15,13 @@
 		__pagefindUI?: unknown;
 	};
 
+	const intents = [
+		{ href: "/rentals", label: "Rentals" },
+		{ href: "/sales", label: "Sales" },
+		{ href: "/collections", label: "Collections" },
+		{ href: "/contact", label: "Contact" },
+	] as const;
+
 	let open = $state(false);
 	let pagefindInitialized = false;
 	let pagefindLoading: Promise<void> | null = null;
@@ -139,6 +146,18 @@
 		{:else}
 			<p class="search-modal__fallback">{t(locale, "search.devFallback")}</p>
 		{/if}
+
+		<nav class="search-modal__intents" aria-label="Quick links">
+			{#each intents as intent (intent.href)}
+				<a
+					class="search-modal__intent"
+					href={intent.href}
+					onclick={closeSearch}
+				>
+					{intent.label}
+				</a>
+			{/each}
+		</nav>
 	</div>
 </Dialog>
 
@@ -219,6 +238,39 @@
 	.search-modal__fallback {
 		margin: 0;
 		color: var(--color-text-secondary);
+	}
+
+	.search-modal__intents {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-sm);
+		margin-top: var(--space-md);
+		padding-top: var(--space-md);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.search-modal__intent {
+		display: inline-flex;
+		align-items: center;
+		height: 2rem;
+		padding-inline: var(--space-sm);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		background: transparent;
+		color: var(--color-text-secondary);
+		font-size: 0.85rem;
+		font-weight: 500;
+		text-decoration: none;
+		transition:
+			border-color 0.15s ease,
+			color 0.15s ease,
+			background 0.15s ease;
+	}
+
+	.search-modal__intent:hover {
+		border-color: var(--color-text-primary);
+		color: var(--color-text-primary);
+		background: var(--color-bg-secondary);
 	}
 
 	.search-modal__ui {
