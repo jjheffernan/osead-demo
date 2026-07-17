@@ -213,7 +213,7 @@
 
 					{#if overviewKpis}
 						<div
-							class="admin-panel__stats admin-panel__stats--kpis"
+							class="admin-panel__stats"
 							aria-label="Key performance indicators"
 						>
 							<div class="admin-panel__stat">
