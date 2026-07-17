@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SEO from "../components/seo/SEO.astro";
 import AdminShell from "../components/account/AdminShell.svelte";
+import AgentDesk from "../components/account/AgentDesk.svelte";
 import GuestHub from "../components/account/GuestHub.svelte";
 import {
   getIntentCollections,
@@ -32,6 +33,20 @@ const guestPropertiesBySlug = new Map(
   ]),
 );
 const guestProperties = [...guestPropertiesBySlug.values()];
+
+const agentPropertiesBySlug = new Map(
+  [...rentals, ...sales].map((property) => [
+    property.data.slug,
+    {
+      slug: property.data.slug,
+      title: property.data.title,
+      href: propertyPath(property),
+      market: property.data.market,
+      listingType: property.data.listingType,
+    },
+  ]),
+);
+const agentProperties = [...agentPropertiesBySlug.values()];
 
 const inventory = [
   { href: "/rentals", label: "Rentals", count: rentals.length },
@@ -108,24 +123,7 @@ const walkthrough = [
     </div>
 
     <div data-account-agent hidden>
-      <section class="account-guest container">
-        <p class="account-gate__eyebrow">Demo account</p>
-        <h1>Welcome, <span data-account-name></span></h1>
-        <p class="account-guest__meta">
-          Signed in as <strong data-account-email></strong>.
-          Session started <time data-account-at></time>.
-        </p>
-        <p>
-          Agent desk (inbox, market-scoped inventory, profile) lands here in
-          a later slice.
-        </p>
-        <div class="account-gate__actions">
-          <a class="account-gate__cta" href="/rentals">Browse rentals</a>
-          <button type="button" class="account-guest__signout" data-account-signout>
-            Sign out
-          </button>
-        </div>
-      </section>
+      <AgentDesk client:load properties={agentProperties} locale={locale} />
     </div>
 
     <div data-account-admin hidden>
@@ -140,12 +138,7 @@ const walkthrough = [
 </BaseLayout>
 
 <script>
-  import type { DemoAccount } from "../lib/demo-account";
-  import {
-    canAccessAdminShell,
-    clearDemoAccount,
-    readDemoAccount,
-  } from "../lib/demo-account";
+  import { canAccessAdminShell, readDemoAccount } from "../lib/demo-account";
 
   const root = document.querySelector("[data-account-root]");
   const signedOut = root?.querySelector<HTMLElement>(
@@ -154,20 +147,6 @@ const walkthrough = [
   const guestEl = root?.querySelector<HTMLElement>("[data-account-guest]");
   const agentEl = root?.querySelector<HTMLElement>("[data-account-agent]");
   const adminEl = root?.querySelector<HTMLElement>("[data-account-admin]");
-  const signOutBtns = root?.querySelectorAll("[data-account-signout]");
-
-  function showSession(panel: HTMLElement, account: DemoAccount) {
-    const nameEl = panel.querySelector("[data-account-name]");
-    const emailEl = panel.querySelector("[data-account-email]");
-    const atEl = panel.querySelector("time[data-account-at]");
-    if (nameEl) nameEl.textContent = account.name;
-    if (emailEl) emailEl.textContent = account.email;
-    if (atEl) {
-      atEl.textContent = new Date(account.at).toLocaleString();
-      atEl.setAttribute("datetime", account.at);
-    }
-    panel.hidden = false;
-  }
 
   const account = readDemoAccount();
 
@@ -176,17 +155,10 @@ const walkthrough = [
   } else if (canAccessAdminShell(account.role) && adminEl) {
     adminEl.hidden = false;
   } else if (account.role === "agent" && agentEl) {
-    showSession(agentEl, account);
+    agentEl.hidden = false;
   } else if (guestEl) {
     guestEl.hidden = false;
   }
-
-  signOutBtns?.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      clearDemoAccount();
-      window.location.assign("/login");
-    });
-  });
 </script>
 
 <style is:global>
@@ -198,8 +170,7 @@ const walkthrough = [
 </style>
 
 <style>
-  .account-gate,
-  .account-guest {
+  .account-gate {
     max-width: 36rem;
     padding-block: clamp(2.5rem, 8vw, 5rem);
   }
@@ -213,21 +184,15 @@ const walkthrough = [
     color: var(--muted-foreground);
   }
 
-  .account-gate h1,
-  .account-guest h1 {
+  .account-gate h1 {
     margin: 0.35rem 0 0;
     font-size: clamp(1.75rem, 3vw, 2.25rem);
   }
 
-  .account-gate p,
-  .account-guest p {
+  .account-gate p {
     margin: 0.75rem 0 0;
     color: var(--muted-foreground);
     line-height: 1.5;
-  }
-
-  .account-guest__meta {
-    font-size: var(--text-sm);
   }
 
   .account-gate__actions {
@@ -252,16 +217,5 @@ const walkthrough = [
     font-weight: 700;
     text-decoration: none;
     border-bottom: 1px solid currentcolor;
-  }
-
-  .account-guest__signout {
-    padding: 0.45rem 0.8rem;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: inherit;
-    font: inherit;
-    font-size: var(--text-sm);
-    font-weight: 600;
-    cursor: pointer;
   }
 </style>
