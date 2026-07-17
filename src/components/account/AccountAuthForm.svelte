@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { DemoRole } from "../../lib/demo-account";
 	import {
 		DEMO_ADMIN,
+		DEMO_AGENT,
 		isDemoAdminCredentials,
 		writeDemoAccount,
 		writeDemoAdminSession,
@@ -39,7 +41,7 @@
 	function enterSession(opts: {
 		name: string;
 		email: string;
-		role?: "admin" | "user";
+		role?: DemoRole;
 	}) {
 		writeDemoAccount(opts);
 		window.location.assign("/account");
@@ -47,6 +49,15 @@
 
 	function continueAsAdmin() {
 		writeDemoAdminSession();
+		window.location.assign("/account");
+	}
+
+	function continueAsAgent() {
+		writeDemoAccount({
+			name: DEMO_AGENT.name,
+			email: DEMO_AGENT.email,
+			role: DEMO_AGENT.role,
+		});
 		window.location.assign("/account");
 	}
 
@@ -88,7 +99,7 @@
 				error?: string;
 				name?: string;
 				email?: string;
-				role?: "admin" | "user";
+				role?: DemoRole;
 			} | null;
 
 			// Pages Functions only run on Cloudflare; 404 in `astro dev` → local session.
@@ -121,8 +132,8 @@
 				Local demo session only — nothing is stored on the server. Use this to
 				walk the signup path before wiring real auth.
 			{:else}
-				Use the demo admin below for local click-through and admin tools, or any
-				8+ character password for a plain user session.
+				Use the demo admin or agent below for local click-through and role
+				tools, or any 8+ character password for a guest session.
 			{/if}
 		</p>
 	</header>
@@ -137,6 +148,17 @@
 			</p>
 			<button type="button" class="account-auth__admin-btn" onclick={continueAsAdmin}>
 				Continue as demo admin
+			</button>
+		</div>
+		<div class="account-auth__admin">
+			<p class="account-auth__admin-label">Local demo agent</p>
+			<p class="account-auth__creds">
+				<code>{DEMO_AGENT.email}</code>
+				/
+				<code>{DEMO_AGENT.password}</code>
+			</p>
+			<button type="button" class="account-auth__admin-btn" onclick={continueAsAgent}>
+				Continue as demo agent
 			</button>
 		</div>
 		<Separator class="account-auth__rule" />
