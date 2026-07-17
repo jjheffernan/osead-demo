@@ -31,6 +31,12 @@ import SalesSparkline from "./SalesSparkline.svelte";
 	const totals = $derived(summarizeRows(filtered));
 	const byEmployee = $derived(employeeSales(filtered));
 	const topSales = $derived(byEmployee[0]?.salesVolume ?? 0);
+	const byMarket = $derived(
+		MARKETS.map((market) => ({
+			market,
+			totals: summarizeRows(filtered.filter((row) => row.market === market)),
+		})),
+	);
 	const monthlySales = $derived(
 		Array.from(
 			filtered
@@ -182,6 +188,21 @@ import SalesSparkline from "./SalesSparkline.svelte";
 				style={`width: ${Math.min(100, Math.round(totals.occupancyRate * 100))}%`}
 			></div>
 		</div>
+
+		<section class="admin-analytics__markets" aria-labelledby="admin-market-title">
+			<h3 id="admin-market-title">Market split</h3>
+			<div class="admin-analytics__kpis" aria-live="polite">
+				{#each byMarket as row (row.market)}
+					<div class="admin-analytics__kpi">
+						<span class="admin-analytics__kpi-label">{row.market.replaceAll("-", " ")}</span>
+						<strong>{formatUsd(row.totals.rentalRevenue)}</strong>
+						<span class="admin-analytics__kpi-meta"
+							>{formatPct(row.totals.occupancyRate)} occupancy</span
+						>
+					</div>
+				{/each}
+			</div>
+		</section>
 
 		<section class="admin-analytics__trend" aria-labelledby="admin-trend-title">
 			<h3 id="admin-trend-title">Sales trend</h3>
