@@ -7,6 +7,7 @@ import ListingNotice from "../../components/properties/ListingNotice.svelte";
 import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import PropertyGallery from "../../components/properties/PropertyGallery.svelte";
 import AvailabilityInquiry from "../../components/properties/AvailabilityInquiry.svelte";
+import SaveHomeButton from "../../components/account/SaveHomeButton.svelte";
 import FAQ from "../../components/FAQ.svelte";
 import Testimonials from "../../components/testimonials/Testimonials.svelte";
 import RatingSubmit from "../../components/testimonials/RatingSubmit.svelte";
@@ -205,6 +206,7 @@ const faqItems = [
       </div>
 
       <aside class="property__aside" id="conversion-rail">
+        <SaveHomeButton client:visible propertySlug={data.slug} />
         {
           isDual && (
             <p class="property__dual">

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { addInquiry } from "../../lib/guest-store";
+
 	interface Props {
 		propertySlug: string;
 		propertyTitle: string;
@@ -52,6 +54,8 @@
 			error = "Those dates include a mocked unavailable date. Please choose another stay.";
 			return;
 		}
+
+		addInquiry({ propertySlug, intent: "booking-inquiry", checkIn, checkOut });
 
 		const query = new URLSearchParams({
 			intent: "booking-inquiry",
