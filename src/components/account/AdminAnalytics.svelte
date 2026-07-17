@@ -30,6 +30,7 @@ import SalesSparkline from "./SalesSparkline.svelte";
 	);
 	const totals = $derived(summarizeRows(filtered));
 	const byEmployee = $derived(employeeSales(filtered));
+	const topSales = $derived(byEmployee[0]?.salesVolume ?? 0);
 	const monthlySales = $derived(
 		Array.from(
 			filtered
@@ -209,7 +210,15 @@ import SalesSparkline from "./SalesSparkline.svelte";
 									<span class="admin-analytics__name">{row.name}</span>
 									<span class="admin-analytics__role">{row.role}</span>
 								</td>
-								<td>{formatUsd(row.salesVolume)}</td>
+								<td>
+									<span class="admin-analytics__bar-value">{formatUsd(row.salesVolume)}</span>
+									<div class="admin-analytics__bar-track" aria-hidden="true">
+										<div
+											class="admin-analytics__bar-fill"
+											style={`width: ${topSales ? Math.round((row.salesVolume / topSales) * 100) : 0}%`}
+										></div>
+									</div>
+								</td>
 								<td>{formatUsd(row.rentalRevenue)}</td>
 								<td>{row.closedDeals}</td>
 								<td>{formatPct(row.occupancyRate)}</td>
@@ -393,6 +402,22 @@ import SalesSparkline from "./SalesSparkline.svelte";
 		text-transform: uppercase;
 		color: var(--muted-foreground);
 		font-weight: 700;
+	}
+
+	.admin-analytics__bar-value {
+		display: block;
+		font-variant-numeric: tabular-nums;
+	}
+
+	.admin-analytics__bar-track {
+		height: 0.25rem;
+		margin-top: 0.3rem;
+		background: color-mix(in oklab, var(--muted) 55%, transparent);
+	}
+
+	.admin-analytics__bar-fill {
+		height: 100%;
+		background: var(--foreground);
 	}
 
 	.admin-analytics__name {
