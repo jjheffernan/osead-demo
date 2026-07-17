@@ -5,6 +5,15 @@
 	import { clearDemoAccount, readDemoAccount } from "../../lib/demo-account";
 	import ThemeToggle from "../layout/ThemeToggle.svelte";
 	import type { Locale } from "../../lib/site-config";
+	import {
+		DEFAULT_FILTERS,
+		filterAdminRows,
+		formatPct,
+		formatUsd,
+		loadAdminAnalytics,
+		summarizeRows,
+		type AdminAnalyticsTotals,
+	} from "../../lib/admin-analytics";
 
 	export interface InventoryItem {
 		href: string;
@@ -45,6 +54,7 @@
 	let name = $state("Demo Admin");
 	let email = $state("admin@osead.demo");
 	let sessionAt = $state("");
+	let overviewKpis = $state<AdminAnalyticsTotals | null>(null);
 
 	const panelTitle = $derived(
 		nav.find((item) => item.id === panel)?.label ?? "Overview",
@@ -62,6 +72,17 @@
 		window.location.assign("/login");
 	}
 
+	async function loadOverviewKpis() {
+		try {
+			const payload = await loadAdminAnalytics();
+			overviewKpis = summarizeRows(
+				filterAdminRows(payload.rows, DEFAULT_FILTERS),
+			);
+		} catch {
+			// Inventory tiles already render; the KPI strip is a bonus, not a blocker.
+		}
+	}
+
 	onMount(() => {
 		const account = readDemoAccount();
 		if (account) {
@@ -72,6 +93,9 @@
 		const raw = location.hash.replace(/^#/, "");
 		if (raw === "analytics" || raw === "content" || raw === "site") {
 			panel = raw;
+		}
+		if (panel === "overview") {
+			void loadOverviewKpis();
 		}
 	});
 </script>
@@ -166,6 +190,32 @@
 							</a>
 						{/each}
 					</div>
+
+					{#if overviewKpis}
+						<div
+							class="admin-panel__stats admin-panel__stats--kpis"
+							aria-label="Key performance indicators"
+						>
+							<div class="admin-panel__stat">
+								<span class="admin-panel__stat-count"
+									>{formatUsd(overviewKpis.salesVolume)}</span
+								>
+								<span class="admin-panel__stat-label">Sales volume</span>
+							</div>
+							<div class="admin-panel__stat">
+								<span class="admin-panel__stat-count"
+									>{formatPct(overviewKpis.occupancyRate)}</span
+								>
+								<span class="admin-panel__stat-label">Occupancy</span>
+							</div>
+							<div class="admin-panel__stat">
+								<span class="admin-panel__stat-count"
+									>{formatUsd(overviewKpis.rentalRevenue)}</span
+								>
+								<span class="admin-panel__stat-label">Rental revenue</span>
+							</div>
+						</div>
+					{/if}
 
 					<div class="admin-panel__quick">
 						<button type="button" onclick={() => setPanel("analytics")}
@@ -623,5 +673,9 @@
 		.admin-shell__canvas {
 			padding-inline: 0.85rem;
 		}
+	}
+
+	.admin-panel__stats--kpis {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
 	}
 </style>
