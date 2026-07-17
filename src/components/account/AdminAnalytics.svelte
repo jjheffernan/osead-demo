@@ -24,6 +24,9 @@
 	let status = $state<"loading" | "ready" | "error">("loading");
 	let error = $state("");
 	let filters = $state<AdminAnalyticsFilters>({ ...DEFAULT_FILTERS });
+	const reportEmbedUrl = import.meta.env.PUBLIC_ADMIN_REPORT_EMBED_URL as
+		| string
+		| undefined;
 
 	const filtered = $derived(
 		payload ? filterAdminRows(payload.rows, filters) : [],
@@ -255,6 +258,26 @@
 				</table>
 			{/if}
 		</section>
+
+		<details class="admin-analytics__reports">
+			<summary>Reports</summary>
+			{#if reportEmbedUrl}
+				<iframe
+					class="admin-analytics__reports-frame"
+					src={reportEmbedUrl}
+					title="Reports embed"
+					loading="lazy"
+				></iframe>
+			{:else}
+				<div class="admin-analytics__reports-placeholder">
+					<p>
+						No report embed configured. Set
+						<code>PUBLIC_ADMIN_REPORT_EMBED_URL</code>
+						to your Metabase/Looker dashboard URL to embed it here.
+					</p>
+				</div>
+			{/if}
+		</details>
 	{/if}
 </section>
 
@@ -494,6 +517,44 @@
 		100% {
 			background-position: 0 0;
 		}
+	}
+
+	.admin-analytics__reports {
+		border: 1px solid var(--border);
+		padding: 0.85rem 0.8rem;
+	}
+
+	.admin-analytics__reports summary {
+		font-size: var(--text-xs);
+		font-weight: var(--font-weight-bold);
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+		cursor: pointer;
+	}
+
+	.admin-analytics__reports-placeholder {
+		margin-top: 0.65rem;
+	}
+
+	.admin-analytics__reports-placeholder p {
+		margin: 0;
+		max-width: 52ch;
+		font-size: var(--text-sm);
+		color: var(--muted-foreground);
+		line-height: 1.45;
+	}
+
+	.admin-analytics__reports-placeholder code {
+		font-size: 0.85em;
+	}
+
+	.admin-analytics__reports-frame {
+		display: block;
+		width: 100%;
+		height: 32rem;
+		margin-top: 0.65rem;
+		border: 1px solid var(--border);
 	}
 
 	.admin-analytics__empty,
