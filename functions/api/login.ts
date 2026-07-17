@@ -1,10 +1,12 @@
 /**
  * Demo login — no credential store.
- * Known admin: admin@osead.demo / osead-admin (see src/lib/demo-account.ts).
- * Other emails: shape-only accept for local click-through.
+ * Known admin: admin@osead.demo / osead-admin, agent: agent@osead.demo / osead-agent
+ * (see src/lib/demo-account.ts). Other emails: shape-only accept for local click-through.
  *
  * # ponytail: no real user store — Auth.js / Clerk when accounts go live.
  */
+
+import { DEMO_AGENT } from "../../src/lib/demo-account";
 
 const DEMO_ADMIN_EMAIL = "admin@osead.demo";
 const DEMO_ADMIN_PASSWORD = "osead-admin";
@@ -72,6 +74,13 @@ function isDemoAdmin(email: string, password: string): boolean {
   );
 }
 
+function isDemoAgent(email: string, password: string): boolean {
+  return (
+    email.trim().toLowerCase() === DEMO_AGENT.email &&
+    password === DEMO_AGENT.password
+  );
+}
+
 export async function onRequestPost(context: {
   request: Request;
 }): Promise<Response> {
@@ -124,8 +133,13 @@ export async function onRequestPost(context: {
   }
 
   const admin = isDemoAdmin(body.email, body.password);
-  const name = admin ? "Demo Admin" : body.email.split("@")[0] || "Guest";
-  const role = admin ? "admin" : "user";
+  const agent = !admin && isDemoAgent(body.email, body.password);
+  const name = admin
+    ? "Demo Admin"
+    : agent
+      ? DEMO_AGENT.name
+      : body.email.split("@")[0] || "Guest";
+  const role = admin ? "admin" : agent ? "agent" : "guest";
   console.log("O-sea-D demo login accepted", { email: body.email, role });
 
   return Response.json(

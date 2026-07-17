@@ -122,6 +122,8 @@ export async function onRequestPost(context: {
   }
 
   // Demo-only: no password hash, no user table — deployer replaces with real auth.
+  // ponytail: new registrations have no seeded role — they read back as "guest"
+  // via roleForEmail() (src/lib/demo-account.ts) same as any other login.
   console.log("O-sea-D demo registration accepted", { email: body.email });
 
   return Response.json(
