@@ -3,10 +3,12 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SEO from "../components/seo/SEO.astro";
 import AdminShell from "../components/account/AdminShell.svelte";
+import GuestHub from "../components/account/GuestHub.svelte";
 import {
   getIntentCollections,
   getMarkets,
   getPropertiesByListingType,
+  propertyPath,
 } from "../lib/properties";
 
 const locale = (Astro.currentLocale || "en") as "en";
@@ -18,6 +20,18 @@ const [rentals, sales, markets, collections, posts] = await Promise.all([
   getIntentCollections(),
   getCollection("blog"),
 ]);
+
+const guestPropertiesBySlug = new Map(
+  [...rentals, ...sales].map((property) => [
+    property.data.slug,
+    {
+      slug: property.data.slug,
+      title: property.data.title,
+      href: propertyPath(property),
+    },
+  ]),
+);
+const guestProperties = [...guestPropertiesBySlug.values()];
 
 const inventory = [
   { href: "/rentals", label: "Rentals", count: rentals.length },
@@ -90,24 +104,7 @@ const walkthrough = [
     </div>
 
     <div data-account-guest hidden>
-      <section class="account-guest container">
-        <p class="account-gate__eyebrow">Demo account</p>
-        <h1>Welcome, <span data-account-name></span></h1>
-        <p class="account-guest__meta">
-          Signed in as <strong data-account-email></strong>.
-          Session started <time data-account-at></time>.
-        </p>
-        <p>
-          Saved homes and inquiry history land here in a later slice. Admin
-          and agent tools appear only for allow-listed demo credentials.
-        </p>
-        <div class="account-gate__actions">
-          <a class="account-gate__cta" href="/rentals">Browse rentals</a>
-          <button type="button" class="account-guest__signout" data-account-signout>
-            Sign out
-          </button>
-        </div>
-      </section>
+      <GuestHub client:visible properties={guestProperties} />
     </div>
 
     <div data-account-agent hidden>
@@ -181,7 +178,7 @@ const walkthrough = [
   } else if (account.role === "agent" && agentEl) {
     showSession(agentEl, account);
   } else if (guestEl) {
-    showSession(guestEl, account);
+    guestEl.hidden = false;
   }
 
   signOutBtns?.forEach((btn) => {
