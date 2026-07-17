@@ -81,6 +81,7 @@ Ordered cheapest/lowest-risk first. **Wave F1** is self-contained inside `AdminA
 - **Acceptance:** `pnpm build` green; `curl`/fetch of the function path returns valid `{ source, generatedAt, currency, rows[] }`; pointing `PUBLIC_ADMIN_ANALYTICS_URL` at it makes the panel show "External feed".
 - **Deps:** none.
 - **Do not:** add auth infra, KV/D1, a webhook receiver, or per-vendor reshaping here (that's Phase 3+ / docs-only).
+- **Shipped:** `functions/api/admin-analytics.json.ts` (`onRequestGet`) wraps `buildDemoAdminAnalytics()`. Round-trip: set `PUBLIC_ADMIN_ANALYTICS_URL` to this Function's deployed URL and the Analytics/Overview panels fetch it via `loadAdminAnalytics()`, flipping the source pill to "External feed".
 
 ### A7 — Adapter worked-example docs
 - **Goal:** close the documentation gap — a copy-pasteable "vendor payload → `AdminAnalyticsRow`" reference so a future integrator doesn't re-derive the mapping.
