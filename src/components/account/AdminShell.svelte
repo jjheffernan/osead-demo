@@ -7,11 +7,13 @@
 	import type { Locale } from "../../lib/site-config";
 	import {
 		DEFAULT_FILTERS,
+		MARKETS,
 		filterAdminRows,
 		formatPct,
 		formatUsd,
 		loadAdminAnalytics,
 		summarizeRows,
+		type AdminAnalyticsRow,
 		type AdminAnalyticsTotals,
 	} from "../../lib/admin-analytics";
 
@@ -55,6 +57,21 @@
 	let email = $state("admin@osead.demo");
 	let sessionAt = $state("");
 	let overviewKpis = $state<AdminAnalyticsTotals | null>(null);
+	// ponytail: stashed once here so G2 (staff pulse) can reuse without a second fetch.
+	let overviewRows = $state<AdminAnalyticsRow[]>([]);
+
+	const leadingMarket = $derived.by(() => {
+		let best: { market: string; totals: AdminAnalyticsTotals } | null = null;
+		for (const market of MARKETS) {
+			const totals = summarizeRows(
+				overviewRows.filter((row) => row.market === market),
+			);
+			const score = totals.salesVolume + totals.rentalRevenue;
+			const bestScore = best ? best.totals.salesVolume + best.totals.rentalRevenue : -1;
+			if (score > bestScore) best = { market, totals };
+		}
+		return best;
+	});
 
 	const panelTitle = $derived(
 		nav.find((item) => item.id === panel)?.label ?? "Overview",
@@ -75,9 +92,8 @@
 	async function loadOverviewKpis() {
 		try {
 			const payload = await loadAdminAnalytics();
-			overviewKpis = summarizeRows(
-				filterAdminRows(payload.rows, DEFAULT_FILTERS),
-			);
+			overviewRows = filterAdminRows(payload.rows, DEFAULT_FILTERS);
+			overviewKpis = summarizeRows(overviewRows);
 		} catch {
 			// Inventory tiles already render; the KPI strip is a bonus, not a blocker.
 		}
@@ -213,6 +229,20 @@
 									>{formatUsd(overviewKpis.rentalRevenue)}</span
 								>
 								<span class="admin-panel__stat-label">Rental revenue</span>
+							</div>
+							<div class="admin-panel__stat">
+								<span class="admin-panel__stat-count"
+									>{overviewKpis.closedDeals}</span
+								>
+								<span class="admin-panel__stat-label">Closed deals</span>
+							</div>
+							<div class="admin-panel__stat">
+								<span class="admin-panel__stat-count"
+									>{leadingMarket
+										? leadingMarket.market.replaceAll("-", " ")
+										: "—"}</span
+								>
+								<span class="admin-panel__stat-label">Leading market</span>
 							</div>
 						</div>
 					{/if}
@@ -458,13 +488,14 @@
 	}
 
 	.admin-shell__canvas {
-		padding: 1.1rem 1.25rem 1.75rem;
+		padding: 1.1rem 1.25rem 1.25rem;
 		overflow: auto;
 	}
 
 	.admin-panel {
 		display: grid;
-		gap: 1.15rem;
+		gap: 0.9rem;
+		align-content: start;
 	}
 
 	.admin-panel--flush :global(.admin-analytics),
@@ -518,7 +549,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.2rem;
-		padding: 1rem 0.85rem;
+		padding: 0.85rem 0.85rem;
 		background: var(--background);
 		color: inherit;
 		text-decoration: none;
@@ -675,7 +706,4 @@
 		}
 	}
 
-	.admin-panel__stats--kpis {
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-	}
 </style>
