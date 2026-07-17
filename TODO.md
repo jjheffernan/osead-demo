@@ -22,6 +22,16 @@ Plan: `docs/research/admin-analytics-v-slices.md`. Zero new deps (native SVG/CSS
 - [x] F7 Adapter worked-example docs: `docs/specs/admin-analytics-adapters.md` mapping one PriceLabs `listing_metrics` JSON + one Hostaway `listingFinancials` CSV → `AdminAnalyticsRow` (doc-only, carry maturity caveats; market/employee are OSEAD-side joins) — acceptance: `pnpm build` + ≥2 vendor→row mappings + note which fields no rental vendor fills; no live client, no comps/AVM
 - [x] F8 Metabase embed stub (optional): bring-your-own `PUBLIC_ADMIN_REPORT_EMBED_URL` Reports sub-section **inside** Analytics panel (iframe if set, documented placeholder if not; inert by default) — acceptance: `pnpm build` + env-unset shows placeholder, no network/CSP error, demo works offline; no `_headers` change
 
+### Wave G — Phase 3 one-stop polish (broker conversion bar)
+
+Plan addendum: `docs/research/admin-analytics-v-slices.md` § Phase 3. Densify Overview into a true one-stop shop (screenshot density); audit client JS; keep Astro→Svelte→thin TS. Zero new chart deps. Still no 5th nav.
+
+- [ ] G1 Overview densify: in `AdminShell.svelte` Overview, add closed-deals + top-market line under the KPI strip and tighten action row spacing so first viewport feels broker-useful (not empty below buttons) — acceptance: `pnpm build` + Overview shows KPIs + closed deals + leading market without scrolling past fold on desktop; no Card.svelte swap yet
+- [ ] G2 Overview staff pulse: compact top-3 employee sales list on Overview (reuse `employeeSales` from demo payload already loaded for G1/F5; no second fetch if G1 already has rows) — acceptance: `pnpm build` + Overview shows 3 staff names with sales $; link/jump to `#analytics`; no new deps
+- [ ] G3 Client JS budget note: short doc `docs/afk/admin-js-budget.md` listing which admin islands use `client:load` vs SSR-safe, and confirm no unused chart/React kits landed — acceptance: `pnpm build` + doc exists; grep confirms zero chart.js/uplot/react admin imports
+- [ ] G4 CollectionPage JSON-LD: add CollectionPage (or ItemList) JSON-LD on `/collections/[slug]` — acceptance: `pnpm build` + JSON-LD present in page source for one collection
+- [ ] G5 Janitor: style/token/TS drift pass across Wave G files; `pnpm build` + `pnpm lint` green; no new deps — acceptance: clean tree commit `chore(g): janitor after one-stop polish` or note PASS with no commit
+
 ### Wave E — TS placement + conversion UX + media + testimonials
 
 - [x] S24 TS placement: move what can into Astro frontmatter or Svelte modules; **keep** Astro pages/layouts/SEO/Img/Icon; do not delete Astro UI just to chase language % — acceptance: `pnpm build` + short note in `docs/afk/ts-placement.md` of must-keep vs moved
@@ -76,7 +86,7 @@ Plan: `docs/research/admin-analytics-v-slices.md`. Zero new deps (native SVG/CSS
 
 ## Next
 
-- (empty — clear **Wave F** above before promoting from Later)
+- (empty — clear **Wave G** in Now before promoting from Later)
 
 ## Later
 

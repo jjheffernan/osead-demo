@@ -1,6 +1,6 @@
 # Admin analytics — 3-phase feature push
 
-**Status:** Phase 1 complete · Phase 2 armed (Wave F in `TODO.md`)  
+**Status:** Phase 2 complete · Phase 3 Wave G armed in `TODO.md` (AFK continuing)  
 **Goal:** One-stop admin analytics on login — first-party demo data + plug-in path for real RE analytics platforms. Stack stays Astro 7 → Svelte 5 → thin TS on Cloudflare Pages.
 
 ## Phases
