@@ -79,8 +79,8 @@ const walkthrough = [
       <p class="account-gate__eyebrow">Demo account</p>
       <h1>No demo session yet</h1>
       <p>
-        Sign in with the demo admin for the full workspace, or create any
-        account for a plain user session.
+        Sign in with the demo admin or agent for role tools, or create any
+        account for a guest session.
       </p>
       <div class="account-gate__actions">
         <a class="account-gate__cta" href="/login">Sign in</a>
@@ -89,21 +89,42 @@ const walkthrough = [
       </div>
     </div>
 
-    <div data-account-user hidden>
-      <section class="account-user container">
+    <div data-account-guest hidden>
+      <section class="account-guest container">
         <p class="account-gate__eyebrow">Demo account</p>
         <h1>Welcome, <span data-account-name></span></h1>
-        <p class="account-user__meta">
+        <p class="account-guest__meta">
           Signed in as <strong data-account-email></strong>.
           Session started <time data-account-at></time>.
         </p>
         <p>
-          Admin tools appear only for
-          <code>admin@osead.demo</code>. This session is a plain user.
+          Saved homes and inquiry history land here in a later slice. Admin
+          and agent tools appear only for allow-listed demo credentials.
         </p>
         <div class="account-gate__actions">
           <a class="account-gate__cta" href="/rentals">Browse rentals</a>
-          <button type="button" class="account-user__signout" data-account-signout>
+          <button type="button" class="account-guest__signout" data-account-signout>
+            Sign out
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <div data-account-agent hidden>
+      <section class="account-guest container">
+        <p class="account-gate__eyebrow">Demo account</p>
+        <h1>Welcome, <span data-account-name></span></h1>
+        <p class="account-guest__meta">
+          Signed in as <strong data-account-email></strong>.
+          Session started <time data-account-at></time>.
+        </p>
+        <p>
+          Agent desk (inbox, market-scoped inventory, profile) lands here in
+          a later slice.
+        </p>
+        <div class="account-gate__actions">
+          <a class="account-gate__cta" href="/rentals">Browse rentals</a>
+          <button type="button" class="account-guest__signout" data-account-signout>
             Sign out
           </button>
         </div>
@@ -122,7 +143,9 @@ const walkthrough = [
 </BaseLayout>
 
 <script>
+  import type { DemoAccount } from "../lib/demo-account";
   import {
+    canAccessAdminShell,
     clearDemoAccount,
     readDemoAccount,
   } from "../lib/demo-account";
@@ -131,27 +154,34 @@ const walkthrough = [
   const signedOut = root?.querySelector<HTMLElement>(
     "[data-account-signed-out]",
   );
-  const userEl = root?.querySelector<HTMLElement>("[data-account-user]");
+  const guestEl = root?.querySelector<HTMLElement>("[data-account-guest]");
+  const agentEl = root?.querySelector<HTMLElement>("[data-account-agent]");
   const adminEl = root?.querySelector<HTMLElement>("[data-account-admin]");
   const signOutBtns = root?.querySelectorAll("[data-account-signout]");
 
-  const account = readDemoAccount();
-
-  if (!account) {
-    if (signedOut) signedOut.hidden = false;
-  } else if (account.role === "admin" && adminEl) {
-    adminEl.hidden = false;
-  } else if (userEl) {
-    const nameEl = userEl.querySelector("[data-account-name]");
-    const emailEl = userEl.querySelector("[data-account-email]");
-    const atEl = userEl.querySelector("time[data-account-at]");
+  function showSession(panel: HTMLElement, account: DemoAccount) {
+    const nameEl = panel.querySelector("[data-account-name]");
+    const emailEl = panel.querySelector("[data-account-email]");
+    const atEl = panel.querySelector("time[data-account-at]");
     if (nameEl) nameEl.textContent = account.name;
     if (emailEl) emailEl.textContent = account.email;
     if (atEl) {
       atEl.textContent = new Date(account.at).toLocaleString();
       atEl.setAttribute("datetime", account.at);
     }
-    userEl.hidden = false;
+    panel.hidden = false;
+  }
+
+  const account = readDemoAccount();
+
+  if (!account) {
+    if (signedOut) signedOut.hidden = false;
+  } else if (canAccessAdminShell(account.role) && adminEl) {
+    adminEl.hidden = false;
+  } else if (account.role === "agent" && agentEl) {
+    showSession(agentEl, account);
+  } else if (guestEl) {
+    showSession(guestEl, account);
   }
 
   signOutBtns?.forEach((btn) => {
@@ -163,15 +193,16 @@ const walkthrough = [
 </script>
 
 <style is:global>
-  /* Account admin is an app shell — drop marketing main padding assumptions. */
-  body:has([data-account-admin]:not([hidden])) #main-content {
+  /* Admin + agent are app shells — drop marketing main padding assumptions. */
+  body:has([data-account-admin]:not([hidden])) #main-content,
+  body:has([data-account-agent]:not([hidden])) #main-content {
     display: contents;
   }
 </style>
 
 <style>
   .account-gate,
-  .account-user {
+  .account-guest {
     max-width: 36rem;
     padding-block: clamp(2.5rem, 8vw, 5rem);
   }
@@ -186,19 +217,19 @@ const walkthrough = [
   }
 
   .account-gate h1,
-  .account-user h1 {
+  .account-guest h1 {
     margin: 0.35rem 0 0;
     font-size: clamp(1.75rem, 3vw, 2.25rem);
   }
 
   .account-gate p,
-  .account-user p {
+  .account-guest p {
     margin: 0.75rem 0 0;
     color: var(--muted-foreground);
     line-height: 1.5;
   }
 
-  .account-user__meta {
+  .account-guest__meta {
     font-size: var(--text-sm);
   }
 
@@ -226,7 +257,7 @@ const walkthrough = [
     border-bottom: 1px solid currentcolor;
   }
 
-  .account-user__signout {
+  .account-guest__signout {
     padding: 0.45rem 0.8rem;
     border: 1px solid var(--border);
     background: transparent;
