@@ -32,6 +32,12 @@ Plan addendum: `docs/research/admin-analytics-v-slices.md` § Phase 3. Densify O
 - [x] G4 CollectionPage JSON-LD: add CollectionPage (or ItemList) JSON-LD on `/collections/[slug]` — acceptance: `pnpm build` + JSON-LD present in page source for one collection
 - [x] G5 Janitor: style/token/TS drift pass across Wave G files; `pnpm build` + `pnpm lint` green; no new deps — acceptance: clean tree commit `chore(g): janitor after one-stop polish` or note PASS with no commit
 
+### Wave H — Deploy gate (Now clear)
+
+Now is clear after Wave G. Run the Cloudflare Pages deploy checklist as a documented ops pass — do **not** require live production secrets if absent; record SKIP with reason.
+
+- [x] H1 Cloudflare Pages deploy checklist: walk Starlight `/docs/deployment/cloudflare-pages/` + `docs/TEMPLATE.md` deploy steps; write `docs/afk/deploy-checklist-pass.md` with PASS/SKIP per step; `pnpm build` green — acceptance: checklist artifact committed; no force-push; do not set production secrets in repo
+
 ### Wave E — TS placement + conversion UX + media + testimonials
 
 - [x] S24 TS placement: move what can into Astro frontmatter or Svelte modules; **keep** Astro pages/layouts/SEO/Img/Icon; do not delete Astro UI just to chase language % — acceptance: `pnpm build` + short note in `docs/afk/ts-placement.md` of must-keep vs moved
@@ -86,11 +92,10 @@ Plan addendum: `docs/research/admin-analytics-v-slices.md` § Phase 3. Densify O
 
 ## Next
 
-- (empty — clear **Wave G** in Now before promoting from Later)
+- (empty — clear **Wave H** in Now before promoting from Later)
 
 ## Later
 
-- [ ] Cloudflare Pages deploy checklist pass — **blocked until all Now items above are `[x]`**
 - [ ] Optional email delivery (Resend / Mailchannels) **only if secrets present** — docs/PLAN.md Phase 3
 
 ## Explicit non-goals (unless requested)
