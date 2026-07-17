@@ -1,5 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 import type {
+  CollectionPage,
+  ItemList,
   RealEstateListing,
   VacationRental,
   WithContext,
@@ -99,4 +101,31 @@ export function buildRentalJsonLd(
         }
       : {}),
   };
+}
+
+export function buildCollectionJsonLd(
+  collection: { title: string; description: string },
+  url: string,
+  properties: Array<{ data: Pick<Property, "title" | "slug"> }>,
+): Record<string, unknown>[] {
+  const collectionPage: WithContext<CollectionPage> = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: collection.title,
+    description: collection.description,
+    url,
+  };
+
+  const itemList: WithContext<ItemList> = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: properties.map((property, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: property.data.title,
+      url: new URL(`/properties/${property.data.slug}`, url).toString(),
+    })),
+  };
+
+  return [collectionPage, itemList] as unknown as Record<string, unknown>[];
 }

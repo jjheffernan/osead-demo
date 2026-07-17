@@ -1,5 +1,6 @@
 ---
 import MarketingLayout from "../../layouts/MarketingLayout.astro";
+import JsonLd from "../../components/seo/JsonLd.astro";
 import PropertyCard from "../../components/properties/PropertyCard.svelte";
 import {
   collectionToFilterQuery,
@@ -8,6 +9,7 @@ import {
   toPropertyCardProps,
   type IntentCollectionEntry,
 } from "../../lib/properties";
+import { buildCollectionJsonLd } from "../../lib/property-schema";
 
 export async function getStaticPaths() {
   const intentCollections = await getIntentCollections();
@@ -28,14 +30,23 @@ const title = collection.data.seoTitle ?? collection.data.title;
 const description =
   collection.data.seoDescription ?? collection.data.description;
 const filterQuery = collectionToFilterQuery(collection.data.match);
+const path = `/collections/${collection.data.slug}`;
+const pageUrl = new URL(path, Astro.site).toString();
+const schemas = buildCollectionJsonLd(
+  { title: collection.data.title, description: collection.data.description },
+  pageUrl,
+  properties,
+);
 ---
 
 <MarketingLayout
   title={title}
   description={description}
   locale={locale}
-  path={`/collections/${collection.data.slug}`}
+  path={path}
 >
+  <JsonLd schema={schemas} />
+
   <section class="container py-16">
     <header class="section-head">
       <p class="section-head__eyebrow">Collection</p>

@@ -29,7 +29,7 @@ Plan addendum: `docs/research/admin-analytics-v-slices.md` § Phase 3. Densify O
 - [x] G1 Overview densify: in `AdminShell.svelte` Overview, add closed-deals + top-market line under the KPI strip and tighten action row spacing so first viewport feels broker-useful (not empty below buttons) — acceptance: `pnpm build` + Overview shows KPIs + closed deals + leading market without scrolling past fold on desktop; no Card.svelte swap yet
 - [x] G2 Overview staff pulse: compact top-3 employee sales list on Overview (reuse `employeeSales` from demo payload already loaded for G1/F5; no second fetch if G1 already has rows) — acceptance: `pnpm build` + Overview shows 3 staff names with sales $; link/jump to `#analytics`; no new deps
 - [x] G3 Client JS budget note: short doc `docs/afk/admin-js-budget.md` listing which admin islands use `client:load` vs SSR-safe, and confirm no unused chart/React kits landed — acceptance: `pnpm build` + doc exists; grep confirms zero chart.js/uplot/react admin imports
-- [ ] G4 CollectionPage JSON-LD: add CollectionPage (or ItemList) JSON-LD on `/collections/[slug]` — acceptance: `pnpm build` + JSON-LD present in page source for one collection
+- [x] G4 CollectionPage JSON-LD: add CollectionPage (or ItemList) JSON-LD on `/collections/[slug]` — acceptance: `pnpm build` + JSON-LD present in page source for one collection
 - [ ] G5 Janitor: style/token/TS drift pass across Wave G files; `pnpm build` + `pnpm lint` green; no new deps — acceptance: clean tree commit `chore(g): janitor after one-stop polish` or note PASS with no commit
 
 ### Wave E — TS placement + conversion UX + media + testimonials
@@ -92,7 +92,6 @@ Plan addendum: `docs/research/admin-analytics-v-slices.md` § Phase 3. Densify O
 
 - [ ] Cloudflare Pages deploy checklist pass — **blocked until all Now items above are `[x]`**
 - [ ] Optional email delivery (Resend / Mailchannels) **only if secrets present** — docs/PLAN.md Phase 3
-- [ ] CollectionPage JSON-LD on `/collections/[slug]` (nice-to-have SEO)
 
 ## Explicit non-goals (unless requested)
 
