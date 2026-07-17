@@ -3,13 +3,13 @@ import { getCollection, type CollectionEntry } from "astro:content";
 export type TestimonialEntry = CollectionEntry<"testimonials">;
 export type TestimonialTarget = TestimonialEntry["data"]["targetType"];
 
-export type TestimonialView = {
+export interface TestimonialView {
   quote: string;
   author: string;
   rating: number;
   targetType: TestimonialTarget;
   targetId: string;
-};
+}
 
 export function toTestimonialView(entry: TestimonialEntry): TestimonialView {
   const { quote, author, rating, targetType, targetId } = entry.data;

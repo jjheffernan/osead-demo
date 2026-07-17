@@ -15,10 +15,10 @@
 		type RangeKey,
 		type Season,
 	} from "../../lib/admin-analytics";
-import { demoStaff } from "../../config/staff";
-import Field from "../ui/form/Field/Field.svelte";
-import Label from "../ui/form/Label/Label.svelte";
-import SalesSparkline from "./SalesSparkline.svelte";
+	import { demoStaff } from "../../config/staff";
+	import Field from "../ui/form/Field/Field.svelte";
+	import Label from "../ui/form/Label/Label.svelte";
+	import SalesSparkline from "./SalesSparkline.svelte";
 
 	let payload = $state<AdminAnalyticsPayload | null>(null);
 	let status = $state<"loading" | "ready" | "error">("loading");

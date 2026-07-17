@@ -4,6 +4,7 @@ import { cn } from "../lib/cn";
 /** Keeps Field/Label composition tokens from drifting into palette utilities. */
 describe("ui wave helpers", () => {
   it("cn merges class lists without inventing palette utilities", () => {
+    // eslint-disable-next-line no-constant-binary-expression -- intentionally falsy to test drop of falsy args
     expect(cn("ui-field", false && "hidden", "ui-field--tight")).toBe(
       "ui-field ui-field--tight",
     );
