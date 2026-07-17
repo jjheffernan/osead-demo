@@ -157,7 +157,13 @@ import SalesSparkline from "./SalesSparkline.svelte";
 		</Field>
 	</form>
 
-	{#if status === "error"}
+	{#if status === "loading"}
+		<div class="admin-analytics__skeleton" aria-hidden="true">
+			<div class="admin-analytics__skeleton-block admin-analytics__skeleton-block--kpis"></div>
+			<div class="admin-analytics__skeleton-block admin-analytics__skeleton-block--bar"></div>
+			<div class="admin-analytics__skeleton-block admin-analytics__skeleton-block--table"></div>
+		</div>
+	{:else if status === "error"}
 		<p class="admin-analytics__error" role="alert">{error}</p>
 	{:else}
 		<div class="admin-analytics__kpis" aria-live="polite">
@@ -450,6 +456,44 @@ import SalesSparkline from "./SalesSparkline.svelte";
 		display: block;
 		font-size: var(--text-xs);
 		color: var(--muted-foreground);
+	}
+
+	.admin-analytics__skeleton {
+		display: grid;
+		gap: var(--spacing-5);
+	}
+
+	.admin-analytics__skeleton-block {
+		border: 1px solid var(--border);
+		background: linear-gradient(
+			90deg,
+			color-mix(in oklab, var(--muted) 45%, transparent) 25%,
+			color-mix(in oklab, var(--muted) 80%, transparent) 37%,
+			color-mix(in oklab, var(--muted) 45%, transparent) 63%
+		);
+		background-size: 400% 100%;
+		animation: admin-analytics-shimmer 1.4s ease infinite;
+	}
+
+	.admin-analytics__skeleton-block--kpis {
+		height: 5.5rem;
+	}
+
+	.admin-analytics__skeleton-block--bar {
+		height: 0.35rem;
+	}
+
+	.admin-analytics__skeleton-block--table {
+		height: 9rem;
+	}
+
+	@keyframes admin-analytics-shimmer {
+		0% {
+			background-position: 100% 0;
+		}
+		100% {
+			background-position: 0 0;
+		}
 	}
 
 	.admin-analytics__empty,
