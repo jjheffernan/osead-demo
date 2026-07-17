@@ -15,9 +15,10 @@
 		type RangeKey,
 		type Season,
 	} from "../../lib/admin-analytics";
-	import { demoStaff } from "../../config/staff";
-	import Field from "../ui/form/Field/Field.svelte";
-	import Label from "../ui/form/Label/Label.svelte";
+import { demoStaff } from "../../config/staff";
+import Field from "../ui/form/Field/Field.svelte";
+import Label from "../ui/form/Label/Label.svelte";
+import SalesSparkline from "./SalesSparkline.svelte";
 
 	let payload = $state<AdminAnalyticsPayload | null>(null);
 	let status = $state<"loading" | "ready" | "error">("loading");
@@ -29,6 +30,18 @@
 	);
 	const totals = $derived(summarizeRows(filtered));
 	const byEmployee = $derived(employeeSales(filtered));
+	const monthlySales = $derived(
+		Array.from(
+			filtered
+				.reduce((byPeriod, row) => {
+					byPeriod.set(row.period, (byPeriod.get(row.period) ?? 0) + row.salesVolume);
+					return byPeriod;
+				}, new Map<string, number>())
+				.entries(),
+		)
+			.sort(([a], [b]) => a.localeCompare(b))
+			.map(([period, value]) => ({ period, value })),
+	);
 
 	async function hydrate() {
 		status = "loading";
@@ -168,6 +181,11 @@
 				style={`width: ${Math.min(100, Math.round(totals.occupancyRate * 100))}%`}
 			></div>
 		</div>
+
+		<section class="admin-analytics__trend" aria-labelledby="admin-trend-title">
+			<h3 id="admin-trend-title">Sales trend</h3>
+			<SalesSparkline points={monthlySales} label="Monthly sales volume" />
+		</section>
 
 		<section class="admin-analytics__employees" aria-labelledby="admin-emp-title">
 			<h3 id="admin-emp-title">Employee sales</h3>
@@ -348,6 +366,11 @@
 	.admin-analytics__occupancy-fill {
 		height: 100%;
 		background: var(--foreground);
+	}
+
+	.admin-analytics__trend {
+		border: 1px solid var(--border);
+		padding: 0.85rem 0.8rem;
 	}
 
 	.admin-analytics table {
