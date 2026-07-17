@@ -8,6 +8,7 @@
 	import {
 		DEFAULT_FILTERS,
 		MARKETS,
+		employeeSales,
 		filterAdminRows,
 		formatPct,
 		formatUsd,
@@ -72,6 +73,9 @@
 		}
 		return best;
 	});
+
+	// ponytail: G2 reuses G1's stashed overviewRows, no second loadAdminAnalytics() call.
+	const topStaff = $derived(employeeSales(overviewRows).slice(0, 3));
 
 	const panelTitle = $derived(
 		nav.find((item) => item.id === panel)?.label ?? "Overview",
@@ -244,6 +248,31 @@
 								>
 								<span class="admin-panel__stat-label">Leading market</span>
 							</div>
+						</div>
+					{/if}
+
+					{#if topStaff.length > 0}
+						<div class="admin-panel__staff" aria-label="Top staff by sales">
+							<div class="admin-panel__staff-head">
+								<h3>Staff pulse</h3>
+								<button
+									type="button"
+									class="admin-panel__staff-link"
+									onclick={() => setPanel("analytics")}
+								>
+									View analytics →
+								</button>
+							</div>
+							<ul class="admin-panel__staff-list">
+								{#each topStaff as staff (staff.employeeId)}
+									<li>
+										<span class="admin-panel__staff-name">{staff.name}</span>
+										<span class="admin-panel__staff-value"
+											>{formatUsd(staff.salesVolume)}</span
+										>
+									</li>
+								{/each}
+							</ul>
 						</div>
 					{/if}
 
@@ -570,6 +599,69 @@
 		font-size: var(--text-xs);
 		letter-spacing: var(--tracking-wide);
 		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	.admin-panel__staff {
+		display: grid;
+		gap: 0.5rem;
+		padding: 0.75rem 0.85rem;
+		border: 1px solid var(--border);
+	}
+
+	.admin-panel__staff-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.5rem;
+	}
+
+	.admin-panel__staff-head h3 {
+		margin: 0;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: var(--tracking-widest);
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	.admin-panel__staff-link {
+		border: 0;
+		background: transparent;
+		padding: 0;
+		color: var(--muted-foreground);
+		font: inherit;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.admin-panel__staff-link:hover {
+		color: var(--foreground);
+	}
+
+	.admin-panel__staff-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 0.3rem;
+	}
+
+	.admin-panel__staff-list li {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 0.75rem;
+		font-size: var(--text-sm);
+	}
+
+	.admin-panel__staff-name {
+		font-weight: 600;
+	}
+
+	.admin-panel__staff-value {
+		font-variant-numeric: tabular-nums;
 		color: var(--muted-foreground);
 	}
 
