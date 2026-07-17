@@ -1,5 +1,7 @@
 /** Browser-only demo session after /api/register or /api/login. */
 
+import { demoStaff } from "../config/staff";
+
 export const DEMO_ACCOUNT_KEY = "osead-demo-account";
 
 /** Known local credentials for click-through / admin testing. */
@@ -10,7 +12,15 @@ export const DEMO_ADMIN = {
   role: "admin" as const,
 };
 
-export type DemoRole = "admin" | "user";
+/** Known local credentials for click-through / agent testing. */
+export const DEMO_AGENT = {
+  name: "Demo Agent",
+  email: "agent@osead.demo",
+  password: "osead-agent",
+  role: "agent" as const,
+};
+
+export type DemoRole = "admin" | "agent" | "guest";
 
 export interface DemoAccount {
   name: string;
@@ -29,10 +39,20 @@ export function isDemoAdminCredentials(
   );
 }
 
+const agentAllowlist = new Set([
+  DEMO_AGENT.email,
+  ...demoStaff.map((staff) => `${staff.id}@osead.demo`),
+]);
+
 export function roleForEmail(email: string): DemoRole {
-  return email.trim().toLowerCase() === DEMO_ADMIN.email ? "admin" : "user";
+  const normalized = email.trim().toLowerCase();
+  if (normalized === DEMO_ADMIN.email) return "admin";
+  if (agentAllowlist.has(normalized)) return "agent";
+  return "guest";
 }
 
+// ponytail: session read/write is the real-IdP seam — a future OAuth/Clerk/Auth.js
+// swap replaces roleForEmail()/sessionStorage here without touching call sites.
 export function readDemoAccount(): DemoAccount | null {
   if (typeof sessionStorage === "undefined") return null;
   try {
@@ -49,7 +69,7 @@ export function readDemoAccount(): DemoAccount | null {
     const role: DemoRole =
       parsed.role === "admin" || roleForEmail(parsed.email) === "admin"
         ? "admin"
-        : "user";
+        : roleForEmail(parsed.email);
     return { name: parsed.name, email: parsed.email, role, at: parsed.at };
   } catch {
     return null;
@@ -81,3 +101,12 @@ export function writeDemoAdminSession(): DemoAccount {
 export function clearDemoAccount(): void {
   sessionStorage.removeItem(DEMO_ACCOUNT_KEY);
 }
+
+export const canEditContent = (role: DemoRole): boolean => role === "admin";
+export const canViewAnalytics = (role: DemoRole): boolean => role === "admin";
+export const canManageInquiries = (role: DemoRole): boolean =>
+  role === "admin" || role === "agent";
+export const canSaveHomes = (role: DemoRole): boolean =>
+  role === "guest" || role === "agent";
+export const canAccessAdminShell = (role: DemoRole): boolean =>
+  role === "admin";

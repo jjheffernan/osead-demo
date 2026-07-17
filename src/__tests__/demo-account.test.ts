@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   DEMO_ACCOUNT_KEY,
   DEMO_ADMIN,
+  DEMO_AGENT,
   clearDemoAccount,
   isDemoAdminCredentials,
   readDemoAccount,
@@ -11,7 +12,7 @@ import {
 } from "../lib/demo-account";
 
 describe("demo-account session helper", () => {
-  it("round-trips a local session", () => {
+  it("round-trips a local session as guest", () => {
     const store = new Map<string, string>();
     viSession(store);
 
@@ -19,7 +20,7 @@ describe("demo-account session helper", () => {
     const read = readDemoAccount();
     expect(read?.name).toBe("Mara");
     expect(read?.email).toBe("mara@example.com");
-    expect(read?.role).toBe("user");
+    expect(read?.role).toBe("guest");
     expect(read?.at).toMatch(/^\d{4}-/);
 
     clearDemoAccount();
@@ -39,6 +40,39 @@ describe("demo-account session helper", () => {
     const admin = writeDemoAdminSession();
     expect(admin.role).toBe("admin");
     expect(readDemoAccount()?.role).toBe("admin");
+  });
+
+  it("round-trips a demo agent session", () => {
+    const store = new Map<string, string>();
+    viSession(store);
+
+    expect(roleForEmail(DEMO_AGENT.email)).toBe("agent");
+
+    writeDemoAccount({
+      name: DEMO_AGENT.name,
+      email: DEMO_AGENT.email,
+      role: DEMO_AGENT.role,
+    });
+    const read = readDemoAccount();
+    expect(read?.role).toBe("agent");
+    expect(read?.email).toBe(DEMO_AGENT.email);
+  });
+
+  it("normalizes a stored legacy user role to guest", () => {
+    const store = new Map<string, string>();
+    viSession(store);
+
+    store.set(
+      DEMO_ACCOUNT_KEY,
+      JSON.stringify({
+        name: "Legacy",
+        email: "legacy@example.com",
+        role: "user",
+        at: new Date().toISOString(),
+      }),
+    );
+
+    expect(readDemoAccount()?.role).toBe("guest");
   });
 });
 
