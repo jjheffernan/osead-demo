@@ -9,6 +9,21 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ## Now
 
+### Wave I — Accounts + RBAC (agent / guest)
+
+Plan: `docs/research/accounts-rbac-v-slices.md`. Zero new deps; client-side `sessionStorage`/`localStorage` only; no `astro.config.ts`/`package.json`/env change. `DemoRole` grows to `admin | agent | guest` (old `user` → `guest`); three shells (AdminShell / AgentDesk / GuestHub); booking stays faux → `/contact` deep links. I·A = role foundation; I·B = guest; I·C = agent; I·D = janitor.
+
+- [ ] I1 Widen `DemoRole` + capability helpers: in `src/lib/demo-account.ts` set `DemoRole = admin|agent|guest`, add `DEMO_AGENT`, agent allowlist in `roleForEmail()` (from `demoStaff`/`DEMO_AGENT`), normalize stored `user`→`guest`, add `canEditContent`/`canViewAnalytics`/`canManageInquiries`/`canSaveHomes`/`canAccessAdminShell` + `ponytail:` seam; extend `src/__tests__/demo-account.test.ts` — acceptance: `pnpm build` + tests pass agent round-trip and `user`→`guest`; no `capabilities.ts` file, no mapping table
+- [ ] I2 Role widening in Functions: `functions/api/login.ts` add `isDemoAgent()`, response `role` becomes `admin|agent|guest` (`guest` replaces `user`); `register.ts` comment-only seam — acceptance: `pnpm build` + agent creds return `{role:"agent"}`, other logins `{role:"guest"}`, admin unchanged; no hashing/store
+- [ ] I3 AccountAuthForm import `DemoRole` + agent button: replace both literal `admin|user` unions in `src/components/account/AccountAuthForm.svelte` with imported `DemoRole`; add "Continue as demo agent" beside admin; refresh "plain user" copy — acceptance: `pnpm build` + agent button lands `/account` as agent; admin + fallback still work; no re-typed union
+- [ ] I4 `account.astro` 4-way branch: rename `data-account-user`→`data-account-guest`, add `data-account-agent`, split trailing `else` into agent/guest, rewrite stale copy, extend `body:has()` selector for agent shell, gate via role/`canAccessAdminShell`; stub guest/agent panels — acceptance: `pnpm build` + all four states (signed-out/guest/agent/admin) render correct panel, no blank div
+- [ ] I5 Guest local store: new `src/lib/guest-store.ts` — `toggleSavedListing`/`readSavedListings`/`isSaved` + `addInquiry`/`readInquiries` (`localStorage`, `{propertySlug,intent,checkIn?,checkOut?,submittedAt}`, status always submitted); new `src/__tests__/guest-store.test.ts` — acceptance: `pnpm build` + tests pass toggle + inquiry round-trip; no `status:"confirmed"`, no server call
+- [ ] I6 GuestHub shell: new `src/components/account/GuestHub.svelte` (saved homes, inquiry history labeled "submitted", browse + message-agent CTAs) mounted `client:visible` in `account.astro` guest branch — acceptance: `pnpm build` + guest session renders saved/inquiry lists with clean empty states, CTAs navigate; no admin/agent panel, no fake checkout
+- [ ] I7 Save toggle + inquiry mirror wiring: new `src/components/account/SaveHomeButton.svelte` on the PDP (`toggleSavedListing`/`isSaved`); hook `AvailabilityInquiry.svelte` success path to `addInquiry(...)` before the existing `/contact?intent=booking-inquiry` redirect — acceptance: `pnpm build` + PDP save persists across reload, availability submit adds a GuestHub inquiry row; no `externalBookingUrl` field, no Function change
+- [ ] I8 Static agent assignment config: new `src/config/agent-assignments.ts` (inquiry fixtures → `demoStaff` id "assigned via market rotation" + agent→`market` map using existing `market` field) + selector helper defaulting to `demoStaff[0]`/`DEMO_AGENT` — acceptance: `pnpm build` + returns non-empty assigned list + market for demo agent; no `agentId` frontmatter, no routing UI, no `StaffMember.email`
+- [ ] I9 AgentDesk shell: new `src/components/account/AgentDesk.svelte` (duplicate AdminShell chrome; Inbox from I8, market-scoped read-only inventory, Profile from `demoStaff`, "Sample assigned pulse (demo)" via sliced `employeeSales`; `canEditContent`/`canViewAnalytics` gate deep-links) mounted `client:load` in agent branch — acceptance: `pnpm build` + agent session shows inbox + market inventory + profile + labeled pulse, no content/analytics panel; no cloned AdminShell panels, no real money
+- [ ] I10 Janitor + docs status: token/TS/style drift sweep across Wave I files (semantic tokens only, no dead `data-account-user`, no re-duplicated role literals, no new dep); update `docs/research/accounts-rbac-feature.md` status line to built — acceptance: clean tree, `pnpm build` + `pnpm lint` green, commit `chore(i): janitor after accounts + RBAC` or note PASS; no `AccountShell` extraction
+
 ### Wave F — Admin analytics one-stop shop
 
 Plan: `docs/research/admin-analytics-v-slices.md`. Zero new deps (native SVG/CSS). Reuse `admin-analytics.ts` / `AdminAnalytics.svelte` / `AdminShell.svelte`. F1 = Analytics panel polish (one file, sequence to avoid conflicts); janitor between waves; F2 = one-stop shop + contract + docs.
@@ -92,7 +107,7 @@ Now is clear after Wave G. Run the Cloudflare Pages deploy checklist as a docume
 
 ## Next
 
-- (empty — clear **Wave H** in Now before promoting from Later)
+- **Wave I — Accounts + RBAC** (start at **I1**, run I1→I10 in order; foundation before guest before agent). Clear all Wave I items before promoting from Later.
 
 ## Later
 
