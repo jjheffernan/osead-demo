@@ -9,7 +9,7 @@
   "cloudLedgerPath": null,
   "runsPath": ".cursor/after-hours-runs",
   "draftPrs": false,
-  "maxPrs": 10,
+  "maxPrs": 5,
   "allowSkipTests": false,
   "allowEmptyQueue": false,
   "maxConsecutiveBlocked": 3,

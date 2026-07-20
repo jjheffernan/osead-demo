@@ -9,6 +9,16 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ## Now
 
+### Wave J — Access a11y + scoped accounts (guest → admin)
+
+Plan: `docs/research/access-a11y-accounts-phases.md` · Feature: `docs/research/access-a11y-accounts-feature.md`. Extends Wave I. Phase 0 = research (backend lanes + decision); Phase 1 = MVP demo contract (schema + capabilities + social store). Zero new deps until daylight accepts `backend-migration-decision.md`. maxPrs=5 this run.
+
+- [x] J0 Feature SoT + vertical phases doc: ensure `docs/research/access-a11y-accounts-feature.md` + `docs/research/access-a11y-accounts-phases.md` cover guest/agent/admin jobs, anonymous listings, verified badge, admin routes + observability MVP→Phase 6 — acceptance: both docs exist, phases table + MVP definition present; no product code
+- [x] J1 Backend lane reports: `docs/research/backend-migration-cf-deepen.md`, `backend-migration-baas.md`, `backend-migration-hosted-idp.md` each with score 1–5 + do-not-build-yet — acceptance: three files present; no migrate / no package.json change
+- [ ] J2 Backend decision synthesis: `docs/research/backend-migration-decision.md` pros/cons across the three lanes + daylight gate before Phase 5 — acceptance: file exists with clear recommendation + “do not migrate overnight”; no infra change
+- [ ] J3 Listing attribution schema: add optional `agentId` + `attribution: attributed|anonymous` to property content schema + docs/specs; one anonymous sample listing; PDP hides staff when anonymous — acceptance: `pnpm build` + anonymous sample shows no staff profile; no new dep
+- [ ] J4 Capability helpers: widen `demo-account.ts` with `canComment`/`canRate`/`canEditOwnProfile`/`canEditOwnPosts`/`canModerateSocial`/`canSetAnonymousListing` + tests — acceptance: `pnpm build` + role matrix tests green; no `capabilities.ts` file
+
 ### Wave I — Accounts + RBAC (agent / guest)
 
 Plan: `docs/research/accounts-rbac-v-slices.md`. Zero new deps; client-side `sessionStorage`/`localStorage` only; no `astro.config.ts`/`package.json`/env change. `DemoRole` grows to `admin | agent | guest` (old `user` → `guest`); three shells (AdminShell / AgentDesk / GuestHub); booking stays faux → `/contact` deep links. I·A = role foundation; I·B = guest; I·C = agent; I·D = janitor.
