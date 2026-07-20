@@ -73,13 +73,16 @@ const isDual = data.listingType === "both";
 const saleHref = `/contact?intent=sale&property=${encodeURIComponent(data.slug)}`;
 const propQ = encodeURIComponent(data.slug);
 const contactStaff =
-  demoStaff.find((member) =>
-    data.listingType === "sale"
-      ? member.id === "priya-santos"
-      : data.listingType === "rental"
-        ? member.id === "jonah-reed"
-        : member.id === "mara-ellison",
-  ) ?? demoStaff[0];
+  (data.agentId
+    ? demoStaff.find((member) => member.id === data.agentId)
+    : demoStaff.find((member) =>
+        data.listingType === "sale"
+          ? member.id === "priya-santos"
+          : data.listingType === "rental"
+            ? member.id === "jonah-reed"
+            : member.id === "mara-ellison",
+      )) ?? demoStaff[0];
+const showStaff = data.attribution !== "anonymous";
 const staffInitials = contactStaff.name
   .split(/\s+/)
   .filter(Boolean)
@@ -237,15 +240,19 @@ const faqItems = [
         >
           {showSale && !showRental ? "Request info" : "Ask a question"}
         </a>
-        <div class="property__staff">
-          <span class="property__staff-avatar" aria-hidden="true"
-            >{staffInitials}</span
-          >
-          <div>
-            <p class="property__staff-name">{contactStaff.name}</p>
-            <p class="property__staff-role">{contactStaff.role}</p>
-          </div>
-        </div>
+        {
+          showStaff && (
+            <div class="property__staff">
+              <span class="property__staff-avatar" aria-hidden="true"
+                >{staffInitials}</span
+              >
+              <div>
+                <p class="property__staff-name">{contactStaff.name}</p>
+                <p class="property__staff-role">{contactStaff.role}</p>
+              </div>
+            </div>
+          )
+        }
         <p class="property__response">
           We typically reply within one business day.
         </p>

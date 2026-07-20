@@ -6,6 +6,7 @@ slug: dune-crest-corolla
 listingType: rental
 status: available
 featured: true
+agentId: jonah-reed
 market: outer-banks
 town: Corolla
 regionLabel: Outer Banks, NC

@@ -24,6 +24,13 @@ Schema: `src/content.config.ts` → `properties`
 - `checkInTime` / `checkOutTime` for rentals
 - `uid` stable id for schema `identifier`
 
+## Attribution
+
+| Field | Notes |
+| --- | --- |
+| `agentId` | Optional. Matches a `demoStaff.id` (e.g. `mara-ellison`). When set, the PDP uses that staff member for the contact profile. |
+| `attribution` | `attributed` (default) \| `anonymous`. When `anonymous`, the PDP hides the staff avatar/name/role block; brand-level contact CTAs remain. |
+
 ## Body
 
 1–3 short paragraphs. Do not dump amenity lists in body (use `amenities`).

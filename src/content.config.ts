@@ -212,6 +212,10 @@ const properties = defineCollection({
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     draft: z.boolean().default(false),
+    /** Optional `demoStaff.id` for attributed PDP contact staff. */
+    agentId: z.string().optional(),
+    /** `anonymous` hides staff profile on the PDP; contact CTAs stay. */
+    attribution: z.enum(["attributed", "anonymous"]).default("attributed"),
     uid: z
       .string()
       .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)

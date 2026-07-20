@@ -6,6 +6,7 @@ slug: saltline-cottage-nags-head
 listingType: rental
 status: available
 featured: true
+attribution: anonymous
 market: outer-banks
 town: Nags Head
 regionLabel: Outer Banks, NC
