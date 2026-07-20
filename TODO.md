@@ -15,7 +15,7 @@ Plan: `docs/research/access-a11y-accounts-phases.md` · Feature: `docs/research/
 
 - [x] J0 Feature SoT + vertical phases doc: ensure `docs/research/access-a11y-accounts-feature.md` + `docs/research/access-a11y-accounts-phases.md` cover guest/agent/admin jobs, anonymous listings, verified badge, admin routes + observability MVP→Phase 6 — acceptance: both docs exist, phases table + MVP definition present; no product code
 - [x] J1 Backend lane reports: `docs/research/backend-migration-cf-deepen.md`, `backend-migration-baas.md`, `backend-migration-hosted-idp.md` each with score 1–5 + do-not-build-yet — acceptance: three files present; no migrate / no package.json change
-- [ ] J2 Backend decision synthesis: `docs/research/backend-migration-decision.md` pros/cons across the three lanes + daylight gate before Phase 5 — acceptance: file exists with clear recommendation + “do not migrate overnight”; no infra change
+- [x] J2 Backend decision synthesis: `docs/research/backend-migration-decision.md` pros/cons across the three lanes + daylight gate before Phase 5 — acceptance: file exists with clear recommendation + “do not migrate overnight”; no infra change
 - [ ] J3 Listing attribution schema: add optional `agentId` + `attribution: attributed|anonymous` to property content schema + docs/specs; one anonymous sample listing; PDP hides staff when anonymous — acceptance: `pnpm build` + anonymous sample shows no staff profile; no new dep
 - [ ] J4 Capability helpers: widen `demo-account.ts` with `canComment`/`canRate`/`canEditOwnProfile`/`canEditOwnPosts`/`canModerateSocial`/`canSetAnonymousListing` + tests — acceptance: `pnpm build` + role matrix tests green; no `capabilities.ts` file
 
