@@ -110,3 +110,10 @@ export const canSaveHomes = (role: DemoRole): boolean =>
   role === "guest" || role === "agent";
 export const canAccessAdminShell = (role: DemoRole): boolean =>
   role === "admin";
+export const canComment = (role: DemoRole): boolean => role === "guest";
+export const canRate = (role: DemoRole): boolean => role === "guest";
+export const canEditOwnProfile = (role: DemoRole): boolean => role === "agent";
+export const canEditOwnPosts = (role: DemoRole): boolean => role === "agent";
+export const canModerateSocial = (role: DemoRole): boolean => role === "admin";
+export const canSetAnonymousListing = (role: DemoRole): boolean =>
+  role === "admin";

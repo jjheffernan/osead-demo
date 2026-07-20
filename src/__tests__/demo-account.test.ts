@@ -3,12 +3,19 @@ import {
   DEMO_ACCOUNT_KEY,
   DEMO_ADMIN,
   DEMO_AGENT,
+  canComment,
+  canEditOwnPosts,
+  canEditOwnProfile,
+  canModerateSocial,
+  canRate,
+  canSetAnonymousListing,
   clearDemoAccount,
   isDemoAdminCredentials,
   readDemoAccount,
   roleForEmail,
   writeDemoAccount,
   writeDemoAdminSession,
+  type DemoRole,
 } from "../lib/demo-account";
 
 describe("demo-account session helper", () => {
@@ -73,6 +80,36 @@ describe("demo-account session helper", () => {
     );
 
     expect(readDemoAccount()?.role).toBe("guest");
+  });
+
+  it("Wave J social/agent/admin capability matrix", () => {
+    const roles: DemoRole[] = ["admin", "agent", "guest"];
+    const matrix: Record<
+      string,
+      { fn: (role: DemoRole) => boolean; expect: [boolean, boolean, boolean] }
+    > = {
+      canComment: { fn: canComment, expect: [false, false, true] },
+      canRate: { fn: canRate, expect: [false, false, true] },
+      canEditOwnProfile: {
+        fn: canEditOwnProfile,
+        expect: [false, true, false],
+      },
+      canEditOwnPosts: { fn: canEditOwnPosts, expect: [false, true, false] },
+      canModerateSocial: {
+        fn: canModerateSocial,
+        expect: [true, false, false],
+      },
+      canSetAnonymousListing: {
+        fn: canSetAnonymousListing,
+        expect: [true, false, false],
+      },
+    };
+
+    for (const [name, { fn, expect: wanted }] of Object.entries(matrix)) {
+      roles.forEach((role, i) => {
+        expect(fn(role), `${name}(${role})`).toBe(wanted[i]);
+      });
+    }
   });
 });
 
