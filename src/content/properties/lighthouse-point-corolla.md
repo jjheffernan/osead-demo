@@ -6,6 +6,7 @@ slug: lighthouse-point-corolla
 listingType: rental
 status: available
 featured: true
+agentId: mara-ellison
 market: outer-banks
 town: Corolla
 regionLabel: Outer Banks, NC

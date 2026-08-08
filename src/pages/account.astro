@@ -43,10 +43,27 @@ const agentPropertiesBySlug = new Map(
       href: propertyPath(property),
       market: property.data.market,
       listingType: property.data.listingType,
+      agentId: property.data.agentId,
+      attribution: property.data.attribution ?? "attributed",
     },
   ]),
 );
 const agentProperties = [...agentPropertiesBySlug.values()];
+
+const agentPosts = posts.map((post) => ({
+  slug: post.id,
+  title: post.data.title,
+  href: `/blog/${post.id}`,
+  authorId: post.data.authorId,
+}));
+
+const accessListings = agentProperties.map((property) => ({
+  slug: property.slug,
+  title: property.title,
+  href: property.href,
+  agentId: property.agentId,
+  attribution: property.attribution,
+}));
 
 const inventory = [
   { href: "/rentals", label: "Rentals", count: rentals.length },
@@ -123,7 +140,12 @@ const walkthrough = [
     </div>
 
     <div data-account-agent hidden>
-      <AgentDesk client:load properties={agentProperties} locale={locale} />
+      <AgentDesk
+        client:load
+        properties={agentProperties}
+        posts={agentPosts}
+        locale={locale}
+      />
     </div>
 
     <div data-account-admin hidden>
@@ -131,6 +153,7 @@ const walkthrough = [
         client:load
         inventory={inventory}
         walkthrough={walkthrough}
+        accessListings={accessListings}
         locale={locale}
       />
     </div>

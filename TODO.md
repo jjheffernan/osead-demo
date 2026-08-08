@@ -18,6 +18,11 @@ Plan: `docs/research/access-a11y-accounts-phases.md` · Feature: `docs/research/
 - [x] J2 Backend decision synthesis: `docs/research/backend-migration-decision.md` pros/cons across the three lanes + daylight gate before Phase 5 — acceptance: file exists with clear recommendation + “do not migrate overnight”; no infra change
 - [x] J3 Listing attribution schema: add optional `agentId` + `attribution: attributed|anonymous` to property content schema + docs/specs; one anonymous sample listing; PDP hides staff when anonymous — acceptance: `pnpm build` + anonymous sample shows no staff profile; no new dep — PASS: saltline anonymous; dune-crest `agentId: jonah-reed`
 - [x] J4 Capability helpers: widen `demo-account.ts` with `canComment`/`canRate`/`canEditOwnProfile`/`canEditOwnPosts`/`canModerateSocial`/`canSetAnonymousListing` + tests — acceptance: `pnpm build` + role matrix tests green; no `capabilities.ts` file
+- [x] J5 Social local store: `src/lib/social-store.ts` + tests (comments/ratings/verified) — acceptance: vitest round-trip; no server
+- [x] J6 Guest social UI: ListingComments on PDP, RatingSubmit mirror, GuestHub comments/ratings/badge — acceptance: `pnpm build`; guest can post/see history
+- [x] J7 AgentDesk mine: profile local edit, My posts (`authorId`), attached listings (`agentId`) — acceptance: `pnpm build`; demo agent sees mara post + lighthouse attach
+- [x] J8 Admin Access panel: moderate verified, attribution counts, attachment coverage — acceptance: `pnpm build`; Access nav works
+- [x] J9 CF deepen accept + scaffold: decision Accepted; `docs/specs/cf-deepen.md` + `migrations/0001_cf_deepen.sql` — acceptance: docs present; no D1 binding required yet
 
 ### Wave I — Accounts + RBAC (agent / guest)
 

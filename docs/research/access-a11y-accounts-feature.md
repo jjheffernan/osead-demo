@@ -1,6 +1,6 @@
 # Access, accessibility & scoped accounts — Wave J feature push
 
-**Status:** Phase 0–1 MVP contract built (J0–J4 on `main`) · UI waves deferred  
+**Status:** Wave J UI built (J5–J8) · **CF deepen accepted** · Phase 5 scaffold (`docs/specs/cf-deepen.md`) — Functions/D1 wire-up still Later  
 **Goal:** Raise **consumer + employee** accessibility of account surfaces, and deepen **scoped access** from `guest → agent → admin` so each role has a clear job, admin routes, and observability — without leaping to a full IdP/CMS until a deliberate backend decision lands.
 
 **Extends (do not throw away):** Wave I — `DemoRole = admin | agent | guest`, `GuestHub` / `AgentDesk` / `AdminShell`, `guest-store`, `agent-assignments`, faux booking → `/contact`.

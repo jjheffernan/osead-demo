@@ -2,6 +2,13 @@
 	import { onMount } from "svelte";
 	import { clearDemoAccount, readDemoAccount } from "../../lib/demo-account";
 	import { readInquiries, readSavedListings, type Inquiry } from "../../lib/guest-store";
+	import {
+		isVerifiedClient,
+		readComments,
+		readRatings,
+		type SocialComment,
+		type SocialRating,
+	} from "../../lib/social-store";
 
 	export interface GuestProperty {
 		slug: string;
@@ -20,6 +27,9 @@
 	let sessionAt = $state("");
 	let savedSlugs = $state<string[]>([]);
 	let inquiries = $state<Inquiry[]>([]);
+	let myComments = $state<SocialComment[]>([]);
+	let myRatings = $state<SocialRating[]>([]);
+	let verified = $state(false);
 
 	function findProperty(slug: string): GuestProperty | undefined {
 		return properties.find((property) => property.slug === slug);
@@ -52,6 +62,10 @@
 			name = account.name;
 			email = account.email;
 			sessionAt = new Date(account.at).toLocaleString();
+			verified = isVerifiedClient(account.email);
+			const em = account.email.toLowerCase();
+			myComments = readComments().filter((c) => c.authorEmail.toLowerCase() === em);
+			myRatings = readRatings().filter((r) => r.authorEmail.toLowerCase() === em);
 		}
 		savedSlugs = readSavedListings();
 		inquiries = readInquiries();
@@ -65,6 +79,9 @@
 		<p class="guest-hub__meta">
 			Signed in as <strong>{email}</strong>. Session started
 			<time datetime={sessionAt}>{sessionAt}</time>.
+			{#if verified}
+				<span class="guest-hub__badge" role="status">Verified client</span>
+			{/if}
 		</p>
 	</header>
 
@@ -121,6 +138,46 @@
 		{/if}
 	</section>
 
+	<section class="guest-hub__panel" aria-labelledby="my-comments-title">
+		<h2 id="my-comments-title">My comments</h2>
+		{#if myComments.length === 0}
+			<p class="guest-hub__empty">
+				No comments yet. Open a listing and leave a note under
+				<a href="/rentals">Comments</a>.
+			</p>
+		{:else}
+			<ul class="guest-hub__list">
+				{#each myComments as comment (comment.id)}
+					<li>
+						<span>{comment.body}</span>
+						<span class="guest-hub__inquiry-status">
+							{findProperty(comment.targetId)?.title ?? comment.targetId}
+							· {new Date(comment.at).toLocaleDateString()}
+						</span>
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</section>
+
+	<section class="guest-hub__panel" aria-labelledby="my-ratings-title">
+		<h2 id="my-ratings-title">My ratings</h2>
+		{#if myRatings.length === 0}
+			<p class="guest-hub__empty">No ratings yet. Rate a home from its listing page.</p>
+		{:else}
+			<ul class="guest-hub__list">
+				{#each myRatings as row (row.id)}
+					<li>
+						<span>{row.rating}/5 — {findProperty(row.targetId)?.title ?? row.targetId}</span>
+						<span class="guest-hub__inquiry-status">
+							{new Date(row.at).toLocaleDateString()}
+						</span>
+					</li>
+				{/each}
+			</ul>
+		{/if}
+	</section>
+
 	<div class="guest-hub__actions">
 		<a class="guest-hub__cta" href="/rentals">Browse rentals</a>
 		<a class="guest-hub__cta guest-hub__cta--ghost" href="/sales">Browse sales</a>
@@ -156,6 +213,18 @@
 		color: var(--muted-foreground);
 		font-size: var(--text-sm);
 		line-height: 1.5;
+	}
+
+	.guest-hub__badge {
+		display: inline-block;
+		margin-inline-start: 0.5rem;
+		padding: 0.1rem 0.45rem;
+		border: 1px solid var(--border);
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--foreground);
 	}
 
 	.guest-hub__panel {

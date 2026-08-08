@@ -1,6 +1,6 @@
 # Backend migration — decision synthesis (Wave J)
 
-**Status:** Research synthesis (Phase 0) — **not** an implementation ticket  
+**Status:** **Accepted (daylight 2026-08-08)** — default path is CF deepen (D1 + cookie sessions). Wave J UI stays demo-local until Functions/D1 wire-up; do not adopt BaaS/IdP without a new decision.  
 **Inputs:** `backend-migration-cf-deepen.md` · `backend-migration-baas.md` · `backend-migration-hosted-idp.md`  
 **Product SoT:** `access-a11y-accounts-feature.md` · phases: `access-a11y-accounts-phases.md`  
 **Hard constraints (AGENTS.md):** Cloudflare Pages preserved · backend stays light · Markdown SEO inventory · ponytail (reuse → native → minimal new code) · no overnight migrate without daylight accept

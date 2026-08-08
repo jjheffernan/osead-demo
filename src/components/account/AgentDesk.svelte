@@ -2,6 +2,8 @@
 	import { onMount } from "svelte";
 	import {
 		canEditContent,
+		canEditOwnPosts,
+		canEditOwnProfile,
 		canViewAnalytics,
 		clearDemoAccount,
 		readDemoAccount,
@@ -26,19 +28,32 @@
 		href: string;
 		market: string;
 		listingType: "rental" | "sale" | "both";
+		agentId?: string;
+		attribution?: "attributed" | "anonymous";
 	}
+
+	export interface AgentPost {
+		slug: string;
+		title: string;
+		href: string;
+		authorId?: string;
+	}
+
+	const PROFILE_KEY = "osead-agent-profile";
 
 	interface Props {
 		properties: AgentInventoryProperty[];
+		posts?: AgentPost[];
 		locale?: Locale;
 	}
 
-	const { properties, locale = "en" }: Props = $props();
+	const { properties, posts = [], locale = "en" }: Props = $props();
 
-	type Panel = "inbox" | "inventory" | "profile";
+	type Panel = "inbox" | "inventory" | "posts" | "profile";
 	const nav: { id: Panel; label: string }[] = [
 		{ id: "inbox", label: "Inbox" },
 		{ id: "inventory", label: "My inventory" },
+		{ id: "posts", label: "My posts" },
 		{ id: "profile", label: "Profile" },
 	];
 
@@ -49,11 +64,15 @@
 	let sessionAt = $state("");
 	let role = $state<DemoRole>("agent");
 	let pulseRows = $state<EmployeeSalesRow[]>([]);
+	let profileName = $state("");
+	let profileRole = $state("");
+	let profileBio = $state("");
+	let profileSaved = $state("");
 
 	// DEMO_AGENT has no demoStaff row (locked "no name->staff mapping" decision) —
 	// inbox/inventory/profile/pulse all key off the sample demoStaff[0] agent.
 	const staffId = demoStaff[0]?.id ?? "";
-	const profile = demoStaff.find((staff) => staff.id === staffId);
+	const seedProfile = demoStaff.find((staff) => staff.id === staffId);
 	const { market, inquiries } = assignmentsForAgent(staffId);
 
 	function findProperty(slug: string): AgentInventoryProperty | undefined {
@@ -76,13 +95,60 @@
 			})),
 	);
 
+	const myAttached = $derived(
+		properties.filter(
+			(property) =>
+				property.agentId === staffId && property.attribution !== "anonymous",
+		),
+	);
+
 	const myInventory = $derived(
 		properties.filter((property) => property.market === market),
+	);
+
+	const myPosts = $derived(
+		posts.filter((post) => post.authorId === staffId),
 	);
 
 	const panelTitle = $derived(
 		nav.find((item) => item.id === panel)?.label ?? "Inbox",
 	);
+
+	function loadProfileOverride() {
+		const seed = seedProfile;
+		profileName = seed?.name ?? name;
+		profileRole = seed?.role ?? "Agent";
+		profileBio = seed?.bio ?? "";
+		if (typeof localStorage === "undefined") return;
+		try {
+			const raw = localStorage.getItem(`${PROFILE_KEY}:${email}`);
+			if (!raw) return;
+			const parsed = JSON.parse(raw) as {
+				name?: string;
+				role?: string;
+				bio?: string;
+			};
+			if (parsed.name) profileName = parsed.name;
+			if (parsed.role) profileRole = parsed.role;
+			if (typeof parsed.bio === "string") profileBio = parsed.bio;
+		} catch {
+			/* keep seed */
+		}
+	}
+
+	function saveProfile(event: SubmitEvent) {
+		event.preventDefault();
+		if (!canEditOwnProfile(role)) return;
+		localStorage.setItem(
+			`${PROFILE_KEY}:${email}`,
+			JSON.stringify({
+				name: profileName.trim(),
+				role: profileRole.trim(),
+				bio: profileBio.trim(),
+			}),
+		);
+		profileSaved = "Profile saved for this browser (demo).";
+	}
 
 	function setPanel(next: Panel) {
 		panel = next;
@@ -121,9 +187,10 @@
 		const blocked =
 			(raw === "content" && !canEditContent(role)) ||
 			(raw === "analytics" && !canViewAnalytics(role));
-		if (!blocked && (raw === "inventory" || raw === "profile")) {
+		if (!blocked && (raw === "inventory" || raw === "posts" || raw === "profile")) {
 			panel = raw;
 		}
+		loadProfileOverride();
 		void loadPulse();
 	});
 </script>
@@ -270,17 +337,34 @@
 						<div>
 							<h2 id="inventory-title">My inventory</h2>
 							<p>
-								Read-only listings scoped to your assigned market{market
-									? ` — ${market.replaceAll("-", " ")}`
-									: ""}.
+								Attached listings ({myAttached.length}) plus market rotation
+								{market ? ` — ${market.replaceAll("-", " ")}` : ""}. Anonymous
+								homes stay brand-only.
 							</p>
 						</div>
 					</header>
 
-					{#if myInventory.length === 0}
+					<h3 class="agent-panel__subhead">Attached to me</h3>
+					{#if myAttached.length === 0}
 						<p class="agent-panel__empty">
-							No listings in this market yet.
+							No <code>agentId</code> attachments yet for {staffId}.
 						</p>
+					{:else}
+						<ul class="agent-panel__list agent-panel__list--inventory">
+							{#each myAttached as property (property.slug)}
+								<li>
+									<a href={property.href}>{property.title}</a>
+									<span class="agent-panel__list-meta"
+										>{property.listingType}</span
+									>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+
+					<h3 class="agent-panel__subhead">Market rotation</h3>
+					{#if myInventory.length === 0}
+						<p class="agent-panel__empty">No listings in this market yet.</p>
 					{:else}
 						<ul class="agent-panel__list agent-panel__list--inventory">
 							{#each myInventory as property (property.slug)}
@@ -294,24 +378,55 @@
 						</ul>
 					{/if}
 				</section>
+			{:else if panel === "posts"}
+				<section class="agent-panel" aria-labelledby="posts-title">
+					<header class="agent-panel__head">
+						<div>
+							<h2 id="posts-title">My posts</h2>
+							<p>
+								Journal entries with <code>authorId</code> matching your staff
+								id{canEditOwnPosts(role) ? "" : ""}.
+							</p>
+						</div>
+					</header>
+					{#if myPosts.length === 0}
+						<p class="agent-panel__empty">No authored posts linked yet.</p>
+					{:else}
+						<ul class="agent-panel__list">
+							{#each myPosts as post (post.slug)}
+								<li>
+									<a href={post.href}>{post.title}</a>
+									<span class="agent-panel__list-meta">Read-only demo</span>
+								</li>
+							{/each}
+						</ul>
+					{/if}
+				</section>
 			{:else}
 				<section class="agent-panel" aria-labelledby="profile-title">
 					<header class="agent-panel__head">
 						<div>
 							<h2 id="profile-title">Profile</h2>
-							<p>Sample staff profile for this demo agent session.</p>
+							<p>Edit display fields for this browser (demo local override).</p>
 						</div>
 					</header>
 
-					{#if profile}
-						<div class="agent-panel__profile">
-							<strong>{profile.name}</strong>
-							<span class="agent-panel__list-intent">{profile.role}</span>
-							<p>{profile.bio}</p>
-						</div>
-					{:else}
-						<p class="agent-panel__empty">No staff profile seeded.</p>
-					{/if}
+					<form class="agent-panel__profile-form" onsubmit={saveProfile}>
+						<label>
+							Display name
+							<input bind:value={profileName} required />
+						</label>
+						<label>
+							Role title
+							<input bind:value={profileRole} required />
+						</label>
+						<label>
+							Bio
+							<textarea bind:value={profileBio} rows="4"></textarea>
+						</label>
+						<button type="submit" disabled={!canEditOwnProfile(role)}>Save profile</button>
+						<p class="agent-panel__list-meta" role="status">{profileSaved}</p>
+					</form>
 				</section>
 			{/if}
 		</div>
@@ -674,6 +789,53 @@
 		color: var(--muted-foreground);
 		font-size: var(--text-sm);
 		line-height: 1.5;
+	}
+
+	.agent-panel__subhead {
+		margin: 1rem 0 0.5rem;
+		font-size: var(--text-sm);
+		font-weight: 700;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--muted-foreground);
+	}
+
+	.agent-panel__profile-form {
+		display: grid;
+		gap: 0.85rem;
+		max-width: 28rem;
+	}
+
+	.agent-panel__profile-form label {
+		display: grid;
+		gap: 0.3rem;
+		font-size: var(--text-sm);
+		font-weight: 600;
+	}
+
+	.agent-panel__profile-form input,
+	.agent-panel__profile-form textarea {
+		padding: 0.55rem 0.65rem;
+		border: 1px solid var(--border);
+		background: var(--background);
+		color: inherit;
+		font: inherit;
+	}
+
+	.agent-panel__profile-form button {
+		justify-self: start;
+		padding: 0.55rem 1rem;
+		border: 1px solid var(--border);
+		background: var(--primary);
+		color: var(--primary-foreground);
+		font: inherit;
+		font-weight: 700;
+		cursor: pointer;
+	}
+
+	.agent-panel__profile-form button:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
 	}
 
 	.agent-desk__backdrop {

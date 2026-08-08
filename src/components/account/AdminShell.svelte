@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import AdminAnalytics from "./AdminAnalytics.svelte";
+	import AdminAccessPanel from "./AdminAccessPanel.svelte";
 	import ContentEditor from "./ContentEditor.svelte";
-	import { clearDemoAccount, readDemoAccount } from "../../lib/demo-account";
+	import { clearDemoAccount, readDemoAccount, type DemoRole } from "../../lib/demo-account";
 	import ThemeToggle from "../layout/ThemeToggle.svelte";
 	import type { Locale } from "../../lib/site-config";
 	import {
@@ -35,20 +36,30 @@
 		links: readonly WalkLink[];
 	}
 
-	type Panel = "overview" | "analytics" | "content" | "site";
+	type Panel = "overview" | "analytics" | "content" | "access" | "site";
+
+	export interface AccessListing {
+		slug: string;
+		title: string;
+		href: string;
+		agentId?: string;
+		attribution: "attributed" | "anonymous";
+	}
 
 	interface Props {
 		inventory: InventoryItem[];
 		walkthrough: WalkGroup[];
+		accessListings?: AccessListing[];
 		locale?: Locale;
 	}
 
-	const { inventory, walkthrough, locale = "en" }: Props = $props();
+	const { inventory, walkthrough, accessListings = [], locale = "en" }: Props = $props();
 
 	const nav: { id: Panel; label: string }[] = [
 		{ id: "overview", label: "Overview" },
 		{ id: "analytics", label: "Analytics" },
 		{ id: "content", label: "Content" },
+		{ id: "access", label: "Access" },
 		{ id: "site", label: "Site tools" },
 	];
 
@@ -57,6 +68,7 @@
 	let name = $state("Demo Admin");
 	let email = $state("admin@osead.demo");
 	let sessionAt = $state("");
+	let role = $state<DemoRole>("admin");
 	let overviewKpis = $state<AdminAnalyticsTotals | null>(null);
 	// ponytail: stashed once here so G2 (staff pulse) can reuse without a second fetch.
 	let overviewRows = $state<AdminAnalyticsRow[]>([]);
@@ -108,10 +120,16 @@
 		if (account) {
 			name = account.name;
 			email = account.email;
+			role = account.role;
 			sessionAt = new Date(account.at).toLocaleString();
 		}
 		const raw = location.hash.replace(/^#/, "");
-		if (raw === "analytics" || raw === "content" || raw === "site") {
+		if (
+			raw === "analytics" ||
+			raw === "content" ||
+			raw === "access" ||
+			raw === "site"
+		) {
 			panel = raw;
 		}
 		if (panel === "overview") {
@@ -295,6 +313,10 @@
 			{:else if panel === "content"}
 				<div class="admin-panel admin-panel--flush">
 					<ContentEditor />
+				</div>
+			{:else if panel === "access"}
+				<div class="admin-panel">
+					<AdminAccessPanel listings={accessListings} {role} />
 				</div>
 			{:else}
 				<section class="admin-panel" aria-labelledby="site-title">

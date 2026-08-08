@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+	import { canRate, readDemoAccount } from "../../lib/demo-account";
+	import { addRating } from "../../lib/social-store";
 	import type { TestimonialTarget } from "../../lib/testimonials";
 
 	interface Props {
@@ -16,6 +19,16 @@
 	let website = $state(""); // honeypot
 	let status = $state<"idle" | "sending" | "thanks" | "error">("idle");
 	let error = $state("");
+	let guestSession = $state(false);
+
+	onMount(() => {
+		const account = readDemoAccount();
+		if (account && canRate(account.role)) {
+			guestSession = true;
+			name = account.name;
+			email = account.email;
+		}
+	});
 
 	async function onSubmit(event: SubmitEvent) {
 		event.preventDefault();
@@ -51,9 +64,21 @@
 				return;
 			}
 
+			// Mirror into social-store for GuestHub / admin Access panel (demo).
+			if (guestSession || email.trim()) {
+				addRating({
+					targetType,
+					targetId,
+					rating,
+					authorName: name.trim() || "Guest",
+					authorEmail: email.trim(),
+					quote: quote.trim() || undefined,
+				});
+			}
+
 			status = "thanks";
-			name = "";
-			email = "";
+			name = guestSession ? name : "";
+			email = guestSession ? email : "";
 			quote = "";
 			rating = 5;
 		} catch {

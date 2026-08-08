@@ -11,6 +11,7 @@ import SaveHomeButton from "../../components/account/SaveHomeButton.svelte";
 import FAQ from "../../components/FAQ.svelte";
 import Testimonials from "../../components/testimonials/Testimonials.svelte";
 import RatingSubmit from "../../components/testimonials/RatingSubmit.svelte";
+import ListingComments from "../../components/account/ListingComments.svelte";
 import {
   getPublishedProperties,
   getRelatedProperties,
@@ -280,6 +281,11 @@ const faqItems = [
         targetType="listing"
         targetId={data.slug}
         label={`Rate ${data.title}`}
+      />
+      <ListingComments
+        client:visible
+        propertySlug={data.slug}
+        propertyTitle={data.title}
       />
     </section>
 

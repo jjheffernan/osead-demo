@@ -11,6 +11,7 @@ tags:
   - weekly rentals
   - planning
 author: "O-sea-D"
+authorId: mara-ellison
 translationKey: "obx-oceanfront-week"
 ---
 
