@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SEO from "../components/seo/SEO.astro";
 import AdminShell from "../components/account/AdminShell.svelte";
@@ -21,6 +21,7 @@ const [rentals, sales, markets, collections, posts] = await Promise.all([
   getIntentCollections(),
   getCollection("blog"),
 ]);
+const blogPosts: CollectionEntry<"blog">[] = posts;
 
 const guestPropertiesBySlug = new Map(
   [...rentals, ...sales].map((property) => [
@@ -50,7 +51,7 @@ const agentPropertiesBySlug = new Map(
 );
 const agentProperties = [...agentPropertiesBySlug.values()];
 
-const agentPosts = posts.map((post) => ({
+const agentPosts = blogPosts.map((post) => ({
   slug: post.id,
   title: post.data.title,
   href: `/blog/${post.id}`,
