@@ -12,7 +12,6 @@ node_modules/
 dist/
 build/
 .astro/
-.cache
 
 # Dependencies
 # pnpm-lock.yaml is intentionally committed for reproducible CI builds
@@ -20,24 +19,22 @@ build/
 # Logs and reports
 logs/
 *.log
+*.tmp
 
 # OS
-.DS_Store
 Thumbs.db
 
-# VS Code
+# Editors
 .vscode/
+.idea/
 .history
-
-# Project-specific
-*.log
-*.tmp
 
 # Cloud
 .redwood
 .cloudflare
 cloudflare-pages-report.html
 .wrangler/
+.mf/
 
 # Dev verification artifacts
 screenshots/
@@ -59,6 +56,15 @@ lh-*.json
 .cursor/after-hours-runs/
 .cursor/after-hours-sentinel.sh
 
-# Playwright
+# Playwright / Vitest
 test-results/
 playwright-report/
+blob-report/
+playwright/.cache/
+coverage/
+*.lcov
+
+# Tool caches
+.eslintcache
+.stylelintcache
+*.tsbuildinfo
