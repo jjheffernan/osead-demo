@@ -7,6 +7,7 @@
  */
 
 import { DEMO_AGENT } from "../../src/lib/demo-account";
+import { createSession, type SessionKv } from "../lib/session-kv";
 
 const DEMO_ADMIN_EMAIL = "admin@osead.demo";
 const DEMO_ADMIN_PASSWORD = "osead-admin";
@@ -81,8 +82,30 @@ function isDemoAgent(email: string, password: string): boolean {
   );
 }
 
+interface LoginEnv {
+  OSEAD?: unknown;
+  TELEMETRY?: {
+    writeDataPoint?: (point: {
+      blobs: string[];
+      doubles: number[];
+      indexes: string[];
+    }) => void;
+  };
+}
+
+function isKv(value: unknown): value is SessionKv {
+  if (!value || typeof value !== "object") return false;
+  const kv = value as SessionKv;
+  return (
+    typeof kv.get === "function" &&
+    typeof kv.put === "function" &&
+    typeof kv.delete === "function"
+  );
+}
+
 export async function onRequestPost(context: {
   request: Request;
+  env?: LoginEnv;
 }): Promise<Response> {
   if (
     !context.request.headers.get("Content-Type")?.includes("application/json")
@@ -142,8 +165,28 @@ export async function onRequestPost(context: {
   const role = admin ? "admin" : agent ? "agent" : "guest";
   console.log("O-sea-D demo login accepted", { email: body.email, role });
 
+  const headers = new Headers();
+  const kv = context.env?.OSEAD;
+  if (isKv(kv)) {
+    const session = await createSession(kv, {
+      email: body.email,
+      name,
+      role,
+    });
+    headers.set("Set-Cookie", session.cookie);
+  }
+
+  const write = context.env?.TELEMETRY?.writeDataPoint;
+  if (typeof write === "function") {
+    write({
+      blobs: ["session.login", role],
+      doubles: [1],
+      indexes: [role],
+    });
+  }
+
   return Response.json(
     { accepted: true, name, email: body.email, role },
-    { status: 202 },
+    { status: 202, headers },
   );
 }

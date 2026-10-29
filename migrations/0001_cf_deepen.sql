@@ -1,13 +1,5 @@
 -- CF deepen Phase 5 — apply with wrangler d1 migrations when binding exists.
--- Mirrors src/lib/social-store.ts + agent profile overrides.
-
-CREATE TABLE IF NOT EXISTS sessions (
-  id TEXT PRIMARY KEY,
-  email TEXT NOT NULL,
-  role TEXT NOT NULL CHECK (role IN ('admin', 'agent', 'guest')),
-  name TEXT NOT NULL,
-  expires_at TEXT NOT NULL
-);
+-- Social rows only. Sessions and broker analytics are KV (`docs/specs/nosql-sessions-analytics.md`).
 
 CREATE TABLE IF NOT EXISTS comments (
   id TEXT PRIMARY KEY,

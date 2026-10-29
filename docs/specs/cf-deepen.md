@@ -8,7 +8,8 @@
 
 | Binding | Use |
 | --- | --- |
-| `DB` (D1) | comments, ratings, verified_clients, agent_profile_overrides, sessions |
+| `DB` (D1) | comments, ratings, verified_clients, agent_profile_overrides |
+| `OSEAD` (KV) + `TELEMETRY` (Analytics Engine) | sessions, broker analytics document, product events — see `docs/specs/nosql-sessions-analytics.md` |
 | env `SESSION_SECRET` | Sign session cookies |
 
 Static Astro build stays default. Functions enforce role on mutating routes.
@@ -17,7 +18,6 @@ Static Astro build stays default. Functions enforce role on mutating routes.
 
 See that file. Tables mirror the demo stores:
 
-- `sessions(id, email, role, name, expires_at)`
 - `comments(id, target_type, target_id, body, author_name, author_email, created_at)`
 - `ratings(id, target_type, target_id, rating, author_name, author_email, quote, created_at)`
 - `verified_clients(email PRIMARY KEY, verified_at)`
@@ -25,7 +25,7 @@ See that file. Tables mirror the demo stores:
 
 ## Upgrade order
 
-1. Cookie login beside existing demo login (dual-read)
+1. Cookie login beside existing demo login (KV, not D1 — `docs/specs/nosql-sessions-analytics.md`)
 2. Move social mutations to Functions + D1
 3. Drop localStorage writes when `PUBLIC_SOCIAL_API=1`
 4. Keep Markdown properties/blog as SEO SoT (`agentId` / `attribution` frontmatter stays)
