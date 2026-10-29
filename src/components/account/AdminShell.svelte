@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount, tick } from "svelte";
 	import AdminAnalytics from "./AdminAnalytics.svelte";
 	import AdminAccessPanel from "./AdminAccessPanel.svelte";
 	import ContentEditor from "./ContentEditor.svelte";
@@ -93,11 +93,19 @@
 		nav.find((item) => item.id === panel)?.label ?? "Overview",
 	);
 
-	function setPanel(next: Panel) {
+	async function setPanel(next: Panel) {
 		panel = next;
 		navOpen = false;
 		const hash = next === "overview" ? "" : `#${next}`;
 		history.replaceState(null, "", `${location.pathname}${hash}`);
+		await tick();
+		// ponytail: analytics/content/access h2s live in child components this
+		// slice does not edit. tabindex is applied here so .focus() works.
+		// Upgrade: tabindex="-1" on those headings if those files are touched.
+		const heading = document.getElementById("admin-main")?.querySelector("h2");
+		if (!(heading instanceof HTMLElement)) return;
+		heading.tabIndex = -1;
+		heading.focus();
 	}
 
 	function signOut() {
@@ -152,8 +160,7 @@
 					<li>
 						<button
 							type="button"
-							class="admin-shell__nav-btn"
-							class:is-active={panel === item.id}
+							class={["admin-shell__nav-btn", { "is-active": panel === item.id }]}
 							aria-current={panel === item.id ? "page" : undefined}
 							onclick={() => setPanel(item.id)}
 						>
@@ -178,7 +185,7 @@
 		</div>
 	</aside>
 
-	<div class="admin-shell__main">
+	<main id="admin-main" class="admin-shell__main">
 		<header class="admin-shell__top">
 			<button
 				type="button"
@@ -207,7 +214,7 @@
 				<section class="admin-panel" aria-labelledby="overview-title">
 					<header class="admin-panel__head">
 						<div>
-							<h2 id="overview-title">Inventory at a glance</h2>
+							<h2 id="overview-title" tabindex="-1">Inventory at a glance</h2>
 							<p>
 								Session started {sessionAt}. Content lives in
 								<code>src/content/</code> — edit Markdown, refresh.
@@ -322,7 +329,7 @@
 				<section class="admin-panel" aria-labelledby="site-title">
 					<header class="admin-panel__head">
 						<div>
-							<h2 id="site-title">Site walkthrough</h2>
+							<h2 id="site-title" tabindex="-1">Site walkthrough</h2>
 							<p>Jump into public surfaces for local click-through testing.</p>
 						</div>
 					</header>
@@ -346,7 +353,7 @@
 				</section>
 			{/if}
 		</div>
-	</div>
+	</main>
 
 	{#if navOpen}
 		<button

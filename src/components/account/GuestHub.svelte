@@ -72,7 +72,7 @@
 	});
 </script>
 
-<section class="guest-hub container" aria-label="Guest account">
+<main class="guest-hub container" id="guest-main" aria-label="Guest account">
 	<header class="guest-hub__head">
 		<p class="guest-hub__eyebrow">Demo account</p>
 		<h1>Welcome, {name}</h1>
@@ -184,7 +184,7 @@
 		<a class="guest-hub__cta guest-hub__cta--ghost" href="/contact">Message your agent</a>
 		<button type="button" class="guest-hub__signout" onclick={signOut}>Sign out</button>
 	</div>
-</section>
+</main>
 
 <style>
 	.guest-hub {
