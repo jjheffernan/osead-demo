@@ -13,13 +13,14 @@ describe("agent-assignments", () => {
     }
   });
 
-  it("defaults to demoStaff[0] with a non-empty inbox and a market", () => {
-    const defaultAssignment = assignmentsForAgent();
-    const explicitAssignment = assignmentsForAgent(demoStaff[0].id);
+  it("scopes mara-ellison when that id is passed explicitly", () => {
+    const mara = assignmentsForAgent("mara-ellison");
 
-    expect(defaultAssignment).toEqual(explicitAssignment);
-    expect(defaultAssignment.market).toBeTruthy();
-    expect(defaultAssignment.inquiries.length).toBeGreaterThan(0);
+    expect(mara.market).toBeTruthy();
+    expect(mara.inquiries.length).toBeGreaterThan(0);
+    expect(mara.inquiries.every((inquiry) => inquiry.staffId === "mara-ellison")).toBe(
+      true,
+    );
   });
 
   it("scopes each agent's inbox to only their own assigned fixtures", () => {

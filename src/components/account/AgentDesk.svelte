@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onMount, tick } from "svelte";
 	import {
 		canEditContent,
-		canEditOwnPosts,
 		canEditOwnProfile,
 		canViewAnalytics,
 		clearDemoAccount,
@@ -10,7 +9,12 @@
 		type DemoRole,
 	} from "../../lib/demo-account";
 	import { demoStaff } from "../../config/staff";
-	import { assignmentsForAgent } from "../../config/agent-assignments";
+	import {
+		assignmentsForAgent,
+		marketRotationListings,
+		staffIdForEmail,
+	} from "../../config/agent-assignments";
+	import { track } from "../../lib/telemetry";
 	import ThemeToggle from "../layout/ThemeToggle.svelte";
 	import type { Locale } from "../../lib/site-config";
 	import {
@@ -40,6 +44,13 @@
 	}
 
 	const PROFILE_KEY = "osead-agent-profile";
+	const ATTACH_REQUESTS_KEY = "osead-attach-requests";
+
+	interface AttachRequest {
+		staffId: string;
+		slug: string;
+		at: string;
+	}
 
 	interface Props {
 		properties: AgentInventoryProperty[];
@@ -60,7 +71,7 @@
 	let panel = $state<Panel>("inbox");
 	let navOpen = $state(false);
 	let name = $state("Demo Agent");
-	let email = $state("agent@osead.demo");
+	let email = $state("");
 	let sessionAt = $state("");
 	let role = $state<DemoRole>("agent");
 	let pulseRows = $state<EmployeeSalesRow[]>([]);
@@ -68,12 +79,13 @@
 	let profileRole = $state("");
 	let profileBio = $state("");
 	let profileSaved = $state("");
+	let attachRequests = $state<AttachRequest[]>([]);
 
-	// DEMO_AGENT has no demoStaff row (locked "no name->staff mapping" decision) —
-	// inbox/inventory/profile/pulse all key off the sample demoStaff[0] agent.
-	const staffId = demoStaff[0]?.id ?? "";
-	const seedProfile = demoStaff.find((staff) => staff.id === staffId);
-	const { market, inquiries } = assignmentsForAgent(staffId);
+	const staffId = $derived(staffIdForEmail(email));
+	const seedProfile = $derived(demoStaff.find((staff) => staff.id === staffId));
+	const assignment = $derived(staffId ? assignmentsForAgent(staffId) : undefined);
+	const market = $derived(assignment?.market);
+	const inquiries = $derived(assignment?.inquiries ?? []);
 
 	function findProperty(slug: string): AgentInventoryProperty | undefined {
 		return properties.find((property) => property.slug === slug);
@@ -98,16 +110,17 @@
 	const myAttached = $derived(
 		properties.filter(
 			(property) =>
-				property.agentId === staffId && property.attribution !== "anonymous",
+				!!staffId &&
+				property.agentId === staffId &&
+				property.attribution !== "anonymous",
 		),
 	);
 
-	const myInventory = $derived(
-		properties.filter((property) => property.market === market),
-	);
+	const myInventory = $derived(marketRotationListings(properties, market));
 
+	// ponytail: ContentEditor has no author-scoped write, so canEditOwnPosts does not deep-link. Ceiling: read-only list. Upgrade: author-scoped ContentEditor write.
 	const myPosts = $derived(
-		posts.filter((post) => post.authorId === staffId),
+		posts.filter((post) => !!staffId && post.authorId === staffId),
 	);
 
 	const panelTitle = $derived(
@@ -148,13 +161,57 @@
 			}),
 		);
 		profileSaved = "Profile saved for this browser (demo).";
+		if (staffId) track("agent.profile_save", [staffId]);
 	}
 
-	function setPanel(next: Panel) {
+	function loadAttachRequests() {
+		if (typeof localStorage === "undefined") return;
+		try {
+			const raw = localStorage.getItem(ATTACH_REQUESTS_KEY);
+			if (!raw) return;
+			const parsed = JSON.parse(raw) as unknown;
+			if (!Array.isArray(parsed)) return;
+			attachRequests = parsed.filter(
+				(row): row is AttachRequest =>
+					!!row &&
+					typeof row === "object" &&
+					typeof (row as AttachRequest).staffId === "string" &&
+					typeof (row as AttachRequest).slug === "string" &&
+					typeof (row as AttachRequest).at === "string",
+			);
+		} catch {
+			/* keep empty */
+		}
+	}
+
+	function attachRequested(slug: string): boolean {
+		return (
+			!!staffId &&
+			attachRequests.some((row) => row.staffId === staffId && row.slug === slug)
+		);
+	}
+
+	function requestAttach(slug: string) {
+		if (!staffId || attachRequested(slug)) return;
+		const next = [
+			...attachRequests.filter(
+				(row) => !(row.staffId === staffId && row.slug === slug),
+			),
+			{ staffId, slug, at: new Date().toISOString() },
+		];
+		// ponytail: same-browser only; Phase 5 Function replaces the osead-attach-requests key.
+		localStorage.setItem(ATTACH_REQUESTS_KEY, JSON.stringify(next));
+		attachRequests = next;
+		track("agent.attach_request", [staffId, slug]);
+	}
+
+	async function setPanel(next: Panel) {
 		panel = next;
 		navOpen = false;
 		const hash = next === "inbox" ? "" : `#${next}`;
 		history.replaceState(null, "", `${location.pathname}${hash}`);
+		await tick();
+		document.getElementById(`${next}-title`)?.focus();
 	}
 
 	function signOut() {
@@ -191,6 +248,7 @@
 			panel = raw;
 		}
 		loadProfileOverride();
+		loadAttachRequests();
 		void loadPulse();
 	});
 </script>
@@ -209,8 +267,7 @@
 					<li>
 						<button
 							type="button"
-							class="agent-desk__nav-btn"
-							class:is-active={panel === item.id}
+							class={["agent-desk__nav-btn", { "is-active": panel === item.id }]}
 							aria-current={panel === item.id ? "page" : undefined}
 							onclick={() => setPanel(item.id)}
 						>
@@ -234,7 +291,7 @@
 		</div>
 	</aside>
 
-	<div class="agent-desk__main">
+	<main id="agent-main" class="agent-desk__main">
 		<header class="agent-desk__top">
 			<button
 				type="button"
@@ -263,7 +320,9 @@
 				<section class="agent-panel" aria-labelledby="inbox-title">
 					<header class="agent-panel__head">
 						<div>
-							<h2 id="inbox-title">Assigned inquiries</h2>
+							<h2 id="inbox-title" tabindex="-1">
+								Assigned inquiries
+							</h2>
 							<p>
 								Session started {sessionAt}. Assigned via market rotation over
 								the sample staff roster — a static demo seam, not live routing.
@@ -330,12 +389,17 @@
 							period.
 						</p>
 					{/if}
+					<p class="agent-panel__attached-count">
+						Attached listings: {myAttached.length}
+					</p>
 				</section>
 			{:else if panel === "inventory"}
 				<section class="agent-panel" aria-labelledby="inventory-title">
 					<header class="agent-panel__head">
 						<div>
-							<h2 id="inventory-title">My inventory</h2>
+							<h2 id="inventory-title" tabindex="-1">
+								My inventory
+							</h2>
 							<p>
 								Attached listings ({myAttached.length}) plus market rotation
 								{market ? ` — ${market.replaceAll("-", " ")}` : ""}. Anonymous
@@ -373,6 +437,18 @@
 									<span class="agent-panel__list-meta"
 										>{property.listingType}</span
 									>
+									{#if staffId && property.agentId !== staffId}
+										<button
+											type="button"
+											class="agent-panel__attach"
+											disabled={attachRequested(property.slug)}
+											onclick={() => requestAttach(property.slug)}
+										>
+											{attachRequested(property.slug)
+												? "Requested"
+												: "Request attach"}
+										</button>
+									{/if}
 								</li>
 							{/each}
 						</ul>
@@ -382,10 +458,12 @@
 				<section class="agent-panel" aria-labelledby="posts-title">
 					<header class="agent-panel__head">
 						<div>
-							<h2 id="posts-title">My posts</h2>
+							<h2 id="posts-title" tabindex="-1">
+								My posts
+							</h2>
 							<p>
 								Journal entries with <code>authorId</code> matching your staff
-								id{canEditOwnPosts(role) ? "" : ""}.
+								id.
 							</p>
 						</div>
 					</header>
@@ -406,7 +484,9 @@
 				<section class="agent-panel" aria-labelledby="profile-title">
 					<header class="agent-panel__head">
 						<div>
-							<h2 id="profile-title">Profile</h2>
+							<h2 id="profile-title" tabindex="-1">
+								Profile
+							</h2>
 							<p>Edit display fields for this browser (demo local override).</p>
 						</div>
 					</header>
@@ -430,7 +510,7 @@
 				</section>
 			{/if}
 		</div>
-	</div>
+	</main>
 
 	{#if navOpen}
 		<button
@@ -773,24 +853,6 @@
 		color: var(--muted-foreground);
 	}
 
-	.agent-panel__profile {
-		display: grid;
-		gap: 0.35rem;
-		padding: 0.85rem;
-		border: 1px solid var(--border);
-	}
-
-	.agent-panel__profile strong {
-		font-size: 1.05rem;
-	}
-
-	.agent-panel__profile p {
-		margin: 0.35rem 0 0;
-		color: var(--muted-foreground);
-		font-size: var(--text-sm);
-		line-height: 1.5;
-	}
-
 	.agent-panel__subhead {
 		margin: 1rem 0 0.5rem;
 		font-size: var(--text-sm);
@@ -835,6 +897,31 @@
 
 	.agent-panel__profile-form button:disabled {
 		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.agent-panel__attached-count {
+		margin: 0.75rem 0 0;
+		font-size: var(--text-sm);
+		color: var(--foreground);
+	}
+
+	.agent-panel__attach {
+		margin-left: auto;
+		padding: 0.25rem 0.5rem;
+		border: 1px solid var(--border);
+		background: transparent;
+		color: var(--foreground);
+		font: inherit;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+
+	.agent-panel__attach:disabled {
+		opacity: 0.6;
 		cursor: not-allowed;
 	}
 

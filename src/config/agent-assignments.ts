@@ -82,15 +82,33 @@ export const assignedInquiries: AssignedInquiry[] = [
   },
 ];
 
-const DEFAULT_STAFF_ID = demoStaff[0]?.id ?? "";
+/** Click-through credential. Alias for Mara, not a fifth `demoStaff` row. */
+const DEMO_AGENT_EMAIL = "agent@osead.demo";
+const DEMO_AGENT_STAFF_ID = "mara-ellison";
 
 /**
- * Assigned market + inbox for an agent, keyed by `demoStaff` id.
- * Defaults to `demoStaff[0]` (the "sample assigned pulse" agent — the
- * `DEMO_AGENT` seed credential isn't itself in `demoStaff`, per the
- * locked "no name→staff mapping" decision).
+ * `demoStaff` id for a session email.
+ * `agent@osead.demo` is the demo-button alias only.
  */
-export function assignmentsForAgent(staffId: string = DEFAULT_STAFF_ID): {
+export function staffIdForEmail(email: string): string | undefined {
+  const normalized = email.trim().toLowerCase();
+  if (normalized === DEMO_AGENT_EMAIL) {
+    return demoStaff.some((staff) => staff.id === DEMO_AGENT_STAFF_ID)
+      ? DEMO_AGENT_STAFF_ID
+      : undefined;
+  }
+  const at = normalized.lastIndexOf("@");
+  if (at <= 0) return undefined;
+  const id = normalized.slice(0, at);
+  if (normalized.slice(at + 1) !== "osead.demo") return undefined;
+  return demoStaff.some((staff) => staff.id === id) ? id : undefined;
+}
+
+/**
+ * Assigned market + inbox for one `demoStaff` id.
+ * Callers pass the id from `staffIdForEmail` — no silent roster default.
+ */
+export function assignmentsForAgent(staffId: string): {
   market: Market | undefined;
   inquiries: AssignedInquiry[];
 } {
@@ -100,4 +118,15 @@ export function assignmentsForAgent(staffId: string = DEFAULT_STAFF_ID): {
       (inquiry) => inquiry.staffId === staffId,
     ),
   };
+}
+
+/** Same market, excluding brand-only `attribution: anonymous` listings. */
+export function marketRotationListings<
+  T extends { market: string; attribution?: string },
+>(listings: readonly T[], market: string | undefined): T[] {
+  if (!market) return [];
+  return listings.filter(
+    (listing) =>
+      listing.market === market && listing.attribution !== "anonymous",
+  );
 }
