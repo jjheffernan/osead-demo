@@ -45,7 +45,7 @@
     "astro-icon": "^1.2.0",
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.8",
-    "schema-dts": "^2.0.0",
+    "schema-dts": "^2.1.0",
     "sharp": "^0.35.4",
     "svelte": "^5.57.0",
     "tailwind-merge": "^3.6.0",
