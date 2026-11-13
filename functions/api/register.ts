@@ -2,9 +2,12 @@
  * Demo account registration — no user store.
  * Accepts a well-formed signup, never logs the password, returns 202.
  * Client keeps a local session after success (see src/lib/demo-account.ts).
+ * When OSEAD KV is bound, also sets the HttpOnly session cookie (same as login).
  *
  * # ponytail: isolate-local rate limit + no persistence — swap for Auth.js / Clerk / Workers KV when real accounts matter.
  */
+
+import { createSession, isKv } from "../lib/session-kv";
 
 export const REGISTER_RATE_LIMIT = {
   windowMs: 60_000,
@@ -64,8 +67,13 @@ function parseRegister(value: unknown): RegisterBody | undefined {
   return { name, email, password };
 }
 
+interface RegisterEnv {
+  OSEAD?: unknown;
+}
+
 export async function onRequestPost(context: {
   request: Request;
+  env?: RegisterEnv;
 }): Promise<Response> {
   if (
     !context.request.headers.get("Content-Type")?.includes("application/json")
@@ -126,8 +134,19 @@ export async function onRequestPost(context: {
   // via roleForEmail() (src/lib/demo-account.ts) same as any other login.
   console.log("O-sea-D demo registration accepted", { email: body.email });
 
+  const headers = new Headers();
+  const kv = context.env?.OSEAD;
+  if (isKv(kv)) {
+    const session = await createSession(kv, {
+      email: body.email,
+      name: body.name,
+      role: "guest",
+    });
+    headers.set("Set-Cookie", session.cookie);
+  }
+
   return Response.json(
-    { accepted: true, name: body.name, email: body.email },
-    { status: 202 },
+    { accepted: true, name: body.name, email: body.email, role: "guest" },
+    { status: 202, headers },
   );
 }

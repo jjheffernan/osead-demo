@@ -7,7 +7,7 @@
  */
 
 import { DEMO_AGENT } from "../../src/lib/demo-account";
-import { createSession, type SessionKv } from "../lib/session-kv";
+import { createSession, isKv } from "../lib/session-kv";
 
 const DEMO_ADMIN_EMAIL = "admin@osead.demo";
 const DEMO_ADMIN_PASSWORD = "osead-admin";
@@ -91,16 +91,6 @@ interface LoginEnv {
       indexes: string[];
     }) => void;
   };
-}
-
-function isKv(value: unknown): value is SessionKv {
-  if (!value || typeof value !== "object") return false;
-  const kv = value as SessionKv;
-  return (
-    typeof kv.get === "function" &&
-    typeof kv.put === "function" &&
-    typeof kv.delete === "function"
-  );
 }
 
 export async function onRequestPost(context: {

@@ -23,6 +23,16 @@ export interface SessionKv {
   delete(key: string): Promise<void>;
 }
 
+export function isKv(value: unknown): value is SessionKv {
+  return (
+    !!value &&
+    typeof value === "object" &&
+    typeof (value as SessionKv).get === "function" &&
+    typeof (value as SessionKv).put === "function" &&
+    typeof (value as SessionKv).delete === "function"
+  );
+}
+
 const COOKIE_NAME = "osead_session";
 const MAX_AGE = 604800;
 

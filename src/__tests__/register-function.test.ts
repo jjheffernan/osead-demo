@@ -41,6 +41,7 @@ describe("register Pages Function", () => {
       accepted: true,
       name: "Taylor Shore",
       email: "taylor@example.com",
+      role: "guest",
     });
     expect(log).toHaveBeenCalledWith(
       "O-sea-D demo registration accepted",
