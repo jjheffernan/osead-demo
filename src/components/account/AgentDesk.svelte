@@ -4,8 +4,8 @@
 		canEditContent,
 		canEditOwnProfile,
 		canViewAnalytics,
-		clearDemoAccount,
 		readDemoAccount,
+		signOutDemo,
 		type DemoRole,
 	} from "../../lib/demo-account";
 	import { demoStaff } from "../../config/staff";
@@ -215,8 +215,7 @@
 	}
 
 	function signOut() {
-		clearDemoAccount();
-		window.location.assign("/login");
+		void signOutDemo().then(() => window.location.assign("/login"));
 	}
 
 	async function loadPulse() {

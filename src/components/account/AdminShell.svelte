@@ -3,7 +3,7 @@
 	import AdminAnalytics from "./AdminAnalytics.svelte";
 	import AdminAccessPanel from "./AdminAccessPanel.svelte";
 	import ContentEditor from "./ContentEditor.svelte";
-	import { clearDemoAccount, readDemoAccount, type DemoRole } from "../../lib/demo-account";
+	import { readDemoAccount, signOutDemo, type DemoRole } from "../../lib/demo-account";
 	import ThemeToggle from "../layout/ThemeToggle.svelte";
 	import type { Locale } from "../../lib/site-config";
 	import {
@@ -109,8 +109,7 @@
 	}
 
 	function signOut() {
-		clearDemoAccount();
-		window.location.assign("/login");
+		void signOutDemo().then(() => window.location.assign("/login"));
 	}
 
 	async function loadOverviewKpis() {

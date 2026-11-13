@@ -162,7 +162,10 @@ const walkthrough = [
 </BaseLayout>
 
 <script>
-  import { canAccessAdminShell, readDemoAccount } from "../lib/demo-account";
+  import {
+    canAccessAdminShell,
+    hydrateDemoSessionFromCookie,
+  } from "../lib/demo-account";
 
   const root = document.querySelector("[data-account-root]");
   const signedOut = root?.querySelector<HTMLElement>(
@@ -172,7 +175,7 @@ const walkthrough = [
   const agentEl = root?.querySelector<HTMLElement>("[data-account-agent]");
   const adminEl = root?.querySelector<HTMLElement>("[data-account-admin]");
 
-  const account = readDemoAccount();
+  const account = await hydrateDemoSessionFromCookie();
 
   if (!account) {
     if (signedOut) signedOut.hidden = false;

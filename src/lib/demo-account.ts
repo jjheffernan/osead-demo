@@ -102,6 +102,49 @@ export function clearDemoAccount(): void {
   sessionStorage.removeItem(DEMO_ACCOUNT_KEY);
 }
 
+/** Prefer sessionStorage; if empty, try HttpOnly cookie via /api/session. */
+export async function hydrateDemoSessionFromCookie(): Promise<DemoAccount | null> {
+  const existing = readDemoAccount();
+  if (existing) return existing;
+  if (typeof fetch === "undefined") return null;
+  try {
+    const response = await fetch("/api/session", { credentials: "same-origin" });
+    if (response.status === 204 || !response.ok) return null;
+    const body = (await response.json()) as Partial<DemoAccount>;
+    if (
+      typeof body.name !== "string" ||
+      typeof body.email !== "string" ||
+      (body.role !== "admin" &&
+        body.role !== "agent" &&
+        body.role !== "guest")
+    ) {
+      return null;
+    }
+    return writeDemoAccount({
+      name: body.name,
+      email: body.email,
+      role: body.role,
+    });
+  } catch {
+    return null;
+  }
+}
+
+/** Clear local session and best-effort expire the KV cookie. */
+export async function signOutDemo(): Promise<void> {
+  clearDemoAccount();
+  if (typeof fetch === "undefined") return;
+  try {
+    await fetch("/api/logout", {
+      method: "POST",
+      credentials: "same-origin",
+      keepalive: true,
+    });
+  } catch {
+    /* offline / unbound — local clear is enough */
+  }
+}
+
 export const canEditContent = (role: DemoRole): boolean => role === "admin";
 export const canViewAnalytics = (role: DemoRole): boolean => role === "admin";
 export const canManageInquiries = (role: DemoRole): boolean =>

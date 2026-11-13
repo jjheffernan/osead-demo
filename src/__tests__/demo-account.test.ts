@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   DEMO_ACCOUNT_KEY,
   DEMO_ADMIN,
@@ -10,9 +10,11 @@ import {
   canRate,
   canSetAnonymousListing,
   clearDemoAccount,
+  hydrateDemoSessionFromCookie,
   isDemoAdminCredentials,
   readDemoAccount,
   roleForEmail,
+  signOutDemo,
   writeDemoAccount,
   writeDemoAdminSession,
   type DemoRole,
@@ -110,6 +112,47 @@ describe("demo-account session helper", () => {
         expect(fn(role), `${name}(${role})`).toBe(wanted[i]);
       });
     }
+  });
+
+  it("hydrates from /api/session when sessionStorage is empty", async () => {
+    const store = new Map<string, string>();
+    viSession(store);
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          name: "Cookie Guest",
+          email: "cookie@example.com",
+          role: "guest",
+        }),
+        { status: 200 },
+      ),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+
+    const account = await hydrateDemoSessionFromCookie();
+    expect(account?.email).toBe("cookie@example.com");
+    expect(readDemoAccount()?.email).toBe("cookie@example.com");
+    expect(fetchMock).toHaveBeenCalledWith("/api/session", {
+      credentials: "same-origin",
+    });
+    vi.unstubAllGlobals();
+  });
+
+  it("signOutDemo clears local storage and POSTs logout", async () => {
+    const store = new Map<string, string>();
+    viSession(store);
+    writeDemoAccount({ name: "Mara", email: "mara@example.com" });
+    const fetchMock = vi.fn().mockResolvedValue(new Response(null, { status: 204 }));
+    vi.stubGlobal("fetch", fetchMock);
+
+    await signOutDemo();
+    expect(readDemoAccount()).toBeNull();
+    expect(fetchMock).toHaveBeenCalledWith("/api/logout", {
+      method: "POST",
+      credentials: "same-origin",
+      keepalive: true,
+    });
+    vi.unstubAllGlobals();
   });
 });
 

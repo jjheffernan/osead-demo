@@ -9,6 +9,14 @@ Backlog seed: `docs/afk/backlog.md` · Plan: `docs/PLAN.md`
 
 ## Now
 
+### Wave K — Cookie dual-read (KV sessions beside sessionStorage)
+
+Spec: `docs/specs/nosql-sessions-analytics.md`. Completes upgrade step 1 from `docs/specs/cf-deepen.md`. No wrangler binding ids (deploy still Later). Offline demo stays when `OSEAD` is unset.
+
+- [x] K1 `GET /api/session` + `POST /api/logout`: read/clear KV cookie via `session-kv.ts`; 204/null when unbound — acceptance: vitest with fake KV; no wrangler edit
+- [x] K2 Register cookie parity: `functions/api/register.ts` sets `osead_session` when `OSEAD` bound (same as login) — acceptance: vitest; guest role on register
+- [x] K3 Client hydrate + sign-out: `hydrateDemoSessionFromCookie` / `signOutDemo` in `demo-account.ts`; account gate + Admin/Agent/Guest shells use them — acceptance: `pnpm build` + tests; no new dep
+
 ### Wave J — Access a11y + scoped accounts (guest → admin)
 
 Plan: `docs/research/access-a11y-accounts-phases.md` · Feature: `docs/research/access-a11y-accounts-feature.md`. Extends Wave I. Phase 0 = research (backend lanes + decision); Phase 1 = MVP demo contract (schema + capabilities + social store). Zero new deps until daylight accepts `backend-migration-decision.md`. maxPrs=5 this run.
@@ -122,7 +130,8 @@ Now is clear after Wave G. Run the Cloudflare Pages deploy checklist as a docume
 
 ## Next
 
-- **Wave I — Accounts + RBAC** (start at **I1**, run I1→I10 in order; foundation before guest before agent). Clear all Wave I items before promoting from Later.
+- Phase 5 social → D1 Functions (`comments`/`ratings`/`verified`) behind `PUBLIC_SOCIAL_API` — only after KV namespace ids exist for local `wrangler pages dev`
+- Live Cloudflare Pages deploy (human auth) — was SKIP on H1
 
 ## Later
 

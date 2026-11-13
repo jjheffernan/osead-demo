@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from "svelte";
-	import { clearDemoAccount, readDemoAccount } from "../../lib/demo-account";
+	import { readDemoAccount, signOutDemo } from "../../lib/demo-account";
 	import { readInquiries, readSavedListings, type Inquiry } from "../../lib/guest-store";
 	import {
 		isVerifiedClient,
@@ -52,8 +52,7 @@
 	}
 
 	function signOut() {
-		clearDemoAccount();
-		window.location.assign("/login");
+		void signOutDemo().then(() => window.location.assign("/login"));
 	}
 
 	onMount(() => {
